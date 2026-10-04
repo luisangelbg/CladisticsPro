@@ -278,7 +278,8 @@ R.references = function (cited, refs, lang, version) {
     const hit = pre && (refs || []).find(r => strip(r[0]).indexOf(pre) === 0);
     out.push({ key: k, html: hit ? hit[0] : citeText(k, lang), text: hit ? strip(hit[0]) : citeText(k, lang) });
   });
-  const self = `Barrera-Guzmán LÁ. 2026. CladisticsPro${version ? ' ' + version : ''}: ${lang === 'en' ? 'morphological cladistics in the browser. Computer program.' : 'cladística morfológica en el navegador. Programa de cómputo.'}`;
+  const doi = typeof APP_DOI !== 'undefined' ? ' https://doi.org/' + APP_DOI : '';
+  const self = `Barrera-Guzmán LÁ. 2026. CladisticsPro${version ? ' ' + version : ''}: ${lang === 'en' ? 'morphological cladistics in the browser. Computer program.' : 'cladística morfológica en el navegador. Programa de cómputo.'}${doi}`;
   out.push({ key: 'Barrera-Guzmán 2026', html: self, text: self });
   /* the usual order: by first author; one author, then two, then more; then by year */
   const order = r => {

@@ -1,5 +1,8 @@
 # CladisticsPro
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23147012.svg)](https://doi.org/10.5281/zenodo.23147012)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+
 **Caracteres, homología y árboles: cladística morfológica en el navegador, de la matriz al cladograma.**
 Versión 1.0.0 · Luis Ángel Barrera-Guzmán · software libre (GPL-3.0 o posterior).
 
@@ -70,6 +73,10 @@ se conservan aparte y no forman parte de este repositorio.
 
 Barrera-Guzmán, L. Á. (2026). *CladisticsPro: cladística morfológica en el
 navegador* (versión 1.0.0) [Programa de cómputo].
+https://doi.org/10.5281/zenodo.23147012
+
+El DOI de concepto 10.5281/zenodo.23147012 resuelve siempre a la versión más
+reciente archivada en Zenodo; la 1.0.0 tiene el suyo, 10.5281/zenodo.23147013.
 
 ## Licencia
 

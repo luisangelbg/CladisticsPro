@@ -47,6 +47,11 @@
   agrupados para el pie de figura y el ZIP los lleva en `figuras/creditos_imagenes.txt`. Las imágenes se guardan en el
   navegador y viajan en el archivo de proyecto; cambiarlas no borra los resultados de los análisis y se puede deshacer.
   Pruebas: 361, todas pasan (6 nuevas); auditoría de los Bloques 2, 5 y 10 con imágenes, sin fallas a 1280 y 360 px.
+- **Publicación** (4 oct): repositorio público https://github.com/luisangelbg/CladisticsPro, versión en línea
+  https://luisangelbg.github.io/CladisticsPro/ y archivo en Zenodo. **DOI de concepto 10.5281/zenodo.23147012**
+  (la 1.0.0: 10.5281/zenodo.23147013): va en la cita de la portada (con BibTeX), en la referencia del programa de los
+  métodos redactados del Bloque 10, en `CITATION.cff`, `codemeta.json`, el README y el manual. La dirección de la cita
+  se parte en pantallas angostas.
 - **Lema** (4 oct): junto al nombre, «CladisticsPro · caracteres, homología y árboles» (en inglés «characters,
   homology and trees») en la barra superior y en el título de la pestaña; también en la portada y los créditos del
   manual. El título de la obra y de la cita no cambia.

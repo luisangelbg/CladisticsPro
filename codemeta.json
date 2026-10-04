@@ -8,6 +8,7 @@
   "dateCreated": "2026-10-03",
   "dateModified": "2026-10-04",
   "datePublished": "2026-10-04",
+  "identifier": "https://doi.org/10.5281/zenodo.23147012",
   "license": "https://spdx.org/licenses/GPL-3.0-or-later",
   "codeRepository": "https://github.com/luisangelbg/CladisticsPro",
   "url": "https://luisangelbg.github.io/CladisticsPro/",
@@ -46,5 +47,8 @@
   "softwareRequirements": [
     "A modern web browser; no installation"
   ],
-  "isAccessibleForFree": true
+  "isAccessibleForFree": true,
+  "relatedLink": [
+    "https://doi.org/10.5281/zenodo.23147012"
+  ]
 }

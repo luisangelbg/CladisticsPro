@@ -246,9 +246,10 @@
     host.innerHTML = REFS.map(r => `<li data-t="${r[1]}">${r[0]} <span class="ref-topic">${L2(REF_TOPICS[r[1]][0], REF_TOPICS[r[1]][1])}</span></li>`).join('');
   }
   function buildCite() {
-    /* the program has no public address yet: it is cited by its author, title and version */
-    const apa = `Barrera-Guzmán, L. Á. (2026). <i>CladisticsPro: cladística morfológica en el navegador</i> (versión ${APP_VERSION}) [Programa de cómputo].`;
-    const bib = `@software{barreraguzman2026cladisticspro,\n  author  = {Barrera-Guzmán, Luis Ángel},\n  title   = {CladisticsPro: cladística morfológica en el navegador},\n  version = {${APP_VERSION}},\n  year    = {2026}\n}`;
+    /* cited by its author, title, version and the concept DOI of Zenodo */
+    const url = `https://doi.org/${APP_DOI}`;
+    const apa = `Barrera-Guzmán, L. Á. (2026). <i>CladisticsPro: cladística morfológica en el navegador</i> (versión ${APP_VERSION}) [Programa de cómputo]. <a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+    const bib = `@software{barreraguzman2026cladisticspro,\n  author  = {Barrera-Guzmán, Luis Ángel},\n  title   = {CladisticsPro: cladística morfológica en el navegador},\n  version = {${APP_VERSION}},\n  year    = {2026},\n  doi     = {${APP_DOI}},\n  url     = {${url}}\n}`;
     const a = el('citeApa'), b = el('citeBib');
     if (a) a.innerHTML = apa;
     if (b) b.textContent = bib;
