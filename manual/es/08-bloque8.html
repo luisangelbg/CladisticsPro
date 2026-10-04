@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario · Capítulo 8</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  figure.media .marco { width: 78%; }
+  figure.media figcaption { margin-left: 11%; margin-right: 11%; }
+  figure.grande .marco { width: 86%; margin: 0 auto; }
+  figure.grande figcaption { margin-left: 7%; margin-right: 7%; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b8" data-pestana="B8" data-orden="8" style="--acento: var(--b8)">
+  <div class="cap-apertura">
+    <div class="cap-num">8</div>
+    <div class="cap-etiqueta">Bloque 8 · Consensos</div>
+    <h1>Consensos: lo que comparten los árboles</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Cuando la búsqueda deja varios árboles igual de cortos, hay que decir qué tienen en común. El Bloque 8 calcula los cinco consensos clásicos —estricto, mayoría, mayoría extendida, semiestricto y Adams—, los compara lado a lado y busca los taxones comodín: los que cambian de lugar entre árboles y deshacen el consenso, con el consenso reducido que queda sin ellos y los caracteres que los llevan de un lugar a otro.</p>
+    <ul class="cap-contenido">
+      <li><b>8.1</b>Resumir muchos árboles en uno</li>
+      <li><b>8.2</b>Qué árboles</li>
+      <li><b>8.3</b>Los cinco consensos</li>
+      <li><b>8.4</b>Los consensos, lado a lado</li>
+      <li><b>8.5</b>Los taxones comodín</li>
+      <li><b>8.6</b>Los avisos de este bloque</li>
+    </ul>
+  </div>
+
+  <!-- 8.1 -->
+  <h2 id="s8-1"><span class="num">8.1</span>Resumir muchos árboles en uno</h2>
+  <p class="lead">Un consenso es un árbol que resume un conjunto de árboles: guarda los grupos que comparten, según una regla, y deja como politomías los que no. No es un árbol más parsimonioso que los que resume —casi siempre es más largo— ni un árbol con apoyo: es una manera de decir qué afirman todos.</p>
+  <p>La regla cambia la lectura. El <b>estricto</b> sólo admite los grupos de todos los árboles: lo que queda es lo que la matriz sostiene sin excepción, y cada politomía dice «aquí los datos no deciden». La <b>mayoría</b> admite los grupos de más de la mitad de los árboles: más resuelto, pero un grupo del 60 % de los árboles empatados no tiene, por eso, el 60 % de apoyo (el apoyo es el Bloque 7). El <b>semiestricto</b> añade los grupos que algún árbol tiene y ninguno contradice, y el de <b>Adams</b> conserva los anidamientos comunes aunque ningún grupo lo sea.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · una politomía es un «no sé»</div>
+    <p>En un consenso, un nodo con cinco ramas no dice que cinco linajes se separaron a la vez: dice que los árboles más cortos no se ponen de acuerdo en cómo se ordenan. Por eso el consenso estricto se arma, en la práctica, con los árboles colapsados por la regla 1 (sección 3.3): una rama que puede medir cero tampoco es un grupo que los datos sostengan. Así lo hace el Bloque 3, y así empieza este bloque.</p>
+  </div>
+
+  <!-- 8.2 -->
+  <h2 id="s8-2"><span class="num">8.2</span>Qué árboles</h2>
+  <p>La tarjeta <span class="ui">Qué árboles</span> elige el conjunto que se resume: los árboles más cortos de la búsqueda, tal cual (binarios); esos mismos colapsados por la regla 1 —la opción con la que empieza el bloque—; los del último análisis con pesos, o los que traía el archivo de la matriz. Dos recuadros dicen cuántos árboles son y cuántos taxones activos tienen.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b8-arboles.png" alt="La tarjeta Qué árboles con los árboles de la búsqueda colapsados por la regla 1, dos árboles distintos, y veinte taxones activos"></div>
+    <figcaption><b>Figura 8.1.</b> Los árboles que se van a resumir: los dos árboles de Dahlia que quedan distintos al colapsar.</figcaption>
+  </figure>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · binarios o colapsados</div>
+    <p>Con los dos árboles colapsados de Dahlia, el consenso estricto tiene <b>14</b> clados de 18 posibles (78 % de resolución): es el mismo del Bloque 3. Con los seis árboles binarios tendría <b>16</b> (89 %): los dos de más son grupos que aparecen en los seis árboles sólo porque se sostienen sobre ramas que pueden medir cero, como el par <i>D. rudis</i>–<i>D. pinnata</i>. Para publicar, el consenso de los árboles colapsados es el honesto.</p>
+  </div>
+
+  <!-- 8.3 -->
+  <h2 id="s8-3"><span class="num">8.3</span>Los cinco consensos</h2>
+  <p>La tarjeta <span class="ui">Consensos</span> ofrece los cinco tipos; al elegir uno, se dibuja y sus recuadros dicen cuántos árboles resume, cuántos clados tiene —de los <i>n</i> − 2 que tendría un árbol totalmente resuelto— y su resolución, la proporción de esos clados que tiene.</p>
+  <figure class="grande">
+    <div class="marco"><img src="../img/b8-consensos.png" alt="La tarjeta Consensos de Dahlia: los cinco tipos con el estricto elegido; los recuadros de 2 árboles, 14 clados de 18 posibles y 78 por ciento de resolución; el consenso estricto dibujado y la tabla de los cinco consensos lado a lado"></div>
+    <figcaption><b>Figura 8.2.</b> Los consensos de los árboles colapsados de Dahlia, con el estricto a la vista y los cinco comparados a la derecha.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.45in">Consenso</th><th>Qué guarda</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Estricto</span></td><td>Sólo los clados de todos los árboles; en los programas de parsimonia se le llama también «de Nelsen» (Nelson 1979; Sokal y Rohlf 1981).</td></tr>
+      <tr><td><span class="ui">Mayoría</span></td><td>Los clados de más de la mitad de los árboles (Margush y McMorris 1981), o de más del <span class="ui">Umbral de la mayoría (%)</span> que se elija, de 50 a 100. Junto a cada clado escribe el porcentaje de árboles que lo tienen.</td></tr>
+      <tr><td><span class="ui">Mayoría extendida</span></td><td>Los de mayoría y luego, de más a menos frecuente, todos los que sean compatibles con lo ya aceptado. Resuelve más, pero con frecuencias empatadas la elección entre dos grupos incompatibles es arbitraria.</td></tr>
+      <tr><td><span class="ui">Semiestricto</span></td><td>Los clados que algún árbol tiene y ninguno contradice (Bremer 1990): útil cuando unos árboles están resueltos donde otros tienen politomías.</td></tr>
+      <tr><td><span class="ui">Adams</span></td><td>Los anidamientos que todos comparten aunque ningún clado sea común (Adams 1972). Puede mostrar grupos que ningún árbol tiene: se lee como una hipótesis de anidamientos, no de clados, y la app lo advierte bajo el árbol.</td></tr>
+    </tbody>
+  </table>
+  <p><span class="ui">Este consenso (Newick)</span> descarga el consenso que está a la vista, con su tipo en el nombre del archivo (<code>…_consenso_strict.nwk</code>, <code>…_consenso_majority.nwk</code>…).</p>
+
+  <!-- 8.4 -->
+  <h2 id="s8-4"><span class="num">8.4</span>Los consensos, lado a lado</h2>
+  <p>A la derecha del árbol, la tabla <span class="ui">Los consensos, lado a lado</span> da los clados y la resolución de los cinco con los mismos árboles, con el elegido resaltado. Cuando todos coinciden, como en Dahlia, el conflicto entre árboles es pequeño y local; cuando el estricto se queda muy por debajo de los demás, algo deshace el consenso, y suele ser un comodín.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.8in">Consenso</th><th>Dahlia: 2 árboles colapsados</th><th>Dahlia: 6 árboles binarios</th></tr></thead>
+    <tbody>
+      <tr><td>Estricto</td><td>14 clados · 78 %</td><td>16 clados · 89 %</td></tr>
+      <tr><td>Mayoría (50 %)</td><td>14 · 78 %</td><td>16 · 89 %</td></tr>
+      <tr><td>Mayoría extendida</td><td>15 · 83 %</td><td>18 · 100 %</td></tr>
+      <tr><td>Semiestricto</td><td>14 · 78 %</td><td>16 · 89 %</td></tr>
+      <tr><td>Adams</td><td>14 · 78 %</td><td>16 · 89 %</td></tr>
+    </tbody>
+  </table>
+  <p>Con dos árboles, «más de la mitad» quiere decir «los dos», así que la mayoría coincide con el estricto. La mayoría extendida añade un grupo más: resuelve el trío de <i>D. linearis</i> juntando a <i>D. rupicola</i> con <i>D. dissecta</i>, aunque el otro árbol junta a <i>D. linearis</i> con <i>D. rupicola</i> con la misma frecuencia (50 %): es el ejemplo de elección arbitraria de la tabla anterior.</p>
+
+  <!-- 8.5 -->
+  <h2 id="s8-5"><span class="num">8.5</span>Los taxones comodín</h2>
+  <p>Un <b>comodín</b> es un taxón que se puede colocar en lugares muy distintos de árboles igual de cortos, casi siempre porque tiene muchos datos faltantes o porque sus caracteres se contradicen (Kearney 2002). Basta uno para que el consenso estricto se deshaga: en cada árbol está en otro lugar, y ningún grupo que lo incluya o lo excluya es común a todos. La tarjeta <span class="ui">Taxones comodín</span> los busca uno por uno: prueba a quitar cada taxón y se queda con el que más clados devuelve al consenso estricto —el consenso <b>reducido</b> (Wilkinson 1994; Pol y Escapa 2009)—, hasta el número de <span class="ui">Comodines a buscar como máximo</span> (5) o hasta que ninguno devuelva nada. El primer taxón del grupo externo, donde se enraízan los árboles, no se poda.</p>
+  <p>En Dahlia no hay comodines: <i>«Ningún taxón, al quitarlo, devuelve clados al consenso estricto»</i>. Los árboles sólo difieren en arreglos locales, que quitar un taxón no resuelve. Para ver uno, basta con un ejercicio: dejar a <i>D. moorei</i> con sólo sus dos primeros caracteres y el resto en «?» —como un fósil del que sólo se conservó un fragmento— y repetir la búsqueda.</p>
+  <figure class="grande">
+    <div class="marco"><img src="../img/b8-roto.png" alt="Los consensos de Dahlia con Dahlia moorei casi sin datos: 39 árboles colapsados, el consenso estricto con sólo 5 clados, 28 por ciento de resolución, casi todo el género en una politomía, y la tabla con mayoría 14 clados, mayoría extendida 16, semiestricto 9 y Adams 8"></div>
+    <figcaption><b>Figura 8.3.</b> El ejercicio: con <i>D. moorei</i> casi sin datos, los 39 árboles colapsados tienen un consenso estricto de sólo 5 clados; casi todo el género queda en una politomía.</figcaption>
+  </figure>
+  <p>Con ese cambio, el control de calidad del Bloque 2 avisa que a <i>D. moorei</i> le falta el 96 % de los datos y que puede ser un comodín; la búsqueda encuentra 54 árboles igual de cortos, 39 distintos al colapsar, y el consenso estricto baja a 5 clados. <span class="ui">Buscar comodines</span> lo encuentra.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b8-comodin.png" alt="La búsqueda de comodines del ejercicio: Dahlia moorei devuelve 9 clados, tiene 96 por ciento de signos de interrogación y se coloca en 28 lugares distintos; ningún carácter decide entre ellos; y el consenso estricto reducido sin Dahlia moorei, con 14 clados contra 5"></div>
+    <figcaption><b>Figura 8.4.</b> El comodín del ejercicio y el consenso estricto reducido que queda sin él.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.7in">Columna o sección</th><th>Qué dice</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Clados que devuelve</span></td><td>Cuántos clados gana el consenso estricto al quitar ese taxón (después de quitar los anteriores de la lista).</td></tr>
+      <tr><td><span class="ui">«?» en la matriz</span></td><td>La proporción de sus celdas con «?»: un comodín por falta de datos lo deja ver aquí.</td></tr>
+      <tr><td><span class="ui">Dónde se coloca</span></td><td>Sus lugares en los árboles —junto a qué taxón o grupo— y en cuántos árboles está en cada uno.</td></tr>
+      <tr><td><span class="ui">Por qué se mueve</span></td><td>Para el primer comodín, dos árboles iguales salvo por su lugar, con sus longitudes, y los caracteres que lo llevan a cada lugar con los pasos de diferencia. Si ninguno cambia, lo dice: nada en la matriz decide.</td></tr>
+      <tr><td><span class="ui">Consenso estricto reducido</span></td><td>El consenso sin los comodines, con cuántos clados tiene contra el consenso completo.</td></tr>
+    </tbody>
+  </table>
+  <p>En el ejercicio, quitar a <i>D. moorei</i> devuelve <b>9</b> clados: el consenso reducido tiene <b>14</b>, tantos como el de la matriz original. <i>D. moorei</i> cabe en 28 lugares distintos de los 54 árboles, y ningún carácter cambia de pasos al moverla: con 96 % de «?», nada en la matriz decide.</p>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · qué hacer con un comodín</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> un taxón devuelve muchos clados y tiene muchos «?»</td><td><b>entonces</b> presenta el consenso reducido junto al completo y di dónde puede ir el comodín; no lo borres de la matriz sin decirlo.</td></tr>
+      <tr><td><b>Si</b> tiene pocos «?» y aun así se mueve</td><td><b>entonces</b> sus caracteres se contradicen: revisa su codificación con <span class="ui">Por qué se mueve</span> y la diagnosis (Bloque 6).</td></tr>
+      <tr><td><b>Si</b> quieres saber cómo se ve el árbol sin él</td><td><b>entonces</b> desactívalo en el Bloque 2 y repite la búsqueda: el consenso reducido y el árbol sin el taxón pueden diferir.</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 8.6 -->
+  <h2 id="s8-6"><span class="num">8.6</span>Los avisos de este bloque</h2>
+  <table class="compacta">
+    <thead><tr><th style="width:2.6in">Mensaje</th><th>Qué significa y qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td><i>Primero hacen falta árboles</i></td><td>Busca árboles en el Bloque 3 o carga una matriz que los traiga. <span class="ui">Ir a la búsqueda</span> lleva allá.</td></tr>
+      <tr><td><i>El consenso de Adams puede mostrar grupos que ningún árbol tiene…</i></td><td>Recordatorio bajo el consenso de Adams: se lee como anidamientos, no como clados.</td></tr>
+      <tr><td><i>Los números son el % de árboles que tienen cada clado</i></td><td>Bajo los consensos de mayoría: la frecuencia entre árboles empatados, no un apoyo.</td></tr>
+      <tr><td><i>Ningún taxón, al quitarlo, devuelve clados al consenso estricto: no hay comodines</i></td><td>Los árboles difieren en arreglos que no se resuelven quitando un solo taxón.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

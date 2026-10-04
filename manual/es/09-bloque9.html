@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario · Capítulo 9</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  figure.media .marco { width: 78%; }
+  figure.media figcaption { margin-left: 11%; margin-right: 11%; }
+  figure.chica .marco { width: 56%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 22%; margin-right: 22%; }
+  figure.tablas .marco { width: 74%; margin: 0 auto; }
+  figure.tablas figcaption { margin-left: 13%; margin-right: 13%; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b9" data-pestana="B9" data-orden="9" style="--acento: var(--b9)">
+  <div class="cap-apertura">
+    <div class="cap-num">9</div>
+    <div class="cap-etiqueta">Bloque 9 · Hipótesis</div>
+    <h1>Hipótesis: ¿la rechazan los datos?</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Una clasificación, otro estudio o una idea propia proponen un grupo que el árbol más corto no tiene. El Bloque 9 dice cuánto cuesta aceptarlo —cuántos pasos más largo es el mejor árbol que lo incluye— y si esa diferencia es más de lo que el azar explicaría, con las pruebas de Templeton, de los sitios ganadores y de Kishino–Hasegawa. La hipótesis puede ser uno o varios grupos, obligados o prohibidos, o un árbol completo, y cada prueba queda en un historial para compararlas.</p>
+    <ul class="cap-contenido">
+      <li><b>9.1</b>Poner a prueba un grupo</li>
+      <li><b>9.2</b>La hipótesis</li>
+      <li><b>9.3</b>Lo que dicen los datos</li>
+      <li><b>9.4</b>El árbol y los caracteres que cambian</li>
+      <li><b>9.5</b>Árboles completos y el historial</li>
+      <li><b>9.6</b>Los avisos de este bloque</li>
+    </ul>
+  </div>
+
+  <!-- 9.1 -->
+  <h2 id="s9-1"><span class="num">9.1</span>Poner a prueba un grupo</h2>
+  <p class="lead">Que un grupo no esté en el árbol más corto no quiere decir que los datos lo rechacen: puede estar en un árbol medio paso más largo. La pregunta tiene dos partes: cuánto cuesta el grupo, y si ese costo es grande.</p>
+  <p>El <b>costo</b> es la diferencia de longitud entre el mejor árbol que cumple la hipótesis y el árbol más corto: el mismo número que se obtiene con una restricción en el Bloque 3 (sección 3.4). Para decidir si es grande, las tres pruebas clásicas comparan los dos árboles <b>carácter por carácter</b>: para cada carácter, <i>d</i> = pasos en el árbol de la hipótesis − pasos en el árbol más corto. Si la hipótesis fuera tan buena como el árbol más corto, las <i>d</i> positivas y negativas se compensarían; si casi todas son positivas, los caracteres, uno por uno, la rechazan.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.9in">Prueba</th><th>Qué hace con las diferencias</th></tr></thead>
+    <tbody>
+      <tr><td><b>Templeton</b> (Templeton 1983)</td><td>La prueba de rangos con signo de Wilcoxon sobre los caracteres que cambian. <i>V</i> es la suma de los rangos de las diferencias que favorecen al árbol más corto. Exacta con menos de 50 caracteres sin empates ni ceros; si no, la aproximación normal con corrección por empates y continuidad.</td></tr>
+      <tr><td><b>Sitios ganadores</b> (Prager y Wilson 1988)</td><td>Cuántos caracteres prefieren a cada árbol, contra una binomial con p = ½, de dos colas.</td></tr>
+      <tr><td><b>Kishino–Hasegawa</b> (Kishino y Hasegawa 1989)</td><td>La diferencia media de todos los caracteres contra cero, con la <i>t</i> de Student con <i>n</i> − 1 grados de libertad.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Sólo para hipótesis planteadas de antemano</div>
+    <p>Las tres pruebas suponen que los dos árboles se eligieron sin mirar estos datos. El árbol más corto sí sale de ellos, así que, cuando la hipótesis también se eligió mirando la matriz —«este grupo casi sale, ¿lo pruebo?»—, las pruebas rechazan de más (Goldman, Anderson y Rodrigo 2000). Úsalas para grupos de la literatura, de una clasificación o de otro tipo de datos; la app lo recuerda debajo de los resultados.</p>
+  </div>
+
+  <!-- 9.2 -->
+  <h2 id="s9-2"><span class="num">9.2</span>La hipótesis</h2>
+  <p>El bloque necesita los árboles más cortos del Bloque 3 (si no los hay, dice <i>«Primero hace falta una búsqueda»</i>). La tarjeta <span class="ui">La hipótesis</span> ofrece dos tipos: <span class="ui">Grupos propuestos</span> —uno o varios grupos que deben, o no deben, ser monofiléticos— y <span class="ui">Un árbol completo</span>, que se compara tal cual (sección 9.5).</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b9-hipotesis.png" alt="La tarjeta La hipótesis con los grupos propuestos: un grupo ya añadido, D. linearis con las arborescentes, que debe ser monofilético; el formulario para añadir otro, con nombre, tipo y la lista de taxones con cuatro marcados; las réplicas de la búsqueda y el botón Poner a prueba"></div>
+    <figcaption><b>Figura 9.1.</b> Una hipótesis de grupos: el primero ya añadido y el formulario con el segundo a punto de añadirse.</figcaption>
+  </figure>
+  <ol class="pasos">
+    <li><b>Nombrar el grupo.</b> En <span class="ui">Añadir un grupo</span>, un <span class="ui">Nombre del grupo</span> reconocible —el de la sección o la clasificación que lo propone— y el <span class="ui">Tipo</span>: <i>Debe ser monofilético</i> o <i>No debe ser monofilético</i>.</li>
+    <li><b>Marcar los taxones.</b> <span class="ui">Buscar taxón</span> filtra la lista. Un grupo necesita al menos dos taxones y debe dejar fuera al menos dos.</li>
+    <li><b>Añadir.</b> <span class="ui">Añadir el grupo</span> lo pone en la lista; se pueden añadir varios, que la hipótesis exige a la vez. <span class="ui">Quitar</span> borra uno.</li>
+    <li><b>Probar.</b> <span class="ui">Poner a prueba</span> repite la búsqueda del Bloque 3 con los grupos como restricciones —con su método y las <span class="ui">Réplicas de la búsqueda con la hipótesis</span> (las del Bloque 3, por omisión)— y la compara con el árbol más corto.</li>
+  </ol>
+
+  <!-- 9.3 -->
+  <h2 id="s9-3"><span class="num">9.3</span>Lo que dicen los datos</h2>
+  <p>La tarjeta <span class="ui">Lo que dicen los datos</span> aparece con la primera prueba. El selector <span class="ui">Hipótesis</span> elige cuál de las probadas se muestra; los recuadros dan las dos longitudes, los pasos de más y cuántos caracteres están a favor y en contra, y la tabla, las tres pruebas con su estadístico, cuántos caracteres usan, su <i>p</i> y una lectura: <b>rechazada (p &lt; 0.05)</b>, <b>no se rechaza</b> o, si la hipótesis resultara más corta, <b>preferida</b>.</p>
+  <figure>
+    <div class="marco"><img src="../img/b9-resultados.png" alt="Lo que dicen los datos de la hipótesis D. linearis con las arborescentes: sin la hipótesis 97.036, con la hipótesis 105.42, 8.385 pasos de más, 3 caracteres a favor y 12 en contra; Templeton V igual a 100 con 15 caracteres y p 0.0171, sitios ganadores 3 a 12 con p 0.0352, Kishino–Hasegawa t igual a 2.534 con 45 caracteres y p 0.0149, las tres rechazadas; y la advertencia sobre las hipótesis planteadas de antemano"></div>
+    <figcaption><b>Figura 9.2.</b> La primera hipótesis: <i>D. linearis</i> con las dalias arborescentes.</figcaption>
+  </figure>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · tres hipótesis para Dahlia</div>
+    <p><b>Primera:</b> que <i>D. linearis</i> forme un grupo con las cuatro dalias arborescentes. El mejor árbol que lo cumple mide <b>105.42</b> pasos, <b>8.385</b> más que el más corto; 12 caracteres la rechazan y 3 la favorecen, y las tres pruebas dan <i>p</i> entre 0.015 y 0.035: <b>rechazada</b>. (En la sección 5.5, mover sólo a <i>D. linearis</i> costaba 10.44; la búsqueda con la restricción reacomoda el resto del árbol y encuentra algo mejor.) <b>Segunda:</b> que las cuatro arborescentes <i>no</i> formen un grupo. Cuesta <b>2.044</b> pasos —el número de la sección 3.4—, con 3 caracteres en contra y 1 a favor: Templeton <i>p</i> = 0.198, sitios ganadores 0.625, Kishino–Hasegawa 0.151: <b>no se rechaza</b>. Con tan pocos caracteres, los datos no alcanzan para descartarla, aunque la prefieran poco. <b>Tercera:</b> el árbol verdadero sobre el que se simuló la matriz (sección 9.5).</p>
+  </div>
+
+  <!-- 9.4 -->
+  <h2 id="s9-4"><span class="num">9.4</span>El árbol y los caracteres que cambian</h2>
+  <p>Debajo de las pruebas, <span class="ui">El árbol de la hipótesis</span> dibuja el mejor árbol que la cumple, con los grupos exigidos en color; con un grupo prohibido, es el mejor árbol en el que ese grupo no existe.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b9-arbol.png" alt="El árbol de la primera hipótesis: Dahlia linearis junto a las cuatro dalias arborescentes, en color, como grupo hermano de Dahlia dissecta y Dahlia rupicola; Dahlia macdougallii queda fuera, con el resto del género"></div>
+    <figcaption><b>Figura 9.3.</b> El mejor árbol con <i>D. linearis</i> junto a las arborescentes, con el grupo exigido en color.</figcaption>
+  </figure>
+  <p>El árbol de la primera hipótesis enseña por qué cuesta tanto: para juntar a <i>D. linearis</i> con las arborescentes, la búsqueda lleva a las cinco junto a <i>D. dissecta</i> y <i>D. rupicola</i> y deja a <i>D. macdougallii</i> con el resto del género. La tabla <span class="ui">Carácter por carácter: los que cambian de pasos</span> lo explica: cada carácter cuyo número de pasos difiere entre los dos árboles, con sus pasos en cada uno, la diferencia y a cuál prefiere. En la primera hipótesis son 15, entre ellos los tricomas del tallo (5), las hojas (9) y la forma de la bráctea externa (21), que necesitan un paso más; el margen del folíolo (11) y el número de brácteas externas (20) están entre los tres que la favorecen.</p>
+  <figure class="tablas">
+    <div class="marco"><img src="../img/b9-caracteres.png" alt="La tabla de los caracteres que cambian de pasos entre el árbol más corto y el de la primera hipótesis, con sus pasos, la diferencia y a cuál prefieren; la tabla de las tres hipótesis probadas con sus pasos de más y los tres valores de p; y los botones para descargar"></div>
+    <figcaption><b>Figura 9.4.</b> Los caracteres que cambian con la primera hipótesis y el historial de las tres hipótesis probadas.</figcaption>
+  </figure>
+  <p><span class="ui">Carácter por carácter (CSV)</span> descarga esa tabla para la hipótesis a la vista, y <span class="ui">Árbol de la hipótesis (Newick)</span>, el árbol.</p>
+
+  <!-- 9.5 -->
+  <h2 id="s9-5"><span class="num">9.5</span>Árboles completos y el historial</h2>
+  <p>Con <span class="ui">Un árbol completo</span>, la hipótesis es un árbol entero, sin búsqueda: el que está a la vista en el Bloque 5 (con sus ediciones), uno de los que traía el archivo de la matriz o uno pegado en Newick con los nombres de la matriz. El árbol debe tener todos los taxones activos; se compara tal cual con el primer árbol más corto del Bloque 3, carácter por carácter, con las mismas tres pruebas. Es la forma de probar la topología de otro estudio, o el árbol que se armó a mano en el Bloque 5.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · ¿rechazan los datos el árbol verdadero?</div>
+    <p>El árbol sobre el que se simuló Dahlia, <code>arbol_verdadero</code> (sección 5.2), mide <b>99.947</b> pasos: <b>2.911</b> más que el más corto. Siete caracteres lo rechazan y tres lo favorecen, pero ninguna prueba lo descarta: Templeton <i>p</i> = 0.290, sitios ganadores 0.344, Kishino–Hasegawa 0.280. Es la lección del bloque: el árbol más corto es la mejor estimación, pero no el único árbol compatible con los datos, y la historia verdadera puede estar entre los que los datos no rechazan.</p>
+  </div>
+  <p>La tabla <span class="ui">Todas las hipótesis probadas</span> guarda cada prueba de la sesión con su nombre —los grupos prohibidos llevan «¬» delante—, sus pasos de más y las tres <i>p</i>: es el resumen para el artículo. El selector <span class="ui">Hipótesis</span> vuelve a mostrar cualquiera. El historial se borra si cambia la matriz.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:2.6in">Hipótesis</th><th>Pasos de más</th><th>Templeton p</th><th>Sitios ganadores p</th><th>KH p</th></tr></thead>
+    <tbody>
+      <tr><td><i>D. linearis</i> con las arborescentes</td><td>+8.385</td><td>0.0171</td><td>0.0352</td><td>0.0149</td></tr>
+      <tr><td>¬ Sin el grupo de las arborescentes</td><td>+2.044</td><td>0.1975</td><td>0.6250</td><td>0.1510</td></tr>
+      <tr><td>El árbol verdadero (del archivo)</td><td>+2.911</td><td>0.2898</td><td>0.3437</td><td>0.2803</td></tr>
+    </tbody>
+  </table>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · cómo leer una prueba de hipótesis</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> las tres pruebas dan <i>p</i> &lt; 0.05</td><td><b>entonces</b> los datos rechazan la hipótesis: dilo con el costo en pasos y los caracteres que se oponen.</td></tr>
+      <tr><td><b>Si</b> ninguna la rechaza</td><td><b>entonces</b> no digas que los datos la apoyan: di que no la rechazan, y cuánto cuesta.</td></tr>
+      <tr><td><b>Si</b> las pruebas no coinciden</td><td><b>entonces</b> mira cuántos caracteres cambian: con muy pocos, la binomial casi nunca rechaza y Templeton es más sensible; Kishino–Hasegawa usa todos.</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 9.6 -->
+  <h2 id="s9-6"><span class="num">9.6</span>Los avisos de este bloque</h2>
+  <table class="compacta">
+    <thead><tr><th style="width:2.6in">Mensaje</th><th>Qué significa y qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td><i>Primero hace falta una búsqueda</i></td><td>Una hipótesis se compara con los árboles más cortos: búscalos en el Bloque 3.</td></tr>
+      <tr><td><i>Añade al menos un grupo</i> · <i>Un grupo necesita al menos 2 taxones y dejar fuera al menos 2</i></td><td>La hipótesis de grupos está vacía, o el grupo tiene muy pocos o casi todos los taxones.</td></tr>
+      <tr><td><i>Ningún árbol cumple a la vez todos los grupos: son incompatibles entre sí</i></td><td>Dos grupos obligados se traslapan sin que uno contenga al otro (o uno obligado choca con uno prohibido).</td></tr>
+      <tr><td><i>El árbol tiene N de los M taxones activos: para compararlo hacen falta todos</i></td><td>Al árbol completo le faltan taxones; corrige el Newick o desactiva esos taxones en el Bloque 2. (Con politomías, además, «–» se lee como «?» en los dos árboles.)</td></tr>
+      <tr><td><i>La hipótesis dio un árbol MÁS CORTO que los del Bloque 3…</i></td><td>La búsqueda del Bloque 3 no llegó al óptimo; repítela con más réplicas antes de seguir.</td></tr>
+      <tr><td><i>No se pudo leer el árbol: …</i> · <i>La prueba falló: …</i></td><td>Después de los dos puntos va la causa.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario · Capítulo 6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  figure.media .marco { width: 78%; }
+  figure.media figcaption { margin-left: 11%; margin-right: 11%; }
+  .formula { font-family: var(--sans); font-size: 10.5pt; text-align: center; margin: 0.08in 0 0.14in; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b6" data-pestana="B6" data-orden="6" style="--acento: var(--b6)">
+  <div class="cap-apertura">
+    <div class="cap-num">6</div>
+    <div class="cap-etiqueta">Bloque 6 · Diagnóstico</div>
+    <h1>Diagnóstico: qué hace cada carácter</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Un cladograma no está terminado hasta que dice qué lo sostiene. El Bloque 6 mide la homoplasia de cada carácter con el CI, el RI y el RC; lista, clado por clado, sus sinapomorfías y sus cambios homoplásicos; reordena la matriz siguiendo el árbol para que las sinapomorfías se vean como bloques de color, y compara los árboles igual de cortos para decir qué caracteres cambian de lectura de uno a otro.</p>
+    <ul class="cap-contenido">
+      <li><b>6.1</b>Medir la homoplasia</li>
+      <li><b>6.2</b>El resumen</li>
+      <li><b>6.3</b>Cada carácter</li>
+      <li><b>6.4</b>La diagnosis de cada clado</li>
+      <li><b>6.5</b>La matriz ordenada por el árbol</li>
+      <li><b>6.6</b>Lo que cambia entre árboles</li>
+      <li><b>6.7</b>Los avisos de este bloque</li>
+    </ul>
+  </div>
+
+  <!-- 6.1 -->
+  <h2 id="s6-1"><span class="num">6.1</span>Medir la homoplasia</h2>
+  <p class="lead">Cada carácter necesita en un árbol un número de pasos <i>s</i>. Ese número se compara con dos cotas que no dependen del árbol: <i>m</i>, los pasos mínimos que el carácter podría necesitar en el mejor árbol posible, y <i>g</i>, los que necesitaría en el peor, el «arbusto» con todos los taxones colgando de la raíz.</p>
+  <p>Para un carácter no ordenado con <i>k</i> estados, <i>m</i> = <i>k</i> − 1: cada estado aparece una vez. Los pasos extra, <i>h</i> = <i>s</i> − <i>m</i>, son la homoplasia. Con esas tres cifras se definen los índices que la sistemática usa desde hace medio siglo:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.65in">Índice</th><th style="width:1.7in">Fórmula</th><th>Qué dice</th></tr></thead>
+    <tbody>
+      <tr><td><b>CI</b>, consistencia (Kluge y Farris 1969)</td><td><i>m</i> / <i>s</i></td><td>1 si el carácter no tiene homoplasia; baja con cada paso extra.</td></tr>
+      <tr><td><b>RI</b>, retención (Farris 1989)</td><td>(<i>g</i> − <i>s</i>) / (<i>g</i> − <i>m</i>)</td><td>Qué fracción de la similitud posible se conserva como sinapomorfía: 1 si toda, 0 si el árbol no explica mejor el carácter que el arbusto.</td></tr>
+      <tr><td><b>RC</b>, consistencia reescalada</td><td>CI × RI</td><td>Combina las dos; es el índice que usan por omisión los pesos sucesivos (sección 4.5).</td></tr>
+      <tr><td><b>Ajuste</b> (peso implícito)</td><td><i>k</i> / (<i>k</i> + <i>h</i>)</td><td>El peso que el carácter tendría con pesos implícitos (sección 4.3).</td></tr>
+    </tbody>
+  </table>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · el tallo de las dalias</div>
+    <p>El carácter 3, «Tallo» (sólido o fistuloso), tiene dos estados: en el mejor árbol bastaría <b>1</b> paso (<i>m</i>); en el arbusto harían falta <b>5</b> (<i>g</i>), tantos como taxones con el estado menos común. En el árbol más corto de Dahlia necesita <b>3</b> (<i>s</i>), así que tiene 2 pasos extra: CI = 1/3 = 0.333, RI = (5 − 3)/(5 − 1) = 0.500, RC = 0.167 y, con k = 3, un ajuste de 3/5 = 0.600. El carácter 8, «División de la hoja», ordenado, necesita 4 pasos donde bastarían 3 y el arbusto pediría 12: CI 0.750 y RI 0.889. El tallo fistuloso apareció tres veces; la hoja casi se comporta como una homología perfecta.</p>
+  </div>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · CI, RI y los caracteres no informativos</div>
+    <p>Un carácter no informativo —una autapomorfía, un estado en un solo taxón— tiene <i>s</i> = <i>m</i> = <i>g</i>: su CI es 1 y su RI es 0/0, no cero, por eso la app lo escribe «—». Sumado a los demás, sube el CI de la matriz sin decir nada del árbol; el RI no cambia, porque el carácter no aporta ni a <i>g</i> − <i>s</i> ni a <i>g</i> − <i>m</i>. Por eso el RI se compara mejor entre estudios que el CI. Con inaplicables, <i>m</i> y <i>g</i> se calculan con el algoritmo de Brazeau et al. (2019), y con matrices de pasos, <i>m</i> es el árbol de Steiner de los estados presentes. Los índices de toda la matriz se calculan sobre los caracteres discretos; los continuos tienen los suyos, en la misma tabla.</p>
+  </div>
+
+  <!-- 6.2 -->
+  <h2 id="s6-2"><span class="num">6.2</span>El resumen</h2>
+  <p>El bloque trabaja con el árbol que está a la vista en el Bloque 5 —con su optimización y sus ediciones— y con todos los árboles de la misma fuente, para compararlos. Una línea arriba dice cuál es la fuente; para cambiarla hay que volver al Bloque 5. Si todavía no hay árboles, el bloque lo dice y ofrece <span class="ui">Ir al cladograma</span>.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-resumen.png" alt="El resumen del diagnóstico de Dahlia: 6 árboles comparados de longitud 97.036, 45 caracteres con 43 informativos, 29 con homoplasia en el árbol a la vista, CI 0.574 y RI 0.742 con el mismo RI en todos los árboles, y 7 caracteres que cambian entre árboles"></div>
+    <figcaption><b>Figura 6.1.</b> El resumen del diagnóstico de los seis árboles más cortos de Dahlia.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.75in">Recuadro</th><th>Qué dice</th><th style="width:1.3in">En Dahlia</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Árboles comparados</span></td><td>Cuántos árboles tiene la fuente (hasta 500) y su longitud.</td><td>6, de 97.036</td></tr>
+      <tr><td><span class="ui">Caracteres</span></td><td>Cuántos hay y cuántos son informativos.</td><td>45; 43 informativos</td></tr>
+      <tr><td><span class="ui">Con homoplasia</span></td><td>Cuántos tienen pasos extra en el árbol a la vista.</td><td>29</td></tr>
+      <tr><td><span class="ui">CI · RI</span></td><td>Los índices del árbol a la vista y si cambian entre árboles.</td><td>0.574 · 0.742</td></tr>
+      <tr><td><span class="ui">Cambian entre árboles</span></td><td>Los caracteres cuyos pasos o cuyas ramas difieren de un árbol a otro (sección 6.6).</td><td>7</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 6.3 -->
+  <h2 id="s6-3"><span class="num">6.3</span>Cada carácter</h2>
+  <p>La tabla <span class="ui">Cada carácter</span> pone en una fila todo lo que se sabe de un carácter en los árboles: su tipo, sus cotas, sus pasos y sus índices en el árbol a la vista, cuántos pasos necesita en cada uno de los árboles de la fuente, si sus cambios caen siempre en las mismas ramas y su peso implícito, en el orden de la matriz.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-caracteres.png" alt="La tabla Cada carácter con los primeros diez caracteres de Dahlia: número, nombre, tipo, mínimo, pasos, máximo, CI, RI, RC, pasos en los seis árboles, si sus cambios están fijos o se mueven, y peso implícito"></div>
+    <figcaption><b>Figura 6.2.</b> El principio de la tabla de caracteres de Dahlia. El carácter 4, «Entrenudos», necesita 2 o 3 pasos según el árbol y sus cambios se mueven en 3 de los 6 árboles.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.45in">Columna</th><th>Qué dice</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Tipo</span></td><td><i>no ord.</i>, <i>ordenado</i>, <i>pasos</i> (matriz de pasos), <i>continuo</i> o <i>con «–»</i>; si un carácter con «–» vuelve a aplicar en varias partes del árbol, dice cuántas <i>regiones</i> tiene.</td></tr>
+      <tr><td><span class="ui">Mín.</span> · <span class="ui">Pasos</span> · <span class="ui">Máx.</span></td><td><i>m</i>, <i>s</i> y <i>g</i> en el árbol a la vista (sección 6.1).</td></tr>
+      <tr><td><span class="ui">CI</span> · <span class="ui">RI</span> · <span class="ui">RC</span></td><td>Los índices; «—» si no están definidos.</td></tr>
+      <tr><td><span class="ui">Pasos (N árb.)</span></td><td>Los pasos en los N árboles de la fuente: un solo número si son iguales en todos, o el intervalo.</td></tr>
+      <tr><td><span class="ui">Cambios</span></td><td><b>fijos</b> si sus cambios caen en las mismas ramas en todos los árboles; <b>se mueven m/N</b> si difieren en m de ellos.</td></tr>
+      <tr><td><span class="ui">Peso impl.</span></td><td>El ajuste <i>k</i>/(<i>k</i> + <i>h</i>), con el <i>k</i> del campo <span class="ui">k para el ajuste</span> (3 por omisión).</td></tr>
+    </tbody>
+  </table>
+  <p>El selector <span class="ui">Mostrar</span> filtra la tabla: <i>todos</i>, <i>sólo los homoplásicos</i> (29 en Dahlia), <i>sólo los que no tienen homoplasia</i> (14), <i>sólo los que cambian entre árboles</i> (7) o <i>sólo los no informativos</i> (2). <span class="ui">Tabla (CSV)</span> descarga la tabla completa, con los pasos mínimos y máximos en los árboles en columnas separadas, para el material suplementario o para R.</p>
+
+  <!-- 6.4 -->
+  <h2 id="s6-4"><span class="num">6.4</span>La diagnosis de cada clado</h2>
+  <p>La diagnosis es la lista de caracteres que definen a un grupo: lo que se escribe en una descripción taxonómica o en la sección de resultados de un artículo. La tarjeta <span class="ui">Diagnosis de cada clado</span> numera los clados del árbol a la vista —el cladograma de la izquierda lleva el número junto a cada nodo— y, a la derecha, da para cada uno sus taxones y los cambios de la rama que lleva a él, separados en cuatro grupos.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-clados.png" alt="La diagnosis de cada clado de Dahlia: a la izquierda el cladograma con los dieciocho clados numerados; a la derecha la diagnosis del clado 1, el grupo externo, y del clado 2, el género, con sus sinapomorfías únicas, sus cambios homoplásicos y sus caracteres continuos"></div>
+    <figcaption><b>Figura 6.3.</b> La diagnosis de los clados del primer árbol de Dahlia: el cladograma numerado y las dos primeras diagnosis.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:2in">Grupo de cambios</th><th>Qué reúne</th></tr></thead>
+    <tbody>
+      <tr><td><b>Sinapomorfías únicas</b></td><td>Cambios a un estado que aparece una sola vez en el árbol: lo que define al clado sin ambigüedad de homoplasia.</td></tr>
+      <tr><td><b>Cambios homoplásicos</b></td><td>Cambios a un estado que aparece también en otras ramas: apoyan al clado, pero no son exclusivos de él.</td></tr>
+      <tr><td><b>Caracteres continuos</b></td><td>Los cambios de valor de los continuos, de qué valor a qué valor.</td></tr>
+      <tr><td><b>Empieza una región aplicable más de</b></td><td>Los caracteres con «–» que en ese clado vuelven a existir.</td></tr>
+    </tbody>
+  </table>
+  <p>Cualquiera de ellos lleva la etiqueta <b>ambiguo</b> si con la otra optimización caería en otra rama. Al final, <span class="ui">Autapomorfías de los terminales</span> da los cambios exclusivos de cada especie. La diagnosis sigue la optimización y el árbol del Bloque 5: si allí se elige DELTRAN o <i>sólo los cambios no ambiguos</i>, o se edita el árbol, aquí cambia todo. <span class="ui">Diagnosis (texto)</span> la descarga como texto, con la optimización, la longitud, el CI y el RI del árbol al principio, lista para pegar en un documento.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · la diagnosis del grupo de <i>D. linearis</i></div>
+    <p>El clado 3 —<i>D. linearis</i>, <i>D. dissecta</i> y <i>D. rupicola</i>— tiene tres sinapomorfías únicas: la hoja tripinnada (8: 1 → 3), las páleas caducas (23: 0 → 1, ambigua) y la lígula morada (25: 1 → 2); y tres cambios homoplásicos: muchos capítulos por rama (16), pedúnculo más corto que la hoja (18) y lóbulos de la corola pilosos (29). Una diagnosis prudente diría: «hojas tripinnadas y lígulas moradas; páleas caducas (con ACCTRAN)». El clado 5, el resto del género, sólo tiene una sinapomorfía única: los tricomas densos (7: 0 → 1).</p>
+  </div>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Las dos ramas de la raíz</div>
+    <p>El clado 1 es el grupo externo y el 2, el grupo interno. Los cambios de esas dos ramas dependen de dónde se ponga la raíz: con otro grupo externo, o con DELTRAN, se reparten distinto. Las raíces tuberosas (2) y las brácteas internas connadas (22) sólo son sinapomorfías del género si el grupo externo representa bien el estado ancestral; por eso conviene incluir más de un taxón externo.</p>
+  </div>
+
+  <!-- 6.5 -->
+  <h2 id="s6-5"><span class="num">6.5</span>La matriz ordenada por el árbol</h2>
+  <p>La tarjeta <span class="ui">La matriz ordenada por el árbol</span> muestra la matriz con las filas en el orden de las puntas del cladograma y, por omisión, las columnas <i>por el clado donde cambian</i>: primero los caracteres que cambian en las ramas de arriba del árbol, luego los de abajo. Así, las sinapomorfías de cada clado forman bloques de color en la esquina de sus taxones. Las celdas con borde son el estado derivado de una sinapomorfía única en los taxones del clado que la tiene. Con <span class="ui">Columnas</span> se vuelve al orden de la matriz, y <span class="ui">Resaltar el clado</span> pinta los nombres de un clado y destaca con otro color el marco de sus sinapomorfías.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-matriz.png" alt="La matriz de Dahlia ordenada por el árbol, con las columnas por el clado donde cambian y el clado 11, las cuatro dalias arborescentes, resaltado: sus nombres en otro color y el estado 2 del carácter 8 enmarcado en las cuatro"></div>
+    <figcaption><b>Figura 6.4.</b> La matriz de Dahlia ordenada por el árbol, con el clado 11 —las cuatro dalias arborescentes— resaltado: su sinapomorfía, la hoja bipinnada (carácter 8, estado 2), queda enmarcada.</figcaption>
+  </figure>
+  <p>Es la mejor vista para revisar la codificación con el árbol en la mano: una celda que rompe un bloque de color —un «0» donde todos sus parientes tienen «1»— es una homoplasia o un error de codificación, y conviene volver al ejemplar antes de aceptarla.</p>
+
+  <!-- 6.6 -->
+  <h2 id="s6-6"><span class="num">6.6</span>Lo que cambia entre árboles</h2>
+  <p>Si la fuente tiene varios árboles igual de cortos, algo los separa. La tarjeta <span class="ui">Lo que cambia entre árboles</span> lo dice: primero, si la longitud, el CI y el RI son los mismos en todos; luego, los caracteres que <b>cambian de número de pasos</b> de un árbol a otro y los que tienen <b>los mismos pasos, pero en ramas distintas</b>.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-inestables.png" alt="Lo que cambia entre los seis árboles de Dahlia: tienen la misma longitud, CI y RI; dos caracteres cambian de número de pasos, entrenudos y número de brácteas externas; cinco tienen los mismos pasos en ramas distintas: margen del folíolo, vilano, número de aristas, altura de la planta y longitud de la hoja"></div>
+    <figcaption><b>Figura 6.5.</b> Lo que distingue a los seis árboles más cortos de Dahlia.</figcaption>
+  </figure>
+  <p>En Dahlia, los seis árboles miden lo mismo, pero el carácter 4, «Entrenudos», necesita 2 pasos en unos y 3 en otros, y el 20, «Número de brácteas externas», 4 o 5: lo que uno gana, el otro lo pierde. Otros cinco caracteres tienen los mismos pasos en todos los árboles, pero sus cambios caen en ramas distintas: el margen del folíolo (11) y el vilano (35) en 4 de los 6 árboles, por ejemplo. Son justo los que deciden dónde van <i>D. merckii</i> y <i>D. moorei</i> y cómo se ordena el grupo de <i>D. linearis</i> (sección 3.7). Una diagnosis que los use depende del árbol elegido; la de los caracteres <i>fijos</i>, no.</p>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · qué caracteres citar en una diagnosis</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> es una sinapomorfía única, no ambigua y fija en todos los árboles</td><td><b>entonces</b> cítala sin reservas.</td></tr>
+      <tr><td><b>Si</b> es ambigua</td><td><b>entonces</b> cítala diciendo con qué optimización (o deja sólo los cambios no ambiguos).</td></tr>
+      <tr><td><b>Si</b> se mueve entre árboles</td><td><b>entonces</b> dila sólo para el árbol que presentas, o ve al consenso (Bloque 8).</td></tr>
+      <tr><td><b>Si</b> es homoplásica</td><td><b>entonces</b> preséntala como apoyo, no como carácter diagnóstico exclusivo.</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 6.7 -->
+  <h2 id="s6-7"><span class="num">6.7</span>Los avisos de este bloque</h2>
+  <table class="compacta">
+    <thead><tr><th style="width:2.6in">Mensaje</th><th>Qué significa y qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td><i>Primero hace falta un árbol</i></td><td>No hay árboles: búscalos en el Bloque 3 (o carga una matriz con árboles) y elige uno en el Bloque 5. <span class="ui">Ir al cladograma</span> lleva allá.</td></tr>
+      <tr><td><i>Sólo hay un árbol en esta fuente: no hay nada que comparar</i></td><td>En <span class="ui">Lo que cambia entre árboles</span>, con un consenso, un árbol pegado o una búsqueda que encontró uno solo.</td></tr>
+      <tr><td><i>Se compararon los primeros 500</i></td><td>La fuente tiene más de 500 árboles; la comparación usa los primeros 500.</td></tr>
+      <tr><td><i>Sin cambios en esta rama</i></td><td>En la diagnosis: ningún cambio con la optimización elegida (frecuente con <i>sólo los cambios no ambiguos</i>). Con ACCTRAN o DELTRAN, una rama sin cambios puede medir cero, y la regla 1 la colapsaría (sección 3.3).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

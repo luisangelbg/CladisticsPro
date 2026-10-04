@@ -1,0 +1,44 @@
+#NEXUS
+[Bursera (didáctico) — matriz SIMULADA para enseñar y probar CladisticsPro; los estados no se observaron en ejemplares]
+
+BEGIN TAXA;
+  DIMENSIONS NTAX=8;
+  TAXLABELS 'Spondias purpurea' 'Bursera simaruba' 'Bursera glabrifolia' 'Bursera fagaroides' 'Bursera microphylla' 'Bursera copallifera' 'Bursera bipinnata' 'Bursera schlechtendalii';
+END;
+
+BEGIN CHARACTERS;
+  DIMENSIONS NCHAR=12;
+  FORMAT DATATYPE=STANDARD MISSING=? GAP=- SYMBOLS="0 1";
+  CHARSTATELABELS
+    1 Hoja / simple compuesta,
+    2 'Folíolos' / enteros serrados,
+    3 Raquis / 'sin alas' alado,
+    4 Corteza / 'no exfoliante' 'exfoliante en láminas',
+    5 Resina / 'sin aroma' 'aromática',
+    6 'Partes florales' / cuatro cinco,
+    7 Fruto / 'drupa carnosa' 'drupa bivalvada',
+    8 Pseudoarilo / ausente rojo,
+    9 'Hojas en' / 'brotes largos' braquiblastos,
+    10 Pubescencia / glabra pubescente,
+    11 'Hábito' / 'árbol' arbusto,
+    12 Inflorescencia / racimo 'flores solitarias';
+  MATRIX
+    'Spondias purpurea'        100001000000
+    'Bursera simaruba'         100111110000
+    'Bursera glabrifolia'      11011111010?
+    'Bursera fagaroides'       101110111011
+    'Bursera microphylla'      001110111?11
+    'Bursera copallifera'      111010110100
+    'Bursera bipinnata'        111010111110
+    'Bursera schlechtendalii'  011010111111
+  ;
+END;
+
+BEGIN TREES;
+  TREE arbol_verdadero = [&R] (Spondias_purpurea:1,((Bursera_simaruba:1,Bursera_glabrifolia:1):1,((Bursera_fagaroides:1,Bursera_microphylla:1):1,(Bursera_copallifera:1,(Bursera_bipinnata:1,Bursera_schlechtendalii:1):1):1):1):1);
+END;
+
+BEGIN CLADISTICSPRO;
+  TITLE 'Bursera (didáctico)';
+  OUTGROUP 1;
+END;

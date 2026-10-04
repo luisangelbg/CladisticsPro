@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario · Capítulo 5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  figure.media .marco { width: 78%; }
+  figure.media figcaption { margin-left: 11%; margin-right: 11%; }
+  figure.grande .marco { width: 88%; margin: 0 auto; }
+  figure.grande figcaption { margin-left: 6%; margin-right: 6%; }
+  figure.chica .marco { width: 52%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 20%; margin-right: 20%; }
+  .dos-figs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.22in; margin: 0.16in 0 0.22in; }
+  .dos-figs figure { margin: 0; }
+  .lado { display: grid; grid-template-columns: 2.05in 1fr; gap: 0.24in; align-items: start; margin: 0.16in 0 0.22in; }
+  .lado figure { margin: 0; }
+  .lado p:first-child, .lado table { margin-top: 0; }
+  .lado.angosta { grid-template-columns: 1.7in 1fr; }
+  .lado.flores { grid-template-columns: 1.6in 1fr; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b5" data-pestana="B5" data-orden="5" style="--acento: var(--b5)">
+  <div class="cap-apertura">
+    <div class="cap-num">5</div>
+    <div class="cap-etiqueta">Bloque 5 · Cladograma</div>
+    <h1>Cladograma: cada cambio en su rama</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">El Bloque 5 dibuja cualquier árbol de la sesión con cada cambio de cada carácter sobre la rama donde ocurre, como se publica en la cladística morfológica. Deja elegir la optimización, pintar el árbol con los estados de un carácter, ver los cambios de cada clado con un clic y editar el árbol con el ratón —mover un clado, colapsar, enraizar, girar— viendo al instante cuánto se alarga. El árbol editado es el que leen el diagnóstico del Bloque 6 y las hipótesis del Bloque 9.</p>
+    <ul class="cap-contenido">
+      <li><b>5.1</b>Leer un cladograma con marcas</li>
+      <li><b>5.2</b>Qué árbol</li>
+      <li><b>5.3</b>Las marcas de cambio y la optimización</li>
+      <li><b>5.4</b>Pintar un carácter</li>
+      <li><b>5.5</b>Editar el árbol con el ratón</li>
+      <li><b>5.6</b>Las imágenes de los taxones</li>
+      <li><b>5.7</b>Los avisos de este bloque</li>
+    </ul>
+  </div>
+
+  <!-- 5.1 -->
+  <h2 id="s5-1"><span class="num">5.1</span>Leer un cladograma con marcas</h2>
+  <p class="lead">En un cladograma con marcas, cada cambio de estado de cada carácter es un pequeño círculo sobre la rama donde ocurre. Encima del círculo va el número del carácter; debajo, el estado al que cambia. El relleno dice si ese estado aparece una sola vez en el árbol o más de una.</p>
+  <figure>
+    <svg viewBox="0 0 670 214" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img"
+         aria-label="Dos ramas de un cladograma de Dahlia con sus marcas. En la rama del género, los caracteres 2 y 22 cambian al estado 1 con círculos llenos, cambios únicos, y el 36 con un círculo gris, ambiguo. En la rama de las cuatro dalias arborescentes, los caracteres 3 y 21 tienen círculos vacíos, homoplásicos, y el 8 un círculo lleno. A la derecha, la clave de los tres tipos de marca.">
+      <g stroke="#2b2523" stroke-width="2" fill="none">
+        <path d="M20 46 V150 M20 46 H330 M20 150 H330"/>
+      </g>
+      <g font-size="11.5" font-style="italic" fill="#2b2523">
+        <text x="338" y="50">el género <tspan font-style="normal">Dahlia</tspan></text>
+        <text x="338" y="154">las 4 dalias arborescentes</text>
+      </g>
+      <g font-size="11" text-anchor="middle">
+        <circle cx="110" cy="46" r="7" fill="#2b2523"/><text x="110" y="32" font-weight="600">2</text><text x="110" y="66" fill="#6a625e">1</text>
+        <circle cx="180" cy="46" r="7" fill="#2b2523"/><text x="180" y="32" font-weight="600">22</text><text x="180" y="66" fill="#6a625e">1</text>
+        <circle cx="250" cy="46" r="7" fill="#9a948f"/><text x="250" y="32" font-weight="600" fill="#6a625e">36</text><text x="250" y="66" fill="#6a625e">1</text>
+        <circle cx="110" cy="150" r="7" fill="#fff" stroke="#2b2523" stroke-width="1.8"/><text x="110" y="136" font-weight="600">3</text><text x="110" y="170" fill="#6a625e">1</text>
+        <circle cx="180" cy="150" r="7" fill="#2b2523"/><text x="180" y="136" font-weight="600">8</text><text x="180" y="170" fill="#6a625e">2</text>
+        <circle cx="250" cy="150" r="7" fill="#fff" stroke="#2b2523" stroke-width="1.8"/><text x="250" y="136" font-weight="600">21</text><text x="250" y="170" fill="#6a625e">0</text>
+      </g>
+      <g font-size="9.5" fill="#6a625e">
+        <path d="M110 24 V12 H70" fill="none" stroke="#c9c1bc"/><text x="66" y="15" text-anchor="end">carácter</text>
+        <path d="M110 74 V86 H70" fill="none" stroke="#c9c1bc"/><text x="66" y="89" text-anchor="end">estado al que cambia</text>
+      </g>
+      <line x1="500" y1="10" x2="500" y2="204" stroke="#e7dfdb"/>
+      <g font-size="10.8" fill="#2b2523">
+        <circle cx="516" cy="24" r="6.5" fill="#2b2523"/>
+        <text x="530" y="21" font-weight="600">Cambio único</text><text x="530" y="35">el estado aparece una vez:</text><text x="530" y="48">una sinapomorfía</text>
+        <circle cx="516" cy="82" r="6.5" fill="#fff" stroke="#2b2523" stroke-width="1.8"/>
+        <text x="530" y="79" font-weight="600">Homoplásico</text><text x="530" y="93">el estado aparece más de</text><text x="530" y="106">una vez en el árbol</text>
+        <circle cx="516" cy="140" r="6.5" fill="#9a948f"/>
+        <text x="530" y="137" font-weight="600">Ambiguo</text><text x="530" y="151">ACCTRAN y DELTRAN no lo</text><text x="530" y="164">ponen en la misma rama</text>
+      </g>
+    </svg>
+    <figcaption><b>Figura 5.1.</b> Dos ramas del árbol más corto de Dahlia, ampliadas. Las raíces tuberosas (2) y las brácteas internas connadas (22) definen al género; las hojas bipinnadas (8), a las dalias arborescentes, que además comparten el tallo fistuloso (3) y la bráctea externa ovada (21), estados que aparecen también en otras ramas.</figcaption>
+  </figure>
+  <p>Una marca llena es un cambio a un estado que surge una sola vez en todo el árbol: una <b>sinapomorfía</b> que define al clado de esa rama. Una marca vacía es un cambio a un estado que surge más de una vez —por convergencia, paralelismo o reversión—: el carácter apoya al clado, pero no lo define por sí solo. Una marca gris es un cambio <b>ambiguo</b>: con la otra optimización caería en otra rama (sección 1.4). Los caracteres continuos no llevan marcas; se ven pintando el árbol (sección 5.4).</p>
+
+  <!-- 5.2 -->
+  <h2 id="s5-2"><span class="num">5.2</span>Qué árbol</h2>
+  <p>La tarjeta <span class="ui">Qué árbol</span> decide qué se dibuja y cómo se reconstruyen los caracteres. Si todavía no hay árboles, el bloque lo dice (<i>«Primero hace falta un árbol»</i>) y ofrece ir a la búsqueda o pegar uno.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b5-fuente.png" alt="La tarjeta Qué árbol: árboles de la búsqueda del Bloque 3, seis árboles más cortos; el árbol 1 de longitud 97.036 con flechas para pasar al anterior o al siguiente; la optimización ACCTRAN; los inaplicables por el algoritmo; los continuos escalados; y el desplegable para pegar un árbol en Newick"></div>
+    <figcaption><b>Figura 5.2.</b> La tarjeta para elegir el árbol, con el primero de los seis árboles más cortos de Dahlia.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.6in">Campo</th><th>Qué decide</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Árboles de</span></td><td>La fuente: los árboles más cortos de la búsqueda (Bloque 3), esos mismos colapsados por la regla 1, su consenso estricto, los del último análisis con pesos (Bloque 4), los que traía el archivo de la matriz, o el árbol pegado.</td></tr>
+      <tr><td><span class="ui">Árbol</span> ‹ ›</td><td>Cuál de los árboles de la fuente, con su longitud (<i>«Árbol 1 · L 97.036»</i>); las flechas pasan al anterior o al siguiente.</td></tr>
+      <tr><td><span class="ui">Optimización</span></td><td><i>ACCTRAN (cambios hacia la raíz)</i>, <i>DELTRAN (cambios hacia las puntas)</i> o <i>Sólo los cambios no ambiguos</i> (sección 5.3).</td></tr>
+      <tr><td><span class="ui">Los «–»</span> · <span class="ui">Continuos</span></td><td>Las mismas lecturas del Bloque 3; al llegar, toman las de la búsqueda que hizo los árboles. Sólo aparecen si la matriz tiene «–» o continuos.</td></tr>
+      <tr><td><span class="ui">Pegar un árbol en Newick</span></td><td>Un árbol escrito en Newick, con los nombres de la matriz (espacios o guiones bajos, da igual). <span class="ui">Usar este árbol</span> lo enraíza en el grupo externo y lo dibuja.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · el árbol verdadero de Dahlia</div>
+    <p>La matriz de práctica trae el árbol sobre el que se simuló, <code>arbol_verdadero</code>: elige <span class="ui">Del archivo de la matriz</span> en <span class="ui">Árboles de</span>. Mide <b>99.947</b> pasos, casi 3 más que los árboles más cortos (97.036), y comparte con el primero de ellos 12 de sus 18 grupos. La historia verdadera no siempre es la más parsimoniosa: con 45 caracteres y algo de homoplasia, algunos cambios del árbol verdadero se pueden explicar con menos pasos en otro árbol. Es un buen ejercicio comparar los dos árboles marca por marca.</p>
+  </div>
+
+  <!-- 5.3 -->
+  <h2 id="s5-3"><span class="num">5.3</span>Las marcas de cambio y la optimización</h2>
+  <p>La tarjeta <span class="ui">El cladograma</span> empieza con cinco recuadros: la <b>longitud</b> del árbol con los pesos de la matriz, su <b>CI</b> y su <b>RI</b>, cuál <b>árbol</b> es de cuántos, y cuántos <b>cambios</b> se dibujan con la optimización elegida. Debajo, el interruptor <span class="ui">Marcas de cambio</span> · <span class="ui">Pintar un carácter</span> y las opciones de cada modo.</p>
+  <figure class="grande">
+    <div class="marco"><img src="../img/b5-marcas.png" alt="La tarjeta El cladograma con Dahlia: los recuadros de longitud 97.036, CI 0.574, RI 0.742, árbol 1 de 6 y 92 cambios con ACCTRAN; los controles; el cladograma con cada cambio como un círculo numerado sobre su rama; y a la derecha el panel para editar el árbol, con el clado de las cuatro dalias arborescentes elegido y sus cuatro cambios"></div>
+    <figcaption><b>Figura 5.3.</b> El primer árbol más corto de Dahlia con sus 92 cambios (ACCTRAN). El clado de las dalias arborescentes está elegido —el círculo verde en su nodo— y el panel de la derecha lista sus cambios.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.6in">Opción</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Caracteres</span></td><td>Qué marcas dibujar: <i>todos</i>, <i>sólo informativos</i>, <i>sólo cambios únicos</i> (las sinapomorfías) o <i>ninguno (sólo el árbol)</i>.</td></tr>
+      <tr><td><span class="ui">Bajo la marca</span></td><td><i>el estado</i> (su símbolo) o <i>el nombre del estado</i>, recortado a 12 letras.</td></tr>
+      <tr><td><span class="ui">Imágenes de los taxones</span> · <span class="ui">Imágenes…</span></td><td>Dibuja la imagen de cada taxón junto a su nombre y abre la galería para añadir o cambiar imágenes (sección 5.6).</td></tr>
+      <tr><td>Clic en una rama</td><td>Elige el clado que sale de ella: su nodo se marca con un círculo y el panel de la derecha muestra sus cambios. Otro clic en la misma rama lo suelta.</td></tr>
+    </tbody>
+  </table>
+  <p>El panel <span class="ui">Editar el árbol</span>, a la derecha, dice del clado elegido qué taxones tiene y cuántos cambios hay en la rama que lleva a él, cada uno en palabras —<i>«8. División de la hoja: 1 (pinnada) → 2 (bipinnada)»</i>— con su etiqueta: <b>único</b>, <b>homoplásico</b>, <b>ambiguo</b> o <b>continuo</b>. Para la raíz dice que sus estados son los ancestrales del árbol. El selector <span class="ui">Clado elegido</span> hace lo mismo que el clic, desde el teclado.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · ACCTRAN, DELTRAN y los cambios no ambiguos</div>
+    <p>Cuando varias reconstrucciones son igual de cortas, la optimización elige una. <b>ACCTRAN</b> adelanta los cambios hacia la raíz y prefiere las reversiones; <b>DELTRAN</b> los retrasa hacia las puntas y prefiere los paralelismos (Swofford y Maddison 1987). La longitud, el CI y el RI no cambian: cambia dónde se dibuja cada paso. <i>Sólo los cambios no ambiguos</i> deja los que caen en la misma rama con las dos (Agnarsson y Miller 2008). En el primer árbol de Dahlia, ACCTRAN dibuja 92 cambios, DELTRAN 91 y los no ambiguos son 78: los demás dependen de la elección. Para defender una sinapomorfía en un artículo, conviene que sea no ambigua.</p>
+  </div>
+
+  <!-- 5.4 -->
+  <h2 id="s5-4"><span class="num">5.4</span>Pintar un carácter</h2>
+  <p>Con <span class="ui">Pintar un carácter</span>, el selector <span class="ui">Carácter</span> elige uno y el árbol se dibuja con cada rama del color de su estado en la reconstrucción elegida; los colores son los de los estados en toda la app (0 azul, 1 naranja, 2 verde, 3 amarillo…), no los de las plantas. En cada nodo, un círculo muestra los estados posibles en alguna reconstrucción igual de corta (los conjuntos MPR): un círculo de dos colores es un nodo que puede estar en cualquiera de los dos estados sin alargar el árbol. La leyenda, abajo, nombra los estados que aparecen.</p>
+  <div class="dos-figs">
+    <figure>
+      <div class="marco"><img src="../img/b5-pinta25.png" alt="El árbol de Dahlia pintado con el carácter 25, color de la lígula: el grupo externo en el estado 3, el grupo de Dahlia linearis en el estado 2 y el resto de las dalias en el estado 1"></div>
+      <figcaption><b>Figura 5.4.</b> El carácter 25, «Color de la lígula» (matriz de pasos).</figcaption>
+    </figure>
+    <figure>
+      <div class="marco"><img src="../img/b5-pinta6.png" alt="El árbol de Dahlia pintado con el carácter 6, tipo de tricoma: ramas en el estado 0, simples, y en el estado 1, glandulares, y en línea punteada las ramas donde no hay tricomas, Bidens pilosa y el grupo de las dalias arborescentes"></div>
+      <figcaption><b>Figura 5.5.</b> El carácter 6, «Tipo de tricoma del tallo», con inaplicables: la línea punteada marca dónde no aplica.</figcaption>
+    </figure>
+  </div>
+  <p>En un carácter con «–», las ramas donde la estructura no existe se dibujan punteadas (<i>no aplica</i>): en la figura 5.5, <i>Bidens pilosa</i> y las cinco dalias del grupo de las arborescentes no tienen tricomas, así que su tipo no existe. El nodo de dos colores es el que une a ese grupo con el de <i>D. coccinea</i> y <i>D. pinnata</i>: puede tener tricomas simples o glandulares sin alargar el árbol.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b5-pinta43.png" alt="El árbol de Dahlia pintado con el carácter 43, altura de la planta: casi todas las ramas en azul, de 30 a 250 centímetros, y las de las dalias arborescentes en tonos más cálidos, de 750 a 980; junto a varios nodos, el intervalo de valores reconstruido"></div>
+    <figcaption><b>Figura 5.6.</b> El carácter continuo 43, «Altura de la planta». El color va del valor más bajo de la matriz (29.6 cm) al más alto (1481.9 cm).</figcaption>
+  </figure>
+  <p>Un carácter continuo se pinta con un degradado entre su valor más bajo y el más alto de la matriz, y junto a los nodos se escribe el intervalo de valores igual de parsimoniosos, sólo donde cambia respecto a su antepasado y con tres cifras significativas. En Dahlia, la altura reconstruida se mantiene entre unos 80 y 120 cm en casi todo el género, sube a 200–254 cm en el antepasado de <i>D. macdougallii</i> y las arborescentes y salta a 746–976 cm en el de las cuatro arborescentes: el gigantismo de esas especies se concentra en dos ramas.</p>
+
+  <!-- 5.5 -->
+  <h2 id="s5-5"><span class="num">5.5</span>Editar el árbol con el ratón</h2>
+  <p>Editar un árbol es la manera más directa de preguntar «¿y si…?»: ¿cuánto cuesta poner este taxón en otro lugar?, ¿qué cambios pierde este clado si lo colapso? Cada edición recalcula la reconstrucción, los índices y las marcas al instante, y el recuadro <span class="ui">Longitud</span> dice cuánto más largo (o más corto) quedó el árbol frente al original.</p>
+  <div class="lado angosta">
+    <figure>
+      <div class="marco"><img src="../img/b5-mover.png" alt="El panel Editar el árbol al mover el taxón Dahlia linearis: la instrucción de elegir la rama de destino, los botones de edición, el selector de la rama de destino con los botones Mover aquí y Cancelar, y los siete cambios de la rama de Dahlia linearis"></div>
+      <figcaption><b>Figura 5.7.</b> El panel al mover <i>D. linearis</i>.</figcaption>
+    </figure>
+    <table class="compacta">
+      <thead><tr><th style="width:1.15in">Botón</th><th>Qué hace</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ui">Mover el clado</span></td><td>El clado elegido se va a otra rama: haz clic en la rama de destino o elígela en <span class="ui">A la rama de</span> y pulsa <span class="ui">Mover aquí</span>. <code>Esc</code> o <span class="ui">Cancelar</span> lo dejan donde estaba.</td></tr>
+        <tr><td><span class="ui">Colapsar</span></td><td>Quita la rama que lleva al clado: sus hijos pasan a colgar del nodo de arriba (una politomía).</td></tr>
+        <tr><td><span class="ui">Enraizar aquí</span></td><td>Pone la raíz en la rama del clado elegido.</td></tr>
+        <tr><td><span class="ui">Girar</span></td><td>Invierte el orden de los hijos del nodo. No cambia el árbol, sólo el dibujo.</td></tr>
+        <tr><td><span class="ui">Escalonar</span></td><td>Ordena todo el árbol para que los clados grandes queden abajo, en escalera.</td></tr>
+        <tr><td><span class="ui">Deshacer</span></td><td>Deshace la última edición (guarda hasta 100).</td></tr>
+        <tr><td><span class="ui">Volver al original</span></td><td>Regresa al árbol de la fuente; también se puede deshacer.</td></tr>
+        <tr><td><span class="ui">Unir las dos elegidas</span></td><td>Si el nodo elegido es una politomía, aparecen sus ramas con una casilla cada una: marca dos y únelas en un clado nuevo.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure>
+    <div class="marco"><img src="../img/b5-editado.png" alt="Los recuadros después de mover Dahlia linearis junto a las dalias arborescentes: longitud 107.476, 10.441 más que el original; CI 0.519; RI 0.677; árbol 1 de 6 con una edición; 100 cambios"></div>
+    <figcaption><b>Figura 5.8.</b> Los recuadros después de mover <i>D. linearis</i> a la rama de las dalias arborescentes.</figcaption>
+  </figure>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · ¿es <i>D. linearis</i> una dalia arborescente?</div>
+    <p>Con el primer árbol de Dahlia, elige <i>D. linearis</i> (clic en su rama), pulsa <span class="ui">Mover el clado</span> y haz clic en la rama de las cuatro dalias arborescentes. El árbol pasa de 97.036 a <b>107.476</b> pasos: <b>10.441 más</b>, con el CI de 0.574 a 0.519. Los datos se oponen con fuerza a esa posición. Si la pregunta es de verdad —un autor la propuso—, el Bloque 9 dice si esos 10 pasos son más de lo que el azar explicaría, y el Bloque 6 lista qué caracteres se oponen. <span class="ui">Deshacer</span> devuelve el árbol original.</p>
+  </div>
+  <p>El árbol editado, con sus marcas, es el que leen el Bloque 6 para la diagnosis de cada clado y el Bloque 9 como hipótesis de árbol completo; el Bloque 10 puede dibujarlo para publicar. Al pie de la tarjeta, <span class="ui">Este árbol (Newick)</span> lo descarga (<code>…_arbol.nwk</code>) y <span class="ui">Lista de cambios (CSV)</span> descarga una tabla con cada cambio: el clado, cuántos taxones tiene, el carácter, de qué estado a qué estado, si es único, homoplásico o continuo, y si es ambiguo (<code>…_cambios.csv</code>).</p>
+
+  <!-- 5.6 -->
+  <h2 id="s5-6"><span class="num">5.6</span>Las imágenes de los taxones</h2>
+  <p>La casilla <span class="ui">Imágenes de los taxones</span> pone, junto al nombre de cada taxón, la imagen que se le dio en el Bloque 2 (sección 2.6), en un cuadro de esquinas redondeadas. Sólo se dibujan las confirmadas; los taxones sin imagen dejan su lugar vacío para que los nombres queden alineados. Las filas crecen para que la imagen quepa. La casilla se marca sola la primera vez que se añade una imagen, y el botón <span class="ui">Imágenes…</span> abre la galería en una ventana, para añadir o cambiar imágenes sin salir del bloque.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Un árbol para mirar, otro para leer</div>
+    <p>Con imágenes y todas las marcas, un árbol de muchos taxones se vuelve pesado. Para una presentación o un cartel suele funcionar mejor <i>Caracteres: ninguno</i> o <i>sólo cambios únicos</i> con imágenes; para el artículo, todas las marcas sin imágenes, o las imágenes en una figura aparte.</p>
+  </div>
+  <div class="lado flores">
+    <figure>
+      <div class="marco"><img src="../img/b5-imagenes.png" alt="El cladograma de Dahlia sin marcas, con una flor dibujada junto al nombre de doce de los veinte taxones"></div>
+      <figcaption><b>Figura 5.9.</b> El cladograma con imágenes y <i>Caracteres: ninguno</i>.</figcaption>
+    </figure>
+    <div>
+      <p>Las imágenes van dentro de la figura: se exportan con ella al estudio de figuras y al Bloque 10, que ofrece además más opciones —el tamaño, la forma (círculo, redondeada o cuadrada), un marco y si van antes o después del nombre— y arma la línea de créditos con el autor y la licencia de cada imagen.</p>
+    </div>
+  </div>
+
+  <!-- 5.7 -->
+  <h2 id="s5-7"><span class="num">5.7</span>Los avisos de este bloque</h2>
+  <table class="compacta">
+    <thead><tr><th style="width:2.6in">Mensaje</th><th>Qué significa y qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td><i>Primero hace falta una matriz</i> · <i>Primero hace falta un árbol</i></td><td>Falta la matriz (Bloque 2) o no hay árboles: búscalos en el Bloque 3, carga una matriz que los traiga o pega uno en Newick.</td></tr>
+      <tr><td><i>N taxones del árbol no están activos en la matriz y se quitaron</i> · <i>Al árbol le faltan N taxones de la matriz</i></td><td>El árbol pegado tiene nombres que no son taxones activos de la matriz (o están mal escritos), o no los incluye a todos; se dibuja con los que coinciden.</td></tr>
+      <tr><td><i>No se pudo leer el árbol: …</i></td><td>El texto no es un Newick válido: revisa los paréntesis y el punto y coma final.</td></tr>
+      <tr><td><i>Este árbol tiene politomías y el algoritmo de inaplicables pide árboles dicotómicos: en N caracteres con «–» se leyeron como «?»</i></td><td>Con un consenso o un árbol colapsado, los caracteres con «–» se reconstruyen como faltantes. Para su reconstrucción exacta, usa un árbol dicotómico.</td></tr>
+      <tr><td><i>Con «–», cada región aplicable después de la primera cuenta un paso sin una rama propia</i></td><td>Cuando un carácter con «–» vuelve a aplicar en otra parte del árbol, ese paso se cuenta pero no tiene marca. El panel del clado lo dice (<i>«Aquí empieza una región aplicable más de…»</i>) y el Bloque 6 los lista.</td></tr>
+      <tr><td><i>Un clado no puede ir dentro de sí mismo</i> · <i>Elige exactamente dos ramas</i></td><td>Al mover, se eligió como destino una rama del mismo clado; al resolver una politomía, hay que marcar dos de sus ramas.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

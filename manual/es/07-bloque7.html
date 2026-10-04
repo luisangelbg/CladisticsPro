@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario · Capítulo 7</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  figure.media .marco { width: 78%; }
+  figure.media figcaption { margin-left: 11%; margin-right: 11%; }
+  figure.grande .marco { width: 86%; margin: 0 auto; }
+  figure.grande figcaption { margin-left: 7%; margin-right: 7%; }
+  table.apoyo td:nth-child(n+3), table.apoyo th:nth-child(n+3) { text-align: right; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b7" data-pestana="B7" data-orden="7" style="--acento: var(--b7)">
+  <div class="cap-apertura">
+    <div class="cap-num">7</div>
+    <div class="cap-etiqueta">Bloque 7 · Apoyo</div>
+    <h1>Apoyo: cuánto creerle a cada grupo</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">El árbol más corto no dice qué tan firmes son sus grupos: uno puede deshacerse con medio paso más y otro resistir diez. El Bloque 7 mide el apoyo de cada grupo de dos maneras complementarias: el apoyo de Bremer, que cuenta los pasos que cuesta perderlo, y el remuestreo —bootstrap, jackknife y remuestreo simétrico—, que mide con qué frecuencia reaparece cuando se perturban los caracteres. Los valores se ven sobre el árbol, en una tabla y en los archivos que se descargan.</p>
+    <ul class="cap-contenido">
+      <li><b>7.1</b>Cuánto creerle a un grupo</li>
+      <li><b>7.2</b>Sobre qué árbol</li>
+      <li><b>7.3</b>El apoyo de Bremer</li>
+      <li><b>7.4</b>El remuestreo</li>
+      <li><b>7.5</b>El apoyo de cada grupo</li>
+      <li><b>7.6</b>Los avisos de este bloque</li>
+    </ul>
+  </div>
+
+  <!-- 7.1 -->
+  <h2 id="s7-1"><span class="num">7.1</span>Cuánto creerle a un grupo</h2>
+  <p class="lead">Un grupo del árbol más corto puede estar sostenido por diez sinapomorfías sin homoplasia o por un solo carácter que, en otro árbol apenas más largo, se explica igual de bien. Las dos situaciones dan el mismo dibujo; el apoyo las distingue.</p>
+  <p>El <b>apoyo de Bremer</b> (Bremer 1988, 1994) responde con pasos: cuánto más largo es el mejor árbol que <i>no</i> tiene el grupo. Si perder el grupo cuesta 4 pasos, los datos lo exigen; si cuesta 0.2, apenas lo prefieren. El <b>Bremer relativo</b> (Goloboff y Farris 2001) compara, carácter por carácter, lo que habla a favor y en contra del grupo, de 0 a 1. El <b>remuestreo</b> responde con frecuencias: se arman cientos de matrices perturbadas —quitando, repitiendo o duplicando caracteres al azar—, se busca en cada una y se cuenta en qué porcentaje reaparece el grupo. El <b>GC</b> (Goloboff et al. 2003) resta a esa frecuencia la del grupo contradictorio más frecuente: un GC negativo dice que algo lo contradice más de lo que aparece.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · por qué dos medidas</div>
+    <p>El Bremer depende de la escala de los datos: un grupo apoyado por un solo carácter en una matriz pequeña tiene Bremer 1, igual que uno apoyado por un carácter en una matriz de mil. Las frecuencias no tienen escala, pero dependen del método y de su probabilidad, y un grupo con un solo carácter a favor y ninguno en contra puede salir con frecuencia moderada. Por eso se reportan juntas, a menudo como «Bremer / jackknife» sobre cada rama, y se lee con más confianza un grupo fuerte en las dos. Ninguna es una probabilidad de que el grupo sea verdadero.</p>
+  </div>
+
+  <!-- 7.2 -->
+  <h2 id="s7-2"><span class="num">7.2</span>Sobre qué árbol</h2>
+  <p>El apoyo se mide sobre los árboles más cortos del Bloque 3; si no hay búsqueda, el bloque dice <i>«Primero hace falta una búsqueda»</i>. La tarjeta <span class="ui">Sobre qué árbol</span> elige en qué árbol se dibujan los valores y qué grupos se miden.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b7-ref.png" alt="La tarjeta Sobre qué árbol con el consenso estricto de los árboles más cortos como árbol de referencia y los recuadros: 6 árboles más cortos, longitud 97.036 como referencia del Bremer y 13 grupos que medir"></div>
+    <figcaption><b>Figura 7.1.</b> El árbol de referencia y lo que se va a medir en Dahlia.</figcaption>
+  </figure>
+  <p>El <span class="ui">Árbol de referencia</span> puede ser el <i>Consenso estricto de los árboles más cortos</i> (por omisión: sólo los grupos que comparten todos), <i>El primer árbol más corto</i> o <i>El árbol a la vista en el Bloque 5</i>, que puede estar editado. Los recuadros dicen cuántos árboles más cortos hay, su longitud —la referencia contra la que se mide el Bremer— y cuántos grupos tiene el árbol de referencia: en Dahlia, <b>13</b>. Las restricciones del Bloque 3 no se aplican aquí: el apoyo se mide siempre sin ellas.</p>
+
+  <!-- 7.3 -->
+  <h2 id="s7-3"><span class="num">7.3</span>El apoyo de Bremer</h2>
+  <figure class="media">
+    <div class="marco"><img src="../img/b7-bremer.png" alt="La tarjeta Apoyo de Bremer: el método, una búsqueda sin cada grupo, recomendado; las réplicas por grupo, 5; la explicación del método y el botón Calcular el Bremer"></div>
+    <figcaption><b>Figura 7.2.</b> La tarjeta del apoyo de Bremer, con el método recomendado.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:2in">Cómo</th><th>Qué hace</th><th style="width:1.55in">Parámetros</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Una búsqueda sin cada grupo (recomendado)</span></td><td>Para cada grupo, una búsqueda con la restricción de que <b>no</b> exista; el Bremer es su longitud menos la del árbol más corto. Con 12 taxones o menos, cada búsqueda es exacta y el Bremer también. Las búsquedas se reparten entre los hilos.</td><td><span class="ui">Réplicas por grupo</span> (5): más réplicas, más confianza.</td></tr>
+      <tr><td><span class="ui">Árboles subóptimos hasta k pasos</span></td><td>Guarda todos los árboles hasta k pasos más largos que el óptimo y, para cada grupo, busca entre ellos el más corto que no lo tiene. Rápido, pero sólo ve lo que guardó: un grupo sin árbol contrario dentro de k pasos sale «&gt; k».</td><td><span class="ui">k</span> (3) y <span class="ui">Árboles subóptimos máximos</span> (2000).</td></tr>
+    </tbody>
+  </table>
+  <p>En Dahlia, el Bremer de los 13 grupos tarda poco más de un segundo y va de <b>0.181</b> a <b>4.443</b> pasos; los valores con decimales vienen de los caracteres continuos escalados. Si alguna búsqueda sin un grupo encuentra un árbol <i>más corto</i> que los del Bloque 3, la app lo avisa: la búsqueda original no había llegado al óptimo, y conviene repetirla con más réplicas.</p>
+
+  <!-- 7.4 -->
+  <h2 id="s7-4"><span class="num">7.4</span>El remuestreo</h2>
+  <figure class="media">
+    <div class="marco"><img src="../img/b7-remuestreo.png" alt="La tarjeta Remuestreo: los tres métodos, bootstrap, jackknife y remuestreo simétrico, con el jackknife elegido; 100 pseudorréplicas, probabilidad 36 por ciento, búsqueda rápida en cada una y semilla 1; y el botón Remuestrear"></div>
+    <figcaption><b>Figura 7.3.</b> La tarjeta del remuestreo, con el jackknife elegido y sus valores por omisión.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.6in">Método</th><th>Cómo perturba la matriz</th><th style="width:0.75in">p</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Bootstrap</span></td><td>Toma tantos caracteres como hay, al azar y con reemplazo: unos salen dos o tres veces, otros ninguna (Felsenstein 1985).</td><td>—</td></tr>
+      <tr><td><span class="ui">Jackknife</span></td><td>Borra cada carácter con probabilidad p (Farris et al. 1996).</td><td>36 %</td></tr>
+      <tr><td><span class="ui">Remuestreo simétrico</span></td><td>Cambia cada carácter con probabilidad p: la mitad de las veces lo borra y la otra mitad lo duplica, así que no favorece ni a los grupos con caracteres a favor ni a los que tienen en contra (Goloboff et al. 2003).</td><td>33 %</td></tr>
+    </tbody>
+  </table>
+  <p><span class="ui">Pseudorréplicas</span> dice cuántas matrices perturbadas se arman (100 por omisión; 1000 para publicar). <span class="ui">Búsqueda en cada una</span> puede ser <i>Rápida</i> (2 adiciones de Wagner + TBR), <i>Cuidadosa</i> (10 adiciones) o <i>Exacta</i> (hasta 12 taxones). En cada pseudorréplica se cuenta el consenso estricto de los árboles encontrados, para no premiar a un grupo que aparece en algunos árboles empatados y en otros no. La <span class="ui">Semilla</span> hace repetible el resultado; con pocas pseudorréplicas, otra semilla da frecuencias algo distintas. En Dahlia, cada remuestreo de 100 pseudorréplicas tarda alrededor de un segundo.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Los tres remuestreos se guardan juntos</div>
+    <p>Correr el bootstrap no borra el jackknife: cada método guarda su último resultado, y la tabla de la sección 7.5 tiene una columna por método. El selector <span class="ui">En el árbol</span> elige cuál dibujar. Cambiar la matriz o hacer una búsqueda nueva sí los borra a todos.</p>
+  </div>
+
+  <!-- 7.5 -->
+  <h2 id="s7-5"><span class="num">7.5</span>El apoyo de cada grupo</h2>
+  <p>La tarjeta <span class="ui">El apoyo de cada grupo</span> aparece con el primer cálculo. Los recuadros dicen cuántos grupos se midieron, el intervalo del Bremer y, por cada remuestreo, cuántos grupos superan el 50 %. El selector <span class="ui">En el árbol</span> elige qué valor dibujar junto a cada rama: el <i>Bremer</i>, el <i>Bremer relativo</i>, la <i>frecuencia</i> o el <i>GC</i> de cada remuestreo, o <i>Bremer / GC del último remuestreo</i>, la forma habitual de publicarlo.</p>
+  <figure class="grande">
+    <div class="marco"><img src="../img/b7-arbol.png" alt="El apoyo de cada grupo de Dahlia: los recuadros de 13 grupos medidos, Bremer de 0.181 a 4.443 y jackknife con 10 de 13 grupos de 50 por ciento o más; y el consenso estricto con el Bremer y el GC del jackknife junto a cada rama, cada rama del color de su clase de apoyo"></div>
+    <figcaption><b>Figura 7.4.</b> El consenso estricto de Dahlia con el Bremer y el GC del jackknife sobre cada rama. El color es la clase del valor dibujado: verde, fuerte; azul, bueno; amarillo, débil; naranja, sin apoyo.</figcaption>
+  </figure>
+  <p>Cada rama se pinta según su clase. Para las frecuencias y el GC: <b>90 o más</b>, fuerte; <b>70 a 89</b>, bueno; <b>50 a 69</b>, débil; <b>menos de 50</b>, sin apoyo. Para el Bremer: <b>3 o más</b>, fuerte; <b>2 a 3</b>, bueno; <b>1 a 2</b>, débil; <b>menos de 1</b>, sin apoyo. Las ramas sin color son grupos sin valor calculado; las dos ramas de la raíz son un solo grupo y llevan el mismo valor. Debajo, una tabla repite todo en números; la app numera los grupos como el Bloque 6, sobre el árbol de referencia.</p>
+  <table class="compacta apoyo">
+    <thead><tr><th style="width:0.4in">Clado</th><th>Grupo de Dahlia</th><th style="width:0.55in">Bremer</th><th style="width:0.55in">Relativo</th><th style="width:0.6in">Bootstrap</th><th style="width:0.75in">Jackknife</th><th style="width:0.65in">Simétrico</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td>El género (18 especies)</td><td>1.196</td><td>0.193</td><td>53</td><td>58 / 31</td><td>69</td></tr>
+      <tr><td>3</td><td><i>D. linearis</i>, <i>D. dissecta</i>, <i>D. rupicola</i></td><td>4.027</td><td>0.556</td><td>91</td><td>99 / 98</td><td>100</td></tr>
+      <tr><td>4</td><td>El género sin el grupo de <i>D. linearis</i> (15)</td><td>0.181</td><td>0.083</td><td>17</td><td>30 / 3</td><td>44</td></tr>
+      <tr><td>5</td><td>Ese grupo sin <i>D. merckii</i> ni <i>D. moorei</i> (13)</td><td>0.996</td><td>0.330</td><td>22</td><td>31 / 4</td><td>50</td></tr>
+      <tr><td>6</td><td><i>D. scapigera</i> y <i>D. cardiophylla</i></td><td>3.036</td><td>0.603</td><td>95</td><td>99 / 98</td><td>99</td></tr>
+      <tr><td>7</td><td><i>D. macdougallii</i> y las arborescentes (5)</td><td>4.443</td><td>0.690</td><td>89</td><td>95 / 93</td><td>97</td></tr>
+      <tr><td>8</td><td>Las cuatro dalias arborescentes</td><td>2.044</td><td>0.666</td><td>93</td><td>96 / 95</td><td>99</td></tr>
+      <tr><td>9</td><td><i>D. excelsa</i>, <i>D. imperialis</i>, <i>D. tenuicaulis</i></td><td>0.734</td><td>0.367</td><td>63</td><td>58 / 30</td><td>81</td></tr>
+      <tr><td>10</td><td><i>D. imperialis</i> y <i>D. tenuicaulis</i></td><td>0.734</td><td>0.367</td><td>34</td><td>33 / 6</td><td>64</td></tr>
+      <tr><td>11</td><td>Los grupos de <i>D. pinnata</i> y <i>D. coccinea</i> (6)</td><td>2.950</td><td>0.737</td><td>85</td><td>88 / 81</td><td>97</td></tr>
+      <tr><td>12</td><td><i>D. pinnata</i>, <i>D. rudis</i>, <i>D. australis</i></td><td>1.000</td><td>0.500</td><td>40</td><td>54 / 47</td><td>79</td></tr>
+      <tr><td>13</td><td><i>D. coccinea</i>, <i>D. sherffii</i>, <i>D. atropurpurea</i></td><td>1.003</td><td>0.501</td><td>53</td><td>66 / 59</td><td>85</td></tr>
+      <tr><td>14</td><td><i>D. sherffii</i> y <i>D. atropurpurea</i></td><td>2.000</td><td>1.000</td><td>77</td><td>91 / 91</td><td>98</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:9pt;color:var(--gris);margin-top:-0.08in">Bootstrap y simétrico: frecuencia en %; jackknife: frecuencia / GC en %. 100 pseudorréplicas, búsqueda rápida, semilla 1.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · leer el apoyo de Dahlia</div>
+    <p>Seis grupos son firmes por los dos criterios —Bremer de 2 o más y jackknife de 88 % o más—: el de <i>D. linearis</i>, el par <i>D. scapigera</i>–<i>D. cardiophylla</i>, el de <i>D. macdougallii</i> con las arborescentes, las cuatro arborescentes, el de <i>D. pinnata</i> con <i>D. coccinea</i> y el par <i>D. sherffii</i>–<i>D. atropurpurea</i>. En el otro extremo, el clado 4 —el género sin el grupo de <i>D. linearis</i>— se pierde con 0.18 pasos y aparece en el 30 % de los jackknife, con un GC de 3: los datos casi no lo distinguen de sus alternativas, que es justo lo que mostró la sección 3.7. El género mismo tiene un apoyo moderado (Bremer 1.2, jackknife 58 %): tiene dos sinapomorfías únicas, pero hay árboles apenas más largos en los que deja de ser un grupo. Los valores del remuestreo simétrico son más altos en todos los grupos débiles: con p = 33 %, perturba menos que el jackknife con 36 %.</p>
+  </div>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · cómo reportar el apoyo</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> vas a publicar</td><td><b>entonces</b> da el Bremer y un remuestreo (jackknife o simétrico con 1000 pseudorréplicas y búsqueda cuidadosa) sobre el consenso estricto, y di el método, p y la búsqueda; el Bloque 10 lo redacta.</td></tr>
+      <tr><td><b>Si</b> un grupo tiene Bremer menor que 1 y frecuencia menor que 50 %</td><td><b>entonces</b> no lo discutas como resultado: es una de varias resoluciones casi igual de buenas.</td></tr>
+      <tr><td><b>Si</b> el GC es negativo</td><td><b>entonces</b> algún grupo incompatible aparece más que él; revisa qué caracteres lo contradicen (Bloques 6 y 9).</td></tr>
+      <tr><td><b>Si</b> el Bremer y la frecuencia no coinciden</td><td><b>entonces</b> mira cuántos caracteres hay a favor y en contra (el Bremer relativo y la diagnosis del Bloque 6).</td></tr>
+    </tbody></table>
+  </div>
+  <p>Al pie de la tarjeta, <span class="ui">Árbol con los valores (Newick)</span> descarga el árbol de referencia con el valor que se ve en el árbol como rótulo de cada nodo (<code>…_apoyo.nwk</code>), legible por cualquier programa de dibujo de árboles, y <span class="ui">Tabla (CSV)</span>, la tabla completa con el Bremer, el Bremer relativo y la frecuencia y el GC de cada remuestreo.</p>
+
+  <!-- 7.6 -->
+  <h2 id="s7-6"><span class="num">7.6</span>Los avisos de este bloque</h2>
+  <table class="compacta">
+    <thead><tr><th style="width:2.6in">Mensaje</th><th>Qué significa y qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td><i>Primero hace falta una búsqueda</i></td><td>El apoyo se mide sobre los árboles más cortos: búscalos en el Bloque 3.</td></tr>
+      <tr><td><i>El árbol de referencia no tiene grupos que medir</i></td><td>El árbol elegido es una politomía completa (por ejemplo, un consenso estricto sin grupos). Elige otro árbol de referencia.</td></tr>
+      <tr><td><i>Sin algún grupo apareció un árbol MÁS CORTO que los del Bloque 3…</i></td><td>La búsqueda del Bloque 3 no llegó al óptimo. Repítela con más réplicas o con la combinada; mientras tanto, ese Bremer sale negativo.</td></tr>
+      <tr><td>«&gt; k» en la tabla o en el árbol</td><td>Con árboles subóptimos, ningún árbol guardado contradice al grupo: su Bremer es mayor que k. Sube k o usa la búsqueda sin cada grupo.</td></tr>
+      <tr><td><i>El cálculo falló: …</i> · <i>El remuestreo falló: …</i></td><td>Después de los dos puntos va la causa.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

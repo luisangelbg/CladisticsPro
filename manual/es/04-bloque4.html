@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario · Capítulo 4</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  figure.media .marco { width: 78%; }
+  figure.media figcaption { margin-left: 11%; margin-right: 11%; }
+  figure.alta .marco { width: 62%; margin: 0 auto; }
+  figure.alta figcaption { margin-left: 19%; margin-right: 19%; }
+  td.n, th.n { text-align: right; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b4" data-pestana="B4" data-orden="4" style="--acento: var(--b4)">
+  <div class="cap-apertura">
+    <div class="cap-num">4</div>
+    <div class="cap-etiqueta">Bloque 4 · Pesos</div>
+    <h1>Pesos: castigar la homoplasia</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Con pesos iguales, todos los caracteres cuentan lo mismo, aunque unos cambien una vez en todo el árbol y otros cinco. El Bloque 4 repite la búsqueda dando menos peso a los caracteres que más homoplasia muestran: con pesos implícitos, con su versión extendida para matrices con datos faltantes o con pesos sucesivos, y prueba varios valores de la constante de concavidad para separar los grupos que dependen de esa elección de los que resisten cualquiera.</p>
+    <ul class="cap-contenido">
+      <li><b>4.1</b>Por qué pesar los caracteres</li>
+      <li><b>4.2</b>Los cuatro esquemas</li>
+      <li><b>4.3</b>Los pesos implícitos</li>
+      <li><b>4.4</b>Cada carácter en la curva de pesos</li>
+      <li><b>4.5</b>Los pesos sucesivos</li>
+      <li><b>4.6</b>La sensibilidad a k</li>
+      <li><b>4.7</b>Los avisos de este bloque</li>
+    </ul>
+  </div>
+
+  <!-- 4.1 -->
+  <h2 id="s4-1"><span class="num">4.1</span>Por qué pesar los caracteres</h2>
+  <p class="lead">La búsqueda del Bloque 3 cuenta un paso de cada carácter igual que un paso de cualquier otro. Pero un carácter que en el árbol más corto cambia cinco veces ya mostró que sus estados se repiten por convergencia o reversión; uno que cambia una sola vez se comportó como una buena homología. ¿Deben pesar lo mismo?</p>
+  <p>Pesar <i>a priori</i> —decidir antes del análisis que los caracteres florales valen el doble— exige argumentos que casi nunca se tienen. Los métodos de este bloque pesan <i>a posteriori</i>: el peso de cada carácter sale de la homoplasia que muestra en los árboles, de modo que los datos mismos dicen en cuáles confiar menos. Hay dos maneras de hacerlo. Los <b>pesos sucesivos</b> (Farris 1969) buscan, miden qué tan bien se ajusta cada carácter a los árboles encontrados, le dan un peso según ese ajuste y vuelven a buscar hasta que los pesos dejan de cambiar. Los <b>pesos implícitos</b> (Goloboff 1993) cambian el criterio mismo: en vez del árbol con menos pasos, buscan el árbol con menos homoplasia <i>ponderada</i>, donde cada paso extra de un carácter cuesta menos que el anterior.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · dónde poner la homoplasia</div>
+    <p>Dos árboles para la misma matriz. En el árbol A, toda la homoplasia está en un solo carácter, que necesita 10 pasos extra. En el árbol B, 8 caracteres necesitan 1 paso extra cada uno. Con pesos iguales gana B: 8 pasos extra contra 10. Con pesos implícitos y k = 3, cada carácter suma h/(h + k): A suma 10/13 = 0.77 y B suma 8 × 1/4 = 2.00, así que gana A. Los pesos implícitos prefieren concentrar la homoplasia en pocos caracteres —los que se declaran poco confiables— y que el resto se comporte como homologías limpias.</p>
+  </div>
+
+  <!-- 4.2 -->
+  <h2 id="s4-2"><span class="num">4.2</span>Los cuatro esquemas</h2>
+  <p>La tarjeta <span class="ui">Esquema de pesos</span> ofrece cuatro opciones. Debajo de ellas aparecen sólo los parámetros del esquema elegido y, para los implícitos, la curva que dice cuánto pesa un carácter según su homoplasia (figura 4.1). <span class="ui">Analizar</span> corre el esquema; la búsqueda usa el método, las réplicas, las restricciones y la lectura de «–» y de los continuos elegidos en el Bloque 3.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b4-esquema.png" alt="La tarjeta Esquema de pesos con los cuatro esquemas, pesos implícitos seleccionado, la constante de concavidad k igual a 3 y la curva del peso implícito, que baja de 1 con cero pasos extra a menos de 0.3 con ocho"></div>
+    <figcaption><b>Figura 4.1.</b> El esquema de pesos implícitos con k = 3. La curva da el peso de un carácter según sus pasos extra; debajo, una frase lo dice en números.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.45in">Esquema</th><th>Qué hace</th><th style="width:1.75in">Parámetros</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Pesos implícitos</span></td><td>Busca el árbol con la menor homoplasia ponderada, Σ h/(h + k) (Goloboff 1993).</td><td><span class="ui">Constante de concavidad k</span> (3)</td></tr>
+      <tr><td><span class="ui">Implícitos extendidos</span></td><td>Lo mismo, pero sin premiar a los caracteres con muchos «?», que tuvieron menos oportunidades de mostrar homoplasia (Goloboff 2014).</td><td>k (3), <span class="ui">r</span> (0.5) y <span class="ui">M</span> (5)</td></tr>
+      <tr><td><span class="ui">Pesos sucesivos</span></td><td>Repite la búsqueda con pesos iguales a un índice de ajuste de cada carácter, hasta que los pesos se estabilizan (Farris 1969).</td><td><span class="ui">Índice</span> (RC), <span class="ui">Peso máximo</span> (10), <span class="ui">Con varios árboles, el valor</span> (máximo)</td></tr>
+      <tr><td><span class="ui">Sensibilidad a k</span></td><td>Pesos implícitos con varios valores de k: qué clados resisten todos (Mirande 2009).</td><td><span class="ui">Valores de k a probar</span> (1 2 3 5 7 10 15 20 30 50) y <span class="ui">Con pesos extendidos</span></td></tr>
+    </tbody>
+  </table>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Pesar no reemplaza a la búsqueda con pesos iguales</div>
+    <p>Conviene correr primero el Bloque 3: el recuadro <span class="ui">Frente a pesos iguales</span> de los resultados compara el consenso con pesos con el de pesos iguales, y sin éste dice <i>«corre el Bloque 3 para comparar»</i>. Cada análisis del Bloque 4 reemplaza al anterior del mismo bloque y descarta el cladograma, el diagnóstico, el apoyo, los consensos y las hipótesis; la búsqueda del Bloque 3 se conserva, y el Bloque 5 puede dibujar los árboles de cualquiera de los dos.</p>
+  </div>
+
+  <!-- 4.3 -->
+  <h2 id="s4-3"><span class="num">4.3</span>Los pesos implícitos</h2>
+  <p>Con pesos implícitos, un carácter con <i>h</i> pasos extra —los que necesita en el árbol por encima del mínimo posible— aporta h/(h + k) a la homoplasia ponderada del árbol, y la búsqueda minimiza la suma. Visto al revés, su <b>peso implícito</b> es k/(k + h): 1 si no tiene homoplasia, y cada vez menos con cada paso extra. La <b>constante de concavidad k</b> dice qué tan rápido cae: con k = 3, un carácter con 1 paso extra pesa 0.75 y con 5 pesa 0.375; con k = 1 caen a 0.5 y 0.17; con k = 50, apenas a 0.98 y 0.91, casi como con pesos iguales.</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-iw.png" alt="Los resultados con pesos implícitos y k igual a 3 en Dahlia: homoplasia ponderada 8.5933, longitud 97.036, tres árboles que son uno al colapsar, k igual a 3 y 97 por ciento de clados compartidos con pesos iguales; a la izquierda la curva con los caracteres como puntos y a la derecha el consenso estricto"></div>
+    <figcaption><b>Figura 4.2.</b> Pesos implícitos con k = 3 en Dahlia: el resultado, cada carácter sobre la curva y el consenso estricto.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.55in">Recuadro</th><th>Qué dice</th><th style="width:1.2in">En Dahlia, k = 3</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Homoplasia ponderada</span></td><td>Σ h/(h + k) del árbol más corto: lo que se minimiza. Sólo se compara entre análisis con el mismo k.</td><td>8.5933</td></tr>
+      <tr><td><span class="ui">Longitud</span></td><td>Los pasos de estos árboles contados sin pesos, para compararlos con el Bloque 3.</td><td>97.036</td></tr>
+      <tr><td><span class="ui">Árboles</span></td><td>Cuántos empatan y cuántos quedan distintos al colapsar.</td><td>3; 1 distinto</td></tr>
+      <tr><td><span class="ui">k</span></td><td>La constante usada (con los extendidos, la de referencia).</td><td>3</td></tr>
+      <tr><td><span class="ui">Frente a pesos iguales</span></td><td>La proporción de clados que comparten este consenso estricto y el del Bloque 3.</td><td>97 %</td></tr>
+    </tbody>
+  </table>
+  <p>En Dahlia, los pesos implícitos con k = 3 encuentran árboles de 97.036 pasos, la misma longitud que con pesos iguales: son tres de los seis árboles más cortos del Bloque 3. Al quedarse sólo con ellos, el consenso resuelve el grupo de <i>D. linearis</i> —<i>D. rupicola</i> y <i>D. dissecta</i> salen como hermanas— y todo lo demás coincide: 97 % de clados compartidos.</p>
+  <h3>Los implícitos extendidos</h3>
+  <p>Un carácter con muchos «?» tiene menos taxones donde mostrar homoplasia, y los pesos implícitos lo premian sin querer: parece limpio porque no se observó.</p>
+  <p>Los <b>implícitos extendidos</b> (Goloboff 2014) suponen que en los datos faltantes hay una proporción <span class="ui">r</span> de la homoplasia observada en el resto. A cada carácter con faltantes le dan su propia concavidad, k/<i>f</i>, con <i>f</i> = 1 + r·(t − o)/o, donde <i>t</i> es el número de taxones y <i>o</i> los observados, sin pasar del <span class="ui">Factor máximo (M)</span>; luego lo reescalan para que su primer paso extra cueste lo mismo que con k. Así, a igual homoplasia observada, un carácter con faltantes pesa un poco menos.</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-eiw.png" alt="Los parámetros de los pesos implícitos extendidos: la constante de concavidad k igual a 3, la proporción de homoplasia que se supone en los signos de interrogación r igual a 0.5 y el factor máximo M igual a 5"></div>
+    <figcaption><b>Figura 4.3.</b> Los parámetros de los pesos implícitos extendidos, con sus valores por omisión.</figcaption>
+  </figure>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · el hábito de las dalias</div>
+    <p>El carácter 1, «Hábito», falta en 2 de los 20 taxones de Dahlia y necesita 2 pasos extra. Con pesos implícitos pesa 3/(3 + 2) = 0.600. Con los extendidos y r = 0.5, <i>f</i> = 1 + 0.5 × 2/18 = 1.056: su concavidad baja a 2.84 y su peso, ya reescalado, a 0.564. El carácter 30, «Anteras», con 3 faltantes, tiene <i>f</i> = 1.088. En Dahlia, con tan pocos faltantes (4.6 %), los extendidos dan los mismos árboles que los implícitos; la homoplasia ponderada baja de 8.5933 a 8.5797. La diferencia crece en matrices con fósiles o con taxones mal conocidos.</p>
+  </div>
+
+  <!-- 4.4 -->
+  <h2 id="s4-4"><span class="num">4.4</span>Cada carácter en la curva de pesos</h2>
+  <p>A la izquierda de los resultados, la gráfica <span class="ui">Cada carácter en la curva de pesos</span> pone a cada carácter como un punto sobre la curva de k, en sus pasos extra del primer árbol (figura 4.2). Al pasar el ratón sobre un punto aparece su número y su enunciado. Los puntos en la parte alta de la curva son los caracteres que el análisis trata como homologías confiables; los de la derecha, los que castiga. Muchos caracteres comparten punto: en Dahlia, todos los que no tienen pasos extra están juntos en el peso 1.</p>
+  <p>La tabla <span class="ui">Pesos por carácter</span> da lo mismo en números, ordenada del carácter más castigado al menos: sus pasos, los pasos extra (h), su CI y su peso implícito; con los extendidos, además, sus faltantes y su factor <i>f</i>.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b4-tabla.png" alt="El principio de la tabla de pesos por carácter con k igual a 3: los caracteres 16, Capítulos por rama, y 20, Número de brácteas externas, con 4 pasos extra y peso 0.429; el 26, Ápice de la lígula, con peso 0.5; varios con 2 pasos extra y peso 0.6; y los primeros con 1 paso extra y peso 0.75"></div>
+    <figcaption><b>Figura 4.4.</b> El principio de la tabla de pesos por carácter de Dahlia con k = 3: los más castigados.</figcaption>
+  </figure>
+  <p>En Dahlia, los dos caracteres más castigados son el 16, «Capítulos por rama» (6 pasos donde bastarían 2; peso 0.429), y el 20, «Número de brácteas externas» (5 donde bastaría 1; peso 0.429); les sigue el 26, «Ápice de la lígula» (peso 0.500). Son los candidatos a revisar en la matriz: un carácter muy homoplásico puede ser una mala homología primaria —estados mal definidos, dos estructuras distintas con el mismo nombre— o, simplemente, un rasgo que evoluciona muchas veces.</p>
+
+  <!-- 4.5 -->
+  <h2 id="s4-5"><span class="num">4.5</span>Los pesos sucesivos</h2>
+  <p>Los pesos sucesivos no cambian el criterio: siguen buscando el árbol más corto, pero con pesos. En la primera vuelta, buscan con los pesos de la matriz; después, a cada carácter le dan un peso igual a su índice de ajuste en los árboles encontrados, multiplicado por el <span class="ui">Peso máximo</span> y redondeado a un entero, y vuelven a buscar. Se detienen cuando ningún peso cambia, o a las 10 vueltas.</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-swpar.png" alt="Los parámetros de los pesos sucesivos: índice RC, peso máximo 10, y con varios árboles el valor máximo"></div>
+    <figcaption><b>Figura 4.5.</b> Los parámetros de los pesos sucesivos.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.95in">Parámetro</th><th>Qué decide</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Índice</span></td><td>El ajuste de cada carácter: el <b>RC</b> (CI × RI, por omisión), el <b>CI</b> o el <b>RI</b>. Un carácter no informativo recibe peso 0; con el RC o el RI, también uno con el RI en cero.</td></tr>
+      <tr><td><span class="ui">Peso máximo</span></td><td>La escala: con 10, los pesos van de 0 a 10. Un carácter sin homoplasia recibe 10.</td></tr>
+      <tr><td><span class="ui">Con varios árboles, el valor</span></td><td>Si hay varios árboles más cortos, qué índice tomar de cada carácter: el <b>máximo</b> (el más favorable), el <b>promedio</b> o el <b>mínimo</b>.</td></tr>
+    </tbody>
+  </table>
+  <figure class="alta">
+    <div class="marco"><img src="../img/b4-sw.png" alt="Los resultados de los pesos sucesivos en Dahlia: longitud con los pesos finales 389.259, longitud sin pesos 98.032, un árbol, tres iteraciones con los pesos estabilizados y 80 por ciento de clados compartidos con pesos iguales; el consenso estricto y la tabla de iteraciones"></div>
+    <figcaption><b>Figura 4.6.</b> Los pesos sucesivos en Dahlia: el resultado, el árbol y las tres iteraciones.</figcaption>
+  </figure>
+  <p>Los recuadros cambian un poco: <span class="ui">Longitud</span> son los pasos con los pesos finales; <span class="ui">Longitud sin pesos</span>, los del primer árbol contados con pesos iguales, comparables con el Bloque 3, e <span class="ui">Iteraciones</span> dice cuántas vueltas dio y si los pesos se estabilizaron. La tabla <span class="ui">Iteraciones</span> da, por vuelta, la longitud ponderada, los árboles y cuántos pesos cambiaron; en lugar de la curva, la tabla de pesos lleva el <span class="ui">Peso final</span> de cada carácter.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · los pesos sucesivos de Dahlia</div>
+    <p>La primera vuelta encuentra los seis árboles de 97.036 pasos del Bloque 3 y reparte pesos nuevos a los 45 caracteres; la segunda encuentra un solo árbol (392.259 pasos ponderados) y cambia 3 pesos; la tercera, el mismo árbol (389.259) sin cambiar ninguno: los pesos se estabilizaron. Al final, 15 caracteres pesan 10 y 9 pesan 0. El árbol elegido mide <b>98.032</b> pasos sin pesos —uno más que los del Bloque 3— y comparte el 80 % de los clados con el consenso de pesos iguales: junta a <i>D. merckii</i> con <i>D. moorei</i> y los pone como hermanos del grupo de <i>D. coccinea</i> y <i>D. pinnata</i>. Es otra hipótesis, no un refinamiento de la anterior; el apoyo del Bloque 7 y las pruebas del Bloque 9 ayudan a decidir entre ellas.</p>
+  </div>
+
+  <!-- 4.6 -->
+  <h2 id="s4-6"><span class="num">4.6</span>La sensibilidad a k</h2>
+  <p>No hay un valor «correcto» de k. Por eso el esquema <span class="ui">Sensibilidad a k</span> repite la búsqueda con pesos implícitos —o extendidos, con la casilla <span class="ui">Con pesos extendidos</span>— para cada valor del campo <span class="ui">Valores de k a probar</span> (hasta 20, separados por espacios o comas). Antes de analizar, la tarjeta dibuja la curva de cada k (figura 4.7).</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b4-curvas.png" alt="Las curvas del peso implícito para k igual a 1, 2, 3, 5, 7, 10, 15, 20, 30 y 50: con k igual a 1 el peso cae a menos de 0.2 con ocho pasos extra; con k igual a 50 se queda cerca de 0.86"></div>
+    <figcaption><b>Figura 4.7.</b> Las curvas de los diez valores de k que se prueban por omisión.</figcaption>
+  </figure>
+  <p>Los resultados son una tabla con una fila por k —la homoplasia ponderada, la longitud sin pesos, los árboles distintos, los clados del consenso estricto y la <b>similitud media con los demás k</b>— y una tabla de clados que marca con un punto en qué valores aparece cada uno; la columna <span class="ui">Con todos</span> señala con ✓ los que aparecen siempre. Debajo se dibuja el consenso del k elegido. Para elegir, la app usa el criterio de Mirande (2009): el k cuyo consenso estricto se parece más, en promedio, a los de los demás k. Si varios empatan, la nota los nombra a todos.</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-sens.png" alt="Los resultados de la sensibilidad a k en Dahlia: la nota dice que los resultados con k de 2 a 50 son igual de parecidos a los demás; la tabla por k, donde k igual a 1 da 98.032 pasos y 16 clados y los demás 97.036 pasos y 15 clados; y el principio de la tabla de clados por k"></div>
+    <figcaption><b>Figura 4.8.</b> La sensibilidad a k en Dahlia con los diez valores por omisión. Las filas resaltadas son los k empatados; la tabla de clados sigue más abajo.</figcaption>
+  </figure>
+  <p>En Dahlia, los nueve valores de k de 2 a 50 dan el mismo consenso estricto, de 15 clados, con árboles de 97.036 pasos; k = 1, el que más castiga la homoplasia, da otro de 16 clados, con árboles de 98.032 pasos y el mismo arreglo de <i>D. merckii</i> y <i>D. moorei</i> que encontraron los pesos sucesivos. La tabla de clados lo resume así:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:2.6in">Clados</th><th>Con qué k aparecen</th></tr></thead>
+    <tbody>
+      <tr><td>13 clados, entre ellos el género, el grupo de <i>D. linearis</i>, el de las arborescentes con <i>D. macdougallii</i>, el de <i>D. coccinea</i> y el de <i>D. pinnata</i></td><td>Con los diez valores (✓): no dependen de k.</td></tr>
+      <tr><td>2 clados grandes: el género sin el grupo de <i>D. linearis</i> (15 especies) y, dentro de él, ese grupo sin <i>D. merckii</i> ni <i>D. moorei</i> (13)</td><td>De k = 2 a k = 50, no con k = 1.</td></tr>
+      <tr><td>3 clados: <i>D. merckii</i> con <i>D. moorei</i>, ese par con 6 especies más, y <i>D. scapigera</i> y <i>D. cardiophylla</i> con 8 más</td><td>Sólo con k = 1.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · qué reportar de los pesos</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> un clado aparece con pesos iguales y con todos los k</td><td><b>entonces</b> no depende de cómo se pesen los caracteres: dilo así.</td></tr>
+      <tr><td><b>Si</b> un clado aparece sólo con algunos k</td><td><b>entonces</b> depende del peso que se dé a la homoplasia; repórtalo con esa salvedad y con los k donde aparece.</td></tr>
+      <tr><td><b>Si</b> vas a dar un solo árbol con pesos implícitos</td><td><b>entonces</b> usa el k que recomienda el criterio de Mirande y menciona la sensibilidad; si hay empate, cualquiera de los empatados da el mismo consenso.</td></tr>
+      <tr><td><b>Si</b> los pesos sucesivos y los implícitos dan árboles distintos</td><td><b>entonces</b> son hipótesis distintas: compáralas con el apoyo (Bloque 7) y con las pruebas de topología (Bloque 9).</td></tr>
+    </tbody></table>
+  </div>
+  <p>El botón <span class="ui">Árboles (Newick)</span>, al pie de los resultados, descarga los árboles del análisis (<code>…_pesos_iw.nwk</code>, <code>…_pesos_eiw.nwk</code> o <code>…_pesos_sw.nwk</code>); con la sensibilidad, el consenso estricto de cada k, cada uno precedido por su valor entre corchetes (<code>…_sensibilidad_k.nwk</code>). El Bloque 10 redacta en los métodos el esquema que se corrió, con sus parámetros y sus referencias.</p>
+
+  <!-- 4.7 -->
+  <h2 id="s4-7"><span class="num">4.7</span>Los avisos de este bloque</h2>
+  <table class="compacta">
+    <thead><tr><th style="width:2.6in">Mensaje</th><th>Qué significa y qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td><i>Primero hace falta una matriz</i></td><td>No hay matriz cargada. <span class="ui">Ir a la matriz</span> lleva al Bloque 2.</td></tr>
+      <tr><td><i>corre el Bloque 3 para comparar</i></td><td>En el recuadro <span class="ui">Frente a pesos iguales</span>: no hay búsqueda con pesos iguales con qué comparar.</td></tr>
+      <tr><td><i>se detuvo sin estabilizarse</i></td><td>Los pesos sucesivos llegaron a 10 vueltas y los pesos seguían cambiando. El resultado es el de la última vuelta; puede oscilar entre dos soluciones.</td></tr>
+      <tr><td><i>Escribe al menos un valor de k</i></td><td>El campo de valores de k está vacío o no tiene números entre 0 y 1000.</td></tr>
+      <tr><td><i>El análisis falló: …</i></td><td>Después de los dos puntos va la causa.</td></tr>
+    </tbody>
+  </table>
+  <p>Mientras analiza, la ventana de espera dice qué está haciendo: <i>«Búsqueda con pesos implícitos»</i>, <i>«Buscando y reponderando…»</i> con los sucesivos, o <i>«k = 3 (3 de 10)»</i> con la sensibilidad, y siempre deja cancelar.</p>
+</section>
+
+</body>
+</html>

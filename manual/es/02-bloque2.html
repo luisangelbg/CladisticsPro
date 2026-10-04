@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario · Capítulo 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  figure.media .marco { width: 78%; }
+  figure.media figcaption { margin-left: 11%; margin-right: 11%; }
+  figure.editor .marco { width: 60%; margin: 0 auto; }
+  figure.editor figcaption { margin-left: 12%; margin-right: 12%; }
+  figure.chica .marco { width: 56%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 16%; margin-right: 16%; }
+  figure.mini .marco { width: 40%; margin: 0 auto; }
+  figure.mini figcaption { margin-left: 22%; margin-right: 22%; }
+  .lado { display: grid; grid-template-columns: 1.85in 1fr; gap: 0.24in; align-items: start; margin: 0.16in 0 0.22in; }
+  .lado figure { margin: 0; }
+  .lado table { margin-top: 0; }
+  .lado.der { grid-template-columns: 1fr 2.4in; align-items: center; }
+  .teclas td:first-child { white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b2" data-pestana="B2" data-orden="2" style="--acento: var(--b2)">
+  <div class="cap-apertura">
+    <div class="cap-num">2</div>
+    <div class="cap-etiqueta">Bloque 2 · Matriz</div>
+    <h1>Matriz: codificar caracteres y estados</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Todo el análisis descansa en la matriz: cada columna es una hipótesis sobre qué estructuras son la misma cosa en distintos taxones. Este bloque la abre, la crea o la recupera; la resume en siete cifras; la deja editar celda por celda como una hoja de cálculo, con un inspector para el enunciado, el tipo, los estados, los costos y las dependencias de cada carácter; guarda una imagen de cada taxón para los cladogramas; revisa la matriz antes de buscar árboles, y la exporta como lista de caracteres o en los formatos de los programas de parsimonia.</p>
+    <ul class="cap-contenido">
+      <li><b>2.1</b>Codificar es proponer homologías</li>
+      <li><b>2.2</b>Abrir o crear una matriz</li>
+      <li><b>2.3</b>El resumen de la matriz</li>
+      <li><b>2.4</b>El editor: la cuadrícula</li>
+      <li><b>2.5</b>El inspector: carácter, celda y taxón</li>
+      <li><b>2.6</b>Las imágenes de los taxones</li>
+      <li><b>2.7</b>El control de calidad</li>
+      <li><b>2.8</b>La lista de caracteres y exportar</li>
+      <li><b>2.9</b>Los avisos de este bloque</li>
+    </ul>
+  </div>
+
+  <!-- 2.1 -->
+  <h2 id="s2-1"><span class="num">2.1</span>Codificar es proponer homologías</h2>
+  <p class="lead">Una matriz de caracteres no es una tabla de observaciones neutrales: es un conjunto de <b>conjeturas</b>. Al escribir que dos especies tienen el estado «glandulares» en el carácter «Tipo de tricoma del tallo» se afirma que esos tricomas son la misma estructura, heredada de un antepasado común. Es lo que de Pinna (1991) llamó <i>homología primaria</i>.</p>
+  <p>El análisis cladístico pone a prueba esas conjeturas todas a la vez. El árbol más corto es el que menos homologías primarias obliga a rechazar; las que sobreviven, porque aparecen una sola vez en el árbol y definen un grupo, son <i>homologías secundarias</i> o sinapomorfías; las que no, son homoplasia: convergencias, paralelismos o reversiones (Patterson 1982). Por eso la calidad del cladograma depende, antes que de cualquier algoritmo, de cómo se escribió cada carácter.</p>
+  <figure>
+    <svg viewBox="0 0 670 292" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img"
+         aria-label="Arriba, un carácter dividido en sus partes: el número 6, la variable tipo de tricoma, el localizador del tallo y los dos estados excluyentes, simples y glandulares. Abajo, cuatro taxones con los caracteres 5 y 6: el taxón A no tiene tricomas y lleva un guion en el carácter 6, porque su tipo no existe; B y C tienen tricomas simples y glandulares; D tiene tricomas, pero no se sabe de qué tipo, y lleva un signo de interrogación.">
+      <defs>
+        <pattern id="rayas" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="6" height="6" fill="#f4f1ef"/><line x1="0" y1="0" x2="0" y2="6" stroke="#cfc6c1" stroke-width="2"/>
+        </pattern>
+      </defs>
+      <text x="8" y="16" font-size="11.5" font-weight="600" fill="#14544f">A · Un carácter, por partes</text>
+      <g font-family="Crimson Pro, serif" font-size="15" text-anchor="middle">
+        <rect x="8" y="30" width="40" height="34" rx="7" fill="#fff" stroke="#8a817c"/>
+        <text x="28" y="52" font-weight="600" fill="#2b2523">6.</text>
+        <rect x="58" y="30" width="150" height="34" rx="7" fill="#e3f1ef" stroke="#1f7a72"/>
+        <text x="133" y="52" fill="#14544f">Tipo de tricoma</text>
+        <rect x="216" y="30" width="100" height="34" rx="7" fill="#f6ece8" stroke="#9a3b26"/>
+        <text x="266" y="52" fill="#7a2c1b">del tallo</text>
+        <rect x="340" y="30" width="128" height="34" rx="7" fill="#dbeaf5" stroke="#2d74b0"/>
+        <text x="404" y="52" fill="#1d4a72">(0) simples</text>
+        <rect x="476" y="30" width="160" height="34" rx="7" fill="#f8dcc8" stroke="#c96f22"/>
+        <text x="556" y="52" fill="#7a4210">(1) glandulares</text>
+      </g>
+      <g font-size="10.5" fill="#6a625e" text-anchor="middle">
+        <text x="28" y="82">número</text>
+        <text x="133" y="82">variable: qué se compara</text>
+        <text x="266" y="82">localizador: dónde</text>
+        <path d="M342 72 v6 h292 v-6" fill="none" stroke="#8a817c"/>
+        <text x="488" y="94">estados: excluyentes; cada taxón está en uno</text>
+      </g>
+      <line x1="8" y1="112" x2="662" y2="112" stroke="#e7dfdb"/>
+      <text x="8" y="134" font-size="11.5" font-weight="600" fill="#14544f">B · Ausente no es lo mismo que desconocido</text>
+      <g font-size="10.5" fill="#6a625e">
+        <text x="14" y="158">Taxón</text>
+        <text x="151" y="158" text-anchor="middle">5. Tricomas del tallo</text>
+        <text x="267" y="158" text-anchor="middle">6. Tipo de tricoma</text>
+      </g>
+      <g font-size="12" text-anchor="middle" font-family="Consolas, monospace">
+        <text x="14" y="182" text-anchor="start" font-family="Jost, sans-serif" font-style="italic" fill="#2b2523">Taxón A</text>
+        <rect x="96" y="166" width="110" height="24" rx="4" fill="#dbeaf5"/><text x="151" y="183" fill="#1d4a72">0 · ausentes</text>
+        <rect x="212" y="166" width="110" height="24" rx="4" fill="url(#rayas)" stroke="#9a3b26" stroke-width="1.6"/><text x="267" y="183" fill="#2b2523" font-weight="700">–</text>
+        <text x="14" y="210" text-anchor="start" font-family="Jost, sans-serif" font-style="italic" fill="#2b2523">Taxón B</text>
+        <rect x="96" y="194" width="110" height="24" rx="4" fill="#f8dcc8"/><text x="151" y="211" fill="#7a4210">1 · presentes</text>
+        <rect x="212" y="194" width="110" height="24" rx="4" fill="#dbeaf5"/><text x="267" y="211" fill="#1d4a72">0 · simples</text>
+        <text x="14" y="238" text-anchor="start" font-family="Jost, sans-serif" font-style="italic" fill="#2b2523">Taxón C</text>
+        <rect x="96" y="222" width="110" height="24" rx="4" fill="#f8dcc8"/><text x="151" y="239" fill="#7a4210">1 · presentes</text>
+        <rect x="212" y="222" width="110" height="24" rx="4" fill="#f8dcc8"/><text x="267" y="239" fill="#7a4210">1 · glandulares</text>
+        <text x="14" y="266" text-anchor="start" font-family="Jost, sans-serif" font-style="italic" fill="#2b2523">Taxón D</text>
+        <rect x="96" y="250" width="110" height="24" rx="4" fill="#f8dcc8"/><text x="151" y="267" fill="#7a4210">1 · presentes</text>
+        <rect x="212" y="250" width="110" height="24" rx="4" fill="#fff" stroke="#2d74b0" stroke-width="1.6"/><text x="267" y="267" fill="#2b2523" font-weight="700">?</text>
+      </g>
+      <g font-size="10.8" fill="#2b2523">
+        <line x1="324" y1="178" x2="348" y2="178" stroke="#9a3b26" stroke-width="1.4"/>
+        <text x="354" y="174"><tspan font-weight="600" fill="#7a2c1b">«–» inaplicable.</tspan> A no tiene tricomas: preguntar</text>
+        <text x="354" y="188">de qué tipo son no tiene sentido. El 6 depende del 5.</text>
+        <text x="354" y="222" fill="#6a625e">B y C tienen tricomas y se ven: simples o glandulares.</text>
+        <line x1="324" y1="262" x2="348" y2="262" stroke="#2d74b0" stroke-width="1.4"/>
+        <text x="354" y="258"><tspan font-weight="600" fill="#1d4a72">«?» desconocido.</tspan> D sí tiene tricomas, pero</text>
+        <text x="354" y="272">el ejemplar no deja ver de qué tipo son.</text>
+      </g>
+    </svg>
+    <figcaption><b>Figura 2.1.</b> Arriba, las partes de un carácter bien escrito: dice dónde mirar y qué comparar, y sus estados no se enciman. Abajo, la diferencia entre «–» y «?», con los caracteres 5 y 6 de Dahlia en cuatro taxones de ejemplo.</figcaption>
+  </figure>
+  <p>Sereno (2007) propone escribir cada carácter con la misma estructura: un <b>localizador</b> que dice dónde mirar (el tallo, el folíolo, la lígula), una <b>variable</b> que dice qué se compara (el tipo de tricoma, el color, la forma) y unos <b>estados</b> mutuamente excluyentes. La app guarda esa estructura en el campo <span class="ui">Enunciado del carácter</span> y en los nombres de los estados, y la reproduce tal cual en la lista de caracteres (sección 2.8) y en los métodos del Bloque 10.</p>
+  <p>Dos tipos de duda merecen símbolos distintos. El <b>«?»</b> dice <i>existe, pero no se sabe cómo es</i>: el ejemplar está roto, la estructura no se conserva o no se ha observado. El <b>«–»</b> dice <i>no existe</i>: el carácter no puede tener estado porque la estructura de la que habla falta. Si un taxón sin tricomas llevara «?» en el tipo de tricoma, el análisis podría asignarle «simples» o «glandulares» —lo que alargue menos el árbol— y fabricar una semejanza que no está en la planta.</p>
+  <p>Con «–», en cambio, el algoritmo de inaplicables (Brazeau et al. 2019) sólo cuenta los cambios donde la estructura existe. La forma recomendada de codificar una estructura que falta en algunos taxones es la <b>codificación contingente</b>: un carácter de presencia (el 5, «Tricomas del tallo») y, para cada rasgo de la estructura, un carácter que depende de él (el 6 y el 7) con «–» donde no aplica (Strong y Lipscomb 1999).</p>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · qué tipo darle a un carácter</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> los estados no tienen un orden que puedas defender</td><td><b>entonces</b> <i>No ordenado</i>, el tipo por omisión: cualquier cambio cuesta un paso.</td></tr>
+      <tr><td><b>Si</b> los estados forman una serie con intermedios argumentados (hoja simple → pinnada → bipinnada → tripinnada)</td><td><b>entonces</b> <i>Ordenado</i>: pasar de simple a bipinnada cuesta dos pasos. Escribe en la nota del carácter por qué.</td></tr>
+      <tr><td><b>Si</b> unos cambios son más fáciles que otros, o la ida no cuesta lo mismo que la vuelta</td><td><b>entonces</b> <i>Matriz de pasos</i>, con un costo para cada par de estados.</td></tr>
+      <tr><td><b>Si</b> es una medida (una altura, una longitud) y cortarla en clases sería arbitrario</td><td><b>entonces</b> <i>Continuo</i>, con el valor o el intervalo de cada taxón.</td></tr>
+      <tr><td><b>Si</b> la estructura falta en algunos taxones</td><td><b>entonces</b> un carácter de presencia y otros que dependen de él, con «–» donde no aplica.</td></tr>
+      <tr><td><b>Si</b> un taxón presenta dos estados (una población variable)</td><td><b>entonces</b> un polimorfismo <code>(01)</code>; si no se sabe cuál de los dos tiene, <code>{01}</code>; si no se sabe nada, «?».</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 2.2 -->
+  <h2 id="s2-2"><span class="num">2.2</span>Abrir o crear una matriz</h2>
+  <p>La primera tarjeta del bloque (figura 2.2) reúne todas las formas de tener una matriz en la app. Arriba, las tres <b>matrices de práctica</b>; abajo, <b>tus datos</b>. Al leer una matriz aparece una línea verde con su tamaño y su origen —<i>«Matriz leída: 20 taxones × 45 caracteres · ejemplo_dahlia.nex»</i>— y, si algo se interpretó de una manera que conviene saber, las notas de la lectura.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b2-abrir.png" alt="La tarjeta Abrir o crear una matriz: los tres ejemplos simulados (Bursera, Dahlia y la matriz grande), las tres formas de traer tus datos (abrir un archivo, pegar texto, matriz nueva), el mensaje de matriz leída y el aviso de que es una matriz simulada"></div>
+    <figcaption><b>Figura 2.2.</b> La tarjeta para abrir o crear una matriz, recién cargada la matriz de práctica Dahlia. El recuadro azul recuerda que es una matriz simulada.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.75in">Opción</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><b>Ejemplos simulados</b></td><td>Tres matrices de práctica: <i>Bursera</i> (8 × 12, binaria, para la búsqueda exacta), <i>Dahlia</i> (20 × 45, con todos los tipos de carácter) y la <i>Matriz grande</i> (120 × 300, para medir las búsquedas heurísticas). Son simuladas sobre un árbol conocido: los nombres de las especies son reales, los estados no.</td></tr>
+      <tr><td><span class="ui">Abrir un archivo</span></td><td>Clic para elegirlo o soltarlo sobre la zona punteada. Lee <code>.nex</code>, <code>.ss</code>, <code>.csv</code>, <code>.tsv</code>, <code>.txt</code> y los proyectos <code>.json</code> que escribe la propia app. El formato se reconoce por el contenido, no por la extensión.</td></tr>
+      <tr><td><span class="ui">Pegar texto</span></td><td>Abre un cuadro donde se pega una matriz copiada de un artículo, de un archivo o de una hoja de cálculo; <span class="ui">Leer</span> la interpreta con las mismas reglas que un archivo.</td></tr>
+      <tr><td><span class="ui">Matriz nueva</span></td><td>Pide el número de <span class="ui">Taxones</span> (de 3 a 2000; 10 por omisión) y de <span class="ui">Caracteres</span> (de 1 a 5000; 20 por omisión). <span class="ui">Crear</span> la arma con todas las celdas en «?», los taxones llamados «Taxón 1», «Taxón 2»… y los caracteres sin enunciado, lista para codificar en el editor.</td></tr>
+      <tr><td><span class="ui">Recuperar la última sesión</span></td><td>Sólo aparece si el navegador guardó una matriz antes. Muestra su título, su tamaño y la fecha en que se guardó; un clic la vuelve a cargar.</td></tr>
+    </tbody>
+  </table>
+  <p>Los tres formatos de texto que entran son los mismos que salen (sección 2.8), y cada uno guarda cosas distintas:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.3in">Formato</th><th>Lo que la app lee</th></tr></thead>
+    <tbody>
+      <tr><td><b>NEXUS</b><br>(<code>.nex</code>)</td><td>Los bloques <code>TAXA</code>, <code>CHARACTERS</code> o <code>DATA</code> (estándar, continuos o secuencias; intercalados o no), los nombres de caracteres y estados (<code>CHARSTATELABELS</code>, <code>CHARLABELS</code>, <code>STATELABELS</code>), los supuestos (<code>TYPESET</code>, <code>WTSET</code>, <code>EXSET</code>, matrices de pasos <code>USERTYPE</code>, <code>CHARSET</code>) y los árboles (<code>TREES</code>, con <code>TRANSLATE</code>). Lo que el estándar no prevé —el grupo externo, las dependencias, las unidades, las notas, los taxones inactivos— va en un bloque propio, <code>CLADISTICSPRO</code>, que los demás programas ignoran sin error.</td></tr>
+      <tr><td><b>xread</b><br>(<code>.ss</code>)</td><td>El formato de matriz de los programas clásicos de parsimonia: la palabra <code>xread</code>, un título opcional, el número de caracteres y de taxones, las filas (con <code>[01]</code> para los polimorfismos) y las particiones <code>&amp;[num]</code> y <code>&amp;[cont]</code>. Después, <code>ccode</code> (<code>+</code> ordenado, <code>-</code> no ordenado, <code>[</code> inactivo, <code>]</code> activo, <code>/n</code> peso), <code>cnames</code>, <code>smatrix</code> (matrices de pasos), <code>outgroup</code> y los árboles de <code>tread</code>.</td></tr>
+      <tr><td><b>Tabla</b><br>(<code>.csv</code>, <code>.tsv</code>, <code>.txt</code>)</td><td>Separada por comas, punto y coma o tabuladores. Primera fila: el encabezado, con los caracteres; primera columna: los taxones. Filas opcionales que empiezan con <code># estados</code> (nombres separados por <code>|</code>), <code># tipo</code>, <code># peso</code>, <code># depende</code> (<code>5=1</code>) o <code># activo</code>. Una columna con decimales o intervalos se lee como continua.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>El grupo externo, si el archivo no lo dice</div>
+    <p>Cualquiera que sea el formato, si el archivo no declara un grupo externo la app marca como tal al <b>primer taxón</b>. Revísalo en el inspector del taxón (sección 2.5): el grupo externo decide la raíz de todos los árboles, la polaridad de cada cambio y, con matrices de pasos asimétricas, la longitud misma del árbol.</p>
+  </div>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Cambiar la matriz borra los resultados</div>
+    <p>Los árboles, los pesos, el cladograma, el diagnóstico, el apoyo, los consensos y las hipótesis (Bloques 3 a 9) se calculan sobre una matriz concreta. Al cargar otra, o al editar una sola celda, todos se descartan y hay que volver a buscar. Es a propósito: un cladograma que ya no corresponde a su matriz es peor que ninguno. La matriz, en cambio, nunca se pierde: el navegador la guarda sola un instante después de cada cambio, y el botón <span class="ui">Recuperar la última sesión</span> la devuelve al día siguiente.</p>
+  </div>
+
+  <!-- 2.3 -->
+  <h2 id="s2-3"><span class="num">2.3</span>El resumen de la matriz</h2>
+  <p>En cuanto hay una matriz, la tarjeta <span class="ui">Resumen de la matriz</span> la describe en siete recuadros. Es lo primero que conviene leer: un número fuera de lo esperado —más faltantes de los que creías, inaplicables sin dependencias, un grupo externo que no elegiste— avisa de un problema antes de que se convierta en un árbol extraño.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b2-resumen.png" alt="El resumen de la matriz Dahlia: título, 20 taxones todos activos, 45 caracteres por tipo, 43 informativos, 4.6 % de datos faltantes, 62 inaplicables en 5 caracteres dependientes, 15 polimorfismos y 2 taxones de grupo externo"></div>
+    <figcaption><b>Figura 2.3.</b> El resumen de la matriz de práctica Dahlia.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.35in">Recuadro</th><th>Qué cuenta</th><th style="width:1.45in">En Dahlia</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Título</span></td><td>El nombre de la matriz; lo usan las figuras, los métodos y los nombres de los archivos que se descargan. Se cambia aquí mismo.</td><td>Dahlia (didáctico)</td></tr>
+      <tr><td><span class="ui">Taxones</span></td><td>Cuántos hay y cuántos están inactivos (fuera del análisis).</td><td>20, todos activos</td></tr>
+      <tr><td><span class="ui">Caracteres</span></td><td>Cuántos hay de cada tipo.</td><td>45: 38 no ordenados, 3 ordenados, 1 matriz de pasos, 3 continuos</td></tr>
+      <tr><td><span class="ui">Informativos</span></td><td>Los caracteres cuya longitud cambia de un árbol a otro: los únicos que eligen entre árboles.</td><td>43</td></tr>
+      <tr><td><span class="ui">Datos faltantes</span></td><td>El porcentaje de celdas con «?».</td><td>4.6 % (41 celdas)</td></tr>
+      <tr><td><span class="ui">Inaplicables</span></td><td>Las celdas con «–» y cuántos caracteres declaran de cuál dependen.</td><td>62, en 5 caracteres dependientes</td></tr>
+      <tr><td><span class="ui">Polimorfismos</span></td><td>Las celdas con más de un estado.</td><td>15</td></tr>
+      <tr><td><span class="ui">Grupo externo</span></td><td>Cuántos taxones lo forman y cuáles son.</td><td>2: <i>Bidens pilosa</i> y <i>Cosmos bipinnatus</i></td></tr>
+    </tbody>
+  </table>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · qué hace informativo a un carácter</div>
+    <p>Un carácter discreto es informativo para la parsimonia cuando al menos dos de sus estados aparecen cada uno en dos taxones o más. Si un estado aparece en un solo taxón (una autapomorfía), ese cambio cuesta un paso en cualquier árbol: el carácter suma longitud, pero no prefiere ningún árbol; y como su CI es 1, sube el índice de consistencia de toda la matriz sin decir nada del árbol (Kitching et al. 1998). En Dahlia, los dos caracteres no informativos son el 34, «Tipo de ala», y el 41, «Látex»; el control de calidad los señala (sección 2.7). No hace falta quitarlos: no cambian qué árbol es el más corto. Hay que recordarlos al comparar el CI con el de otros estudios: un CI calculado con autapomorfías parece mejor de lo que es.</p>
+  </div>
+
+  <!-- 2.4 -->
+  <h2 id="s2-4"><span class="num">2.4</span>El editor: la cuadrícula</h2>
+  <p>La tarjeta <span class="ui">Editor</span> es una hoja de cálculo hecha para matrices morfológicas: los taxones en filas, los caracteres en columnas, cada celda del color de su estado y, a la derecha, el inspector de lo que esté seleccionado (sección 2.5). Funciona igual con 20 taxones que con 2000: sólo se dibuja la parte visible.</p>
+  <figure class="editor">
+    <div class="marco"><img src="../img/b2-editor.png" alt="El editor con la matriz Dahlia: la barra de herramientas, la cuadrícula con los taxones en filas y los caracteres en columnas, la celda del carácter 6 de Dahlia imperialis seleccionada con un guion, la línea que la describe y, a la derecha, el inspector del carácter 6, que depende del carácter 5, y del taxón 4"></div>
+    <figcaption><b>Figura 2.4.</b> El editor con la celda de <i>Dahlia imperialis</i> en el carácter 6 seleccionada. Las columnas 6 y 7 llevan la marca ↳ de los caracteres dependientes; la 8, la marca ≤ de los ordenados. Las celdas rayadas son «–».</figcaption>
+  </figure>
+  <p>La barra de herramientas tiene, de izquierda a derecha: <span class="ui">↶ Deshacer</span> y <span class="ui">↷ Rehacer</span> (al pasar el ratón dicen qué van a deshacer, por ejemplo <i>«Deshacer: Pegar»</i>); <span class="ui">+ Taxón</span> y <span class="ui">+ Carácter</span>, que añaden uno al final; <span class="ui">Eliminar la selección</span>, que borra las columnas o filas enteras seleccionadas; <span class="ui">Ordenar taxones A–Z</span>, que deja primero al grupo externo y luego a los demás en orden alfabético; los botones <span class="ui">−</span> y <span class="ui">+</span>, que achican o agrandan la cuadrícula, y la casilla <span class="ui">Nombres de estado en las celdas</span>, que cambia los símbolos por los nombres («glandulares» en vez de «1») para revisar la codificación sin consultar la lista.</p>
+  <p>Cada parte de la cuadrícula dice algo:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.75in">Lo que se ve</th><th>Qué significa</th></tr></thead>
+    <tbody>
+      <tr><td>Encabezado de columna</td><td>El número del carácter y, debajo, sus marcas: <b>≤</b> ordenado, <b>▦</b> matriz de pasos, <b>∼</b> continuo, <b>↳</b> depende de otro carácter y <b>×2</b> (o el número que sea) si su peso no es 1. Al pasar el ratón muestra el enunciado. Un carácter inactivo se ve atenuado.</td></tr>
+      <tr><td>Nombre de fila</td><td>El número y el nombre del taxón; la etiqueta <b>GE</b> marca el grupo externo. Un taxón inactivo se ve atenuado.</td></tr>
+      <tr><td>Color de la celda</td><td>Un color por estado, el mismo en toda la app: 0 azul claro, 1 durazno, 2 verde, 3 amarillo… Una celda blanca es «?»; una rayada, «–».</td></tr>
+      <tr><td><code>(01)</code> · <code>{01}</code></td><td>Un polimorfismo (el taxón tiene los dos estados) y una incertidumbre (tiene uno de los dos, no se sabe cuál). El análisis los lee igual —puede tomar cualquiera de ellos, el que alargue menos el árbol— pero la app los distingue para que un archivo salga como entró.</td></tr>
+      <tr><td>Valores continuos</td><td>Un número (<code>12.5</code>) o un intervalo (<code>150.9-192</code>), con las unidades del carácter.</td></tr>
+      <tr><td>Línea bajo la cuadrícula</td><td>Describe la celda seleccionada en palabras: el taxón, el carácter y el estado con su nombre, por ejemplo <i>«Dahlia imperialis · 6. Tipo de tricoma del tallo · – inaplicable»</i>.</td></tr>
+    </tbody>
+  </table>
+  <p>La cuadrícula se maneja con el teclado como una hoja de cálculo. Basta hacer clic en una celda y escribir:</p>
+  <table class="compacta teclas">
+    <thead><tr><th style="width:1.75in">Tecla</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><code>0</code>–<code>9</code>, <code>A</code>–<code>T</code></td><td>Pone ese estado en la celda o en toda la selección (hasta 30 estados por carácter). En una columna continua no hace nada: el valor se escribe con <code>Intro</code>.</td></tr>
+      <tr><td><code>?</code> · <code>-</code></td><td>Faltante e inaplicable. <code>Supr</code> y <code>Retroceso</code> también dejan la celda en «?».</td></tr>
+      <tr><td><code>Ctrl</code> + número</td><td>Suma ese estado a la celda o lo quita: sobre un 0, <code>Ctrl</code>+<code>1</code> deja <code>(01)</code>; otra vez <code>Ctrl</code>+<code>1</code>, vuelve a 0.</td></tr>
+      <tr><td><code>Intro</code> o <code>F2</code></td><td>Abre la celda para escribir texto libre: <code>{01}</code>, <code>(012)</code>, <code>2.5</code> o <code>2.1-3.4</code>. <code>Intro</code> guarda y baja; <code>Tab</code> guarda y avanza a la derecha; <code>Esc</code> cancela. Doble clic hace lo mismo.</td></tr>
+      <tr><td>Flechas · <code>RePág</code> · <code>AvPág</code></td><td>Mueven la selección una celda o una pantalla. Con <code>Mayús</code>, la extienden.</td></tr>
+      <tr><td><code>Inicio</code> · <code>Fin</code></td><td>Van al primer o al último carácter de la fila; con <code>Ctrl</code>, a la primera o a la última celda de la matriz.</td></tr>
+      <tr><td><code>Ctrl</code>+<code>C</code> · <code>Ctrl</code>+<code>X</code> · <code>Ctrl</code>+<code>V</code></td><td>Copian, cortan y pegan como texto separado por tabuladores, el mismo de una hoja de cálculo. Cortar deja las celdas en «?».</td></tr>
+      <tr><td><code>Ctrl</code>+<code>A</code> · <code>Ctrl</code>+<code>Z</code> · <code>Ctrl</code>+<code>Y</code></td><td>Seleccionan toda la matriz, deshacen y rehacen.</td></tr>
+      <tr><td>Clic en un número o un nombre</td><td>Selecciona la columna entera (el carácter) o la fila entera (el taxón); arrastrar o <code>Mayús</code>+clic selecciona varias.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · traer una columna de una hoja de cálculo</div>
+    <p>En la hoja de cálculo, se copian las 20 celdas de un carácter nuevo, una debajo de otra. En la app, <span class="ui">+ Carácter</span> añade la columna 46; se hace clic en su primera celda y <code>Ctrl</code>+<code>V</code>. Cada valor cae en su fila. Tres casos útiles: un solo valor pegado sobre una selección la llena entera; una tira de símbolos sin separar, como <code>0110?</code>, se reparte en celdas consecutivas hacia la derecha, y lo que no se puede leer se deja como estaba, con el aviso <i>«N celdas no se pudieron leer y se dejaron como estaban»</i>. Todo pegado se deshace de una vez con <code>Ctrl</code>+<code>Z</code>.</p>
+  </div>
+
+  <!-- 2.5 -->
+  <h2 id="s2-5"><span class="num">2.5</span>El inspector: carácter, celda y taxón</h2>
+  <p>A la derecha de la cuadrícula, el inspector muestra todo lo que se sabe de la celda seleccionada, en dos partes: arriba su <b>carácter</b> y abajo su <b>taxón</b> (figura 2.4). Lo que se cambia aquí se ve al instante en la cuadrícula y se puede deshacer con <span class="ui">↶ Deshacer</span>, igual que una celda. La figura 2.5 muestra la parte del carácter para el 25, «Color de la lígula», el único de Dahlia con matriz de pasos.</p>
+  <div class="lado">
+    <figure>
+      <div class="marco"><img src="../img/b2-pasos.png" alt="El inspector del carácter 25, Color de la lígula: enunciado, tipo matriz de pasos, peso 1, activo, cuatro estados (blanco, rosado, morado y rojo) con sus botones, la tabla de costos de cuatro por cuatro, la sección de inaplicables, la nota y los botones para insertar, duplicar, mover y eliminar"></div>
+      <figcaption><b>Figura 2.5.</b> El inspector del carácter 25.</figcaption>
+    </figure>
+    <table class="compacta">
+      <thead><tr><th style="width:1.2in">Campo</th><th>Qué hace</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ui">Carácter N</span> ‹ ›</td><td>El número del carácter; las flechas pasan al anterior o al siguiente.</td></tr>
+        <tr><td><span class="ui">Enunciado</span></td><td>Localizador y variable (sección 2.1), por ejemplo «Hoja: división».</td></tr>
+        <tr><td><span class="ui">Tipo</span> · <span class="ui">Peso</span></td><td>No ordenado, ordenado, matriz de pasos o continuo; el peso multiplica sus pasos (1 por omisión, 0 lo anula sin desactivarlo).</td></tr>
+        <tr><td><span class="ui">Activo</span></td><td>Sin la palomita, el carácter se queda en la matriz pero no entra en el análisis.</td></tr>
+        <tr><td><span class="ui">Estados</span></td><td>Cada estado con su símbolo y su nombre. <b>▣</b> le asigna una imagen; <b>↑</b> <b>↓</b> lo mueven y recodifican las celdas; <b>✕</b> lo quita (sus celdas quedan en «?», previa confirmación). <span class="ui">+ Estado</span> añade uno.</td></tr>
+        <tr><td>Costos</td><td>Sólo en matrices de pasos: el costo de pasar del estado de la fila (antepasado) al de la columna (descendiente). <span class="ui">Todos 1</span>, <span class="ui">Como ordenado</span> y <span class="ui">Hacer simétrica</span> la llenan de golpe.</td></tr>
+        <tr><td><span class="ui">Inaplicable cuando…</span></td><td>De qué carácter depende y en qué estados existe. <span class="ui">Poner «–» donde no aplica</span> corrige la columna.</td></tr>
+        <tr><td><span class="ui">Nota</span></td><td>La fuente, el criterio de codificación, por qué se ordenó. Viaja en el NEXUS y en el proyecto.</td></tr>
+        <tr><td>Botones</td><td><span class="ui">Insertar después</span>, <span class="ui">Duplicar</span>, <span class="ui">← Mover</span>, <span class="ui">Mover →</span> y <span class="ui">Eliminar</span>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>Los costos de una matriz de pasos</h3>
+  <p>En la tabla de costos, la fila es el estado del antepasado y la columna el del descendiente; la diagonal vale 0. En el carácter 25 de Dahlia, pasar de blanco (0) a rojo (3) cuesta 2 pasos, pero volver de rojo a blanco cuesta 3: la matriz es <b>asimétrica</b>, y entonces la raíz importa, porque el mismo árbol puede medir distinto según dónde empiece (Sankoff 1975). Los tres botones son atajos: <span class="ui">Todos 1</span> la vuelve equivalente a un carácter no ordenado; <span class="ui">Como ordenado</span> pone como costo la distancia entre estados (de 0 a 3, tres pasos), y <span class="ui">Hacer simétrica</span> copia cada costo de ida en el de vuelta. Si un cambio directo cuesta más que pasar por un estado intermedio, el control de calidad lo advierte: el análisis tomará siempre el camino barato.</p>
+  <h3>Los caracteres continuos</h3>
+  <p>Con el tipo <i>Continuo</i>, la lista de estados se cambia por el campo <span class="ui">Unidad</span> (cm, mm, número de flores…), y cada celda lleva un valor o un intervalo: en Dahlia, la altura de <i>Dahlia imperialis</i>, la dalia arbórea, va de 766.9 a 976.1 cm. El costo de un cambio es la diferencia entre valores, sin cortarlos en clases (Goloboff et al. 2006). Como un carácter continuo pesa tanto como su escala —una diferencia de 100 cm cuenta cien veces más que una de 1 cm—, conviene expresarlo en una unidad razonable o ajustarle el peso. Cambiar un carácter de discreto a continuo, o al revés, borra los valores de su columna; la app pide confirmación antes.</p>
+  <h3>Los caracteres dependientes</h3>
+  <p>En la sección <span class="ui">Inaplicable cuando…</span>, <span class="ui">Depende del carácter</span> dice de qué carácter depende este, y las casillas de <span class="ui">Existe sólo si el carácter N está en</span>, en qué estados existe. En la figura 2.4, el carácter 6 depende del 5 y sólo existe si el 5 está en «presentes». La dependencia no cambia el análisis —el algoritmo de inaplicables lee directamente los «–»—, pero permite que el control de calidad revise que cada «–» esté donde debe y que no falte ninguno. <span class="ui">Poner «–» donde no aplica</span> hace la corrección en un clic: pone «–» donde la estructura no existe y avisa cuántas celdas cambió (<i>«N celdas corregidas»</i>) o que <i>«Todo estaba en su lugar»</i>.</p>
+  <h3>El taxón</h3>
+  <p>La parte de abajo del inspector es la del taxón de la fila seleccionada: su <span class="ui">Nombre</span>; la casilla <span class="ui">Grupo externo (enraíza el árbol)</span>, que puede marcarse en varios; <span class="ui">Activo (entra en el análisis)</span>; una <span class="ui">Nota</span> para el ejemplar de referencia o la fuente; <span class="ui">Añadir una imagen…</span> (sección 2.6), y los botones <span class="ui">Insertar debajo</span>, <span class="ui">Duplicar</span>, <span class="ui">↑ Mover</span>, <span class="ui">↓ Mover</span> y <span class="ui">Eliminar</span>. La app no deja eliminar el último carácter ni bajar de tres taxones, el mínimo para que haya más de un árbol posible.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Desactivar en vez de borrar</div>
+    <p>Un taxón o un carácter inactivo se queda en la matriz, con todos sus datos, pero el análisis lo ignora. Es la forma limpia de probar qué pasa sin un taxón fragmentario o sin un carácter dudoso: se desactiva, se busca, se comparan los árboles y se vuelve a activar. El NEXUS guarda los caracteres inactivos como <code>EXSET</code> y los taxones inactivos en el bloque propio de la app.</p>
+  </div>
+  <h3>Varios caracteres a la vez</h3>
+  <div class="lado der">
+  <p style="margin:0">Al seleccionar varias columnas enteras —clic en el número de la primera y <code>Mayús</code>+clic en el de la última—, el inspector cambia a la edición en grupo (figura 2.6): un <span class="ui">Tipo para todos</span> y un <span class="ui">Peso para todos</span> que se aplican con <span class="ui">Aplicar</span>, y los botones <span class="ui">Desactivar</span>, <span class="ui">Activar</span> y <span class="ui">Eliminar</span>. Sirve, por ejemplo, para dar peso 2 a todos los caracteres florales o para desactivar de una vez un bloque de caracteres dudosos.</p>
+  <figure>
+    <div class="marco"><img src="../img/b2-seleccion.png" alt="El inspector con los caracteres 1 a 5 seleccionados: tipo para todos, peso para todos y los botones aplicar, desactivar, activar y eliminar"></div>
+    <figcaption><b>Figura 2.6.</b> La edición en grupo, con los caracteres 1 a 5 seleccionados.</figcaption>
+  </figure>
+  </div>
+
+  <!-- 2.6 -->
+  <h2 id="s2-6"><span class="num">2.6</span>Las imágenes de los taxones</h2>
+  <p>Un cladograma con una foto o un dibujo junto a cada nombre se lee de un vistazo: el lector ve las plantas, no sólo sus nombres. La tarjeta <span class="ui">Imágenes de los taxones</span> guarda <b>una imagen por taxón</b>, encuadrada en un cuadrado como se verá junto a su nombre en los cladogramas de los Bloques 5 y 10. Arriba dice cuántos taxones tienen ya su imagen confirmada; cada taxón tiene su recuadro, con la etiqueta <b>lista</b>, <b>sin confirmar</b> o <b>sin imagen</b>.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b2-imagenes.png" alt="La galería de imágenes de los taxones de Dahlia: doce taxones con una flor dibujada y la etiqueta lista, y ocho recuadros punteados con un signo más y la etiqueta sin imagen"></div>
+    <figcaption><b>Figura 2.7.</b> La galería con 12 de los 20 taxones de Dahlia con imagen. Las flores son dibujos esquemáticos hechos para este manual, no retratos de las especies.</figcaption>
+  </figure>
+  <p>Hay dos maneras de añadir imágenes. <b>Una por una</b>: clic en el recuadro de un taxón (o <span class="ui">Añadir una imagen…</span> en el inspector del taxón) abre el editor de la figura 2.8. <b>Varias a la vez</b>: <span class="ui">Añadir varias (por nombre de archivo)</span> pide un grupo de archivos y empareja cada uno con el taxón de su nombre —<code>Dahlia_coccinea.jpg</code> va con <i>Dahlia coccinea</i>; los guiones bajos, las mayúsculas y la extensión no importan, y basta con que el nombre del taxón esté dentro del nombre del archivo—. Una ventana muestra cada archivo con el taxón que le tocó, para corregir lo que haga falta, y pide un crédito y una licencia comunes.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b2-imagen-editor.png" alt="El editor de la imagen de Dahlia coccinea: la imagen encuadrada en un cuadrado, los controles para acercar y mover a lo ancho y a lo alto, el crédito, la licencia, la casilla de confirmación y los botones guardar, quitar la imagen y cancelar"></div>
+    <figcaption><b>Figura 2.8.</b> El editor de la imagen de un taxón.</figcaption>
+  </figure>
+  <p>En el editor, la imagen se <b>encuadra</b> arrastrándola con el ratón o con los controles <span class="ui">Acercar</span> (hasta cuatro veces), <span class="ui">Mover a lo ancho</span> y <span class="ui">Mover a lo alto</span>: lo que queda dentro del cuadrado es lo que se dibujará. <span class="ui">Elegir otra imagen…</span> la cambia. Debajo van el <span class="ui">Crédito (autor, colección)</span> y la <span class="ui">Licencia</span>: <i>Fotografía o dibujo propio</i>, CC BY 4.0, CC BY-SA 4.0, CC BY-NC 4.0, CC0 (dominio público) o <i>Con permiso del autor</i>. El Bloque 10 arma con ellos la línea de créditos de la figura. Se aceptan las imágenes que el navegador sabe abrir (JPG, PNG, WebP…); las muy grandes se reducen a 1400 píxeles por lado, suficiente para cualquier figura impresa.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Sólo se dibujan las imágenes confirmadas</div>
+    <p>Una foto equivocada junto a un nombre engaña más que ninguna foto. Por eso cada imagen lleva la casilla <span class="ui">Confirmo que la imagen muestra a este taxón</span>, y sólo las confirmadas aparecen en los cladogramas; las demás se guardan con la etiqueta <b>sin confirmar</b> hasta que alguien las revise. Al añadir varias a la vez, la confirmación es para todas: si el emparejamiento por nombre no te da plena seguridad, deja la casilla sin marcar y confírmalas una por una.</p>
+  </div>
+  <p>Las imágenes se guardan en la base de datos del navegador, junto con la matriz, y viajan en el <b>proyecto .json</b> (sección 2.8): quien abra el proyecto en otra computadora las recibe con su encuadre, su crédito y su licencia. Los formatos NEXUS, xread y las tablas no las guardan. <span class="ui">Quitar la imagen</span>, en el editor, la borra.</p>
+
+  <!-- 2.7 -->
+  <h2 id="s2-7"><span class="num">2.7</span>El control de calidad</h2>
+  <p>Antes de buscar árboles conviene una revisión que ningún ojo hace bien en una matriz de cientos de celdas. La tarjeta <span class="ui">Control de calidad</span> la hace sola, cada vez que la matriz cambia, y separa lo que encuentra en tres niveles. El selector <span class="ui">Mostrar</span> filtra por nivel, y el botón <span class="ui">Ir</span> de cada línea lleva a la celda, al carácter o al taxón del problema, seleccionado en el editor y con su inspector abierto.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b2-qc.png" alt="El control de calidad de Dahlia: cero errores, cero avisos y cuatro notas, con la lista de las cuatro notas y su botón Ir"></div>
+    <figcaption><b>Figura 2.9.</b> El control de calidad de Dahlia: ningún error, ningún aviso y cuatro notas.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:0.9in">Nivel</th><th style="width:1.9in">En la app</th><th>Qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td><b>Errores</b></td><td><i>el análisis no los lee como quieres</i></td><td>Corregirlos siempre antes de buscar: el resultado no significaría lo que crees.</td></tr>
+      <tr><td><b>Avisos</b></td><td><i>probablemente no es lo que querías</i></td><td>Leer cada uno y decidir; a veces son intencionales, como un taxón fósil con muchos faltantes.</td></tr>
+      <tr><td><b>Notas</b></td><td><i>vale la pena saberlo</i></td><td>Información para el informe; no exigen cambiar nada.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · las cuatro notas de Dahlia</div>
+    <p>La matriz de práctica está limpia de errores y avisos, y deja cuatro notas que vale la pena entender. <b>Primera:</b> el estado 2 («obtuso») del carácter 12 no aparece en ningún taxón; es un estado previsto en la lista que ninguna especie de la muestra tiene, algo normal si la lista se escribió para todo el género. <b>Segunda:</b> la matriz de pasos del carácter 25 es asimétrica, así que el grupo externo decide el sentido de los cambios de color. <b>Tercera y cuarta:</b> el 34 y el 41 no son informativos (sección 2.3).</p>
+  </div>
+  <p>La lista completa de lo que se revisa, con el texto que aparece en la app:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:0.75in">Nivel</th><th>Mensaje</th><th style="width:2.2in">Qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td>Error</td><td><i>El taxón N no tiene nombre</i> · <i>Los taxones N y M se llaman igual</i></td><td>Nombrarlos; dos nombres iguales no se distinguen en un árbol.</td></tr>
+      <tr><td>Error</td><td><i>Todos los taxones están marcados como grupo externo</i></td><td>Desmarcar el grupo interno.</td></tr>
+      <tr><td>Error</td><td><i>El carácter N es continuo pero tiene celdas con estados</i>, o <i>discreto pero tiene valores numéricos</i> · <i>…el intervalo va de mayor a menor</i></td><td>Cambiar el tipo o recodificar la columna; en un intervalo, el menor va primero: <code>2.1-3.4</code>.</td></tr>
+      <tr><td>Error</td><td><i>El carácter N usa el estado S, que no tiene nombre</i></td><td>Añadir el estado con <span class="ui">+ Estado</span> o corregir la celda.</td></tr>
+      <tr><td>Error</td><td><i>El carácter N es una matriz de pasos pero le faltan costos</i></td><td>Llenar la tabla de costos.</td></tr>
+      <tr><td>Error</td><td><i>…es «–», pero el carácter M dice que la estructura existe</i> · <i>…tiene un estado, pero el carácter M dice que la estructura no existe</i></td><td>Corregir la celda o usar <span class="ui">Poner «–» donde no aplica</span>.</td></tr>
+      <tr><td>Error</td><td><i>T no tiene ningún dato</i></td><td>Codificarlo o desactivarlo: no se puede colocar en el árbol.</td></tr>
+      <tr><td>Aviso</td><td><i>No hay grupo externo</i></td><td>Elegirlo; si no, la raíz será el primer taxón.</td></tr>
+      <tr><td>Aviso</td><td><i>Los caracteres N y M tienen el mismo enunciado</i></td><td>Ver si es el mismo carácter dos veces: contaría doble.</td></tr>
+      <tr><td>Aviso</td><td><i>El carácter N es invariable</i></td><td>Revisar la codificación; no aporta nada al análisis.</td></tr>
+      <tr><td>Aviso</td><td><i>Carácter ordenado N, T: el polimorfismo no es contiguo</i></td><td>Un <code>(02)</code> ordenado se lee como <code>(012)</code>; corregir si no es lo que se quiere.</td></tr>
+      <tr><td>Aviso</td><td><i>El carácter N falta en X de Y taxones</i> (más de la mitad)</td><td>Pensar si vale la pena conservarlo.</td></tr>
+      <tr><td>Aviso</td><td><i>A T le falta el X % de los datos: puede ser un comodín</i> (más de la mitad)</td><td>Esperar politomías en el consenso; el Bloque 8 los identifica (Kearney 2002).</td></tr>
+      <tr><td>Nota</td><td><i>El carácter N no tiene enunciado</i></td><td>Escribirlo antes de publicar la lista.</td></tr>
+      <tr><td>Nota</td><td><i>El estado S del carácter N no aparece en ningún taxón</i></td><td>Nada, si es un estado previsto; quitarlo, si es un resto.</td></tr>
+      <tr><td>Nota</td><td><i>El carácter N no es informativo para la parsimonia</i></td><td>Saberlo al comparar el CI.</td></tr>
+      <tr><td>Nota</td><td><i>…un cambio directo cuesta más que pasar por otro estado</i> · <i>La matriz de pasos… es asimétrica</i></td><td>Revisar los costos; en una asimétrica, elegir bien el grupo externo.</td></tr>
+      <tr><td>Nota</td><td><i>El carácter N tiene «–» pero no dice de qué carácter depende</i></td><td>Declarar la dependencia para que se revise cada «–».</td></tr>
+      <tr><td>Nota</td><td><i>…es «?» donde la estructura no existe; «–» es más exacto</i></td><td>Cambiar a «–» (sección 2.1).</td></tr>
+      <tr><td>Nota</td><td><i>T y U tienen exactamente los mismos datos</i></td><td>Ningún árbol los separa; quedarán juntos.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · cuándo está lista la matriz</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> hay errores</td><td><b>entonces</b> no busques todavía: corrígelos con <span class="ui">Ir</span>.</td></tr>
+      <tr><td><b>Si</b> sólo hay avisos</td><td><b>entonces</b> lee cada uno; los que sean intencionales, anótalos para el informe.</td></tr>
+      <tr><td><b>Si</b> sólo hay notas</td><td><b>entonces</b> la matriz está lista para el Bloque 3.</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 2.8 -->
+  <h2 id="s2-8"><span class="num">2.8</span>La lista de caracteres y exportar</h2>
+  <p>La tarjeta <span class="ui">Lista de caracteres</span> escribe la matriz como se publica en un artículo o en su material suplementario: cada carácter con su número, su enunciado, sus estados numerados y, entre corchetes, su tipo y, si la tiene, su dependencia («aplicable sólo si 5 = presentes»).</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b2-lista.png" alt="La lista de caracteres de Dahlia: el selector para numerar desde 1 o desde 0, los botones copiar, descargar .txt y descargar .html con imágenes, y los primeros catorce caracteres con sus estados y su tipo"></div>
+    <figcaption><b>Figura 2.10.</b> El principio de la lista de caracteres de Dahlia. Los caracteres 6 y 7 dicen de cuál dependen; el 8, que es ordenado.</figcaption>
+  </figure>
+  <p><span class="ui">Numerar desde</span> elige si el primer carácter es el 1, como se acostumbra en los artículos, o el 0, como numeran los caracteres algunos programas de parsimonia; conviene que la lista publicada use la misma numeración que el texto. <span class="ui">Copiar</span> la deja en el portapapeles; <span class="ui">Descargar .txt</span> la guarda como texto, y <span class="ui">Descargar .html con imágenes</span> la guarda como página web con las imágenes de los estados que se confirmaron con el botón ▣ del inspector: una lista ilustrada para el material suplementario.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b2-exportar.png" alt="La tarjeta Exportar: el texto que explica qué guarda cada formato, la casilla para incluir en NEXUS los árboles del archivo y los botones NEXUS, xread, CSV, TSV y Proyecto"></div>
+    <figcaption><b>Figura 2.11.</b> Exportar la matriz.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.35in">Botón</th><th>Qué guarda</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">NEXUS (.nex)</span></td><td>Todo lo de la matriz: tipos, pesos, matrices de pasos, caracteres inactivos y, en su propio bloque de caracteres, los continuos. El grupo externo, las dependencias, las unidades, las notas y los taxones inactivos van en el bloque <code>CLADISTICSPRO</code>. Con la casilla <span class="ui">Incluir en NEXUS los árboles que traía el archivo</span>, añade el bloque <code>TREES</code> que venía en el archivo de origen (Dahlia trae uno, <code>arbol_verdadero</code>).</td></tr>
+      <tr><td><span class="ui">xread (.ss)</span></td><td>La matriz para los programas clásicos de parsimonia, con los continuos primero, como exige el formato, y los tipos, pesos y caracteres inactivos en <code>ccode</code>.</td></tr>
+      <tr><td><span class="ui">CSV</span> · <span class="ui">TSV</span></td><td>La tabla para una hoja de cálculo o para R, con las filas <code># estados</code> y <code># tipo</code> y, cuando hacen falta, <code># peso</code>, <code># depende</code> y <code># activo</code>. No guarda las matrices de pasos.</td></tr>
+      <tr><td><span class="ui">Proyecto (.json)</span></td><td>Todo lo anterior y además las imágenes de los taxones y de los estados. Es el respaldo completo: el archivo para guardar el trabajo, pasarlo a otra computadora o entregarlo a un coautor.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>El NEXUS de la app se lee en otros programas</div>
+    <p>El bloque <code>CLADISTICSPRO</code> sigue la regla del formato NEXUS para bloques privados: cualquier otro lector lo salta sin error. Así, el mismo archivo abre en la app con todo su detalle y en cualquier otro programa con la matriz, los tipos, los pesos y los árboles. El archivo que se archiva con un artículo puede ser este.</p>
+  </div>
+
+  <!-- 2.9 -->
+  <h2 id="s2-9"><span class="num">2.9</span>Los avisos de este bloque</h2>
+  <table class="compacta">
+    <thead><tr><th style="width:2.6in">Mensaje</th><th>Qué significa y qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td><i>Matriz leída: N taxones × M caracteres</i></td><td>La lectura salió bien. Debajo pueden venir notas de cómo se leyó el archivo.</td></tr>
+      <tr><td><i>Es una matriz simulada sobre un árbol conocido…</i></td><td>Recordatorio al cargar una matriz de práctica: sirve para aprender y probar, no para concluir nada sobre esas plantas.</td></tr>
+      <tr><td><i>No se pudo leer la matriz: …</i></td><td>Después de los dos puntos va la causa: <i>el archivo NEXUS no tiene bloque de caracteres</i>, <i>no se encontró la palabra xread</i>, <i>la tabla necesita un encabezado y al menos una fila</i>, <i>no es un proyecto de CladisticsPro</i>… Debajo, la lista de formatos que se leen.</td></tr>
+      <tr><td><i>Se omitió el bloque X, que esta app no usa</i></td><td>Nota de lectura: un bloque NEXUS ajeno a la matriz (por ejemplo, de otro programa) se saltó sin consecuencias.</td></tr>
+      <tr><td><i>Símbolos que no son estados se leyeron como «?»</i> · <i>«v» en T, carácter N: …; se leyó como «?»</i></td><td>Una celda con algo que no es un estado. Buscarla en el editor y corregirla.</td></tr>
+      <tr><td><i>El encabezado dice N caracteres y la matriz trae M</i> · <i>«T» tiene N celdas y se esperaban M; se completó con «?» o se recortó</i></td><td>El archivo no cuadra consigo mismo. Revisar las filas señaladas: un carácter de más o de menos corre toda la fila.</td></tr>
+      <tr><td><i>N peso(s) con decimales o negativos se redondearon…</i> · <i>Tipo de carácter desconocido…; se dejó sin ordenar</i></td><td>El archivo traía algo que la app interpretó de la manera más cercana. Revisar el carácter en el inspector.</td></tr>
+      <tr><td><i>La matriz necesita al menos un carácter</i> · <i>Un análisis necesita al menos tres taxones</i></td><td>Se intentó borrar demasiado.</td></tr>
+      <tr><td><i>Para eliminar, selecciona columnas enteras o filas enteras</i></td><td><span class="ui">Eliminar la selección</span> sólo borra caracteres o taxones completos: clic en el número de la columna o en el nombre de la fila.</td></tr>
+      <tr><td><i>Las columnas continuas no reciben estados: escribe un valor con Intro</i></td><td>Se tecleó un estado sobre un carácter continuo.</td></tr>
+      <tr><td><i>N celdas usan el estado S. Al quitarlo, las que sólo tienen ese estado quedarán en «?». ¿Seguir?</i></td><td>Confirmación antes de quitar un estado usado. Se puede deshacer.</td></tr>
+      <tr><td><i>Pasar de continuo a discreto borra los N valores de esta columna…</i></td><td>Confirmación antes de cambiar el tipo de un carácter con datos.</td></tr>
+      <tr><td><i>El archivo no es una imagen</i> · <i>El navegador no pudo abrir la imagen</i></td><td>Al añadir la imagen de un taxón. Guardarla como JPG o PNG y volver a intentarlo.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

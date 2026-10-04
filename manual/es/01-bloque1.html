@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario · Capítulo 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  figure.media .marco { width: 78%; }
+  figure.media figcaption { margin-left: 11%; margin-right: 11%; }
+  figure.alta .marco { width: 64%; }
+  figure.alta figcaption { margin-left: 18%; margin-right: 18%; }
+  figure.chica .marco { width: 62%; }
+  figure.chica figcaption { margin-left: 19%; margin-right: 19%; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b1" data-pestana="B1" data-orden="1" style="--acento: var(--b1)">
+  <div class="cap-apertura">
+    <div class="cap-num">1</div>
+    <div class="cap-etiqueta">Bloque 1 · Inicio</div>
+    <h1>Inicio: la teoría y los laboratorios</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">La portada de la app no es un adorno: explica en lenguaje llano la lógica de la cladística, deja probar la parsimonia con dos laboratorios que calculan de verdad, presenta los diez bloques y los seis tipos de carácter, lista cada método con el artículo que lo define, dice qué tan grande puede ser una matriz y qué no hace el programa, y trae la bibliografía y la forma de citarlo. Es el bloque para leer antes de abrir la primera matriz y para volver cada vez que una palabra no quede clara.</p>
+    <ul class="cap-contenido">
+      <li><b>1.1</b>Lo que se ve al abrir la app</li>
+      <li><b>1.2</b>Cómo funciona: los siete pasos</li>
+      <li><b>1.3</b>Laboratorio 1: cuenta los pasos</li>
+      <li><b>1.4</b>Laboratorio 2: ACCTRAN contra DELTRAN</li>
+      <li><b>1.5</b>Los diez bloques y los seis tipos de carácter</li>
+      <li><b>1.6</b>Los métodos y de dónde vienen</li>
+      <li><b>1.7</b>La teoría, en lenguaje llano</li>
+      <li><b>1.8</b>El tamaño de la matriz y los límites</li>
+      <li><b>1.9</b>Referencias y cómo citar</li>
+    </ul>
+  </div>
+
+  <!-- 1.1 -->
+  <h2 id="s1-1"><span class="num">1.1</span>Lo que se ve al abrir la app</h2>
+  <p class="lead">La primera pantalla (figura I.2) dice en una frase lo que hace el programa: <b>de la matriz de caracteres al cladograma diagnosticado</b>. A la derecha, una ilustración resume el camino: una pequeña matriz de unos y ceros y el cladograma que sale de ella, con cada cambio dibujado sobre su rama.</p>
+  <p>Debajo del título hay cuatro botones. <span class="ui">Empezar con mi matriz →</span> lleva al Bloque 2 para abrir, pegar o escribir una matriz; <span class="ui">Probar los laboratorios</span> baja a los dos laboratorios de la sección 1.3; <span class="ui">Leer la teoría</span>, a las diez ideas de la sección 1.7, y <span class="ui">Cómo citar</span>, al final de la página. La etiqueta <span class="ui">✓ Funciona completo en tu navegador</span> recuerda que nada sale de la computadora. El resto de la portada se lee hacia abajo, y el índice de la derecha (<i>En este bloque</i>) lleva a cada sección.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>El Bloque 1 se puede saltar, pero conviene leerlo una vez</div>
+    <p>Nada de lo que se haga en esta portada afecta a la matriz ni a los análisis: los laboratorios trabajan con sus propios datos. Quien ya conoce la cladística puede ir directo al Bloque 2; quien la está aprendiendo encontrará aquí, en diez páginas de la app, lo mismo que el capítulo de introducción de un libro de texto, con ejemplos que responden al clic.</p>
+  </div>
+
+  <!-- 1.2 -->
+  <h2 id="s1-2"><span class="num">1.2</span>Cómo funciona: los siete pasos</h2>
+  <figure>
+    <div class="marco"><img src="../img/b1-flujo.png" alt="La sección Cómo funciona: siete pasos en fila, de codificar caracteres y estados a publicar la figura, el informe y el paquete"></div>
+    <figcaption><b>Figura 1.1.</b> Los siete pasos de un estudio cladístico, en el orden en que se hace. Cada paso es uno o dos bloques de la app.</figcaption>
+  </figure>
+  <p>La ruta es la de un estudio real. Cada paso corresponde a uno o más bloques, y cada bloque explica la idea, revisa si tus datos la sostienen y dice qué conviene hacer después:</p>
+  <table class="compacta">
+    <thead><tr><th style="width:0.5in">Paso</th><th style="width:2in">En la portada</th><th style="width:0.75in">Bloques</th><th>Qué se hace</th></tr></thead>
+    <tbody>
+      <tr><td class="c">1</td><td>Codificar caracteres y estados</td><td><span class="chip k2">2</span></td><td>Escribir o revisar la matriz, el enunciado de cada carácter y el nombre de cada estado</td></tr>
+      <tr><td class="c">2</td><td>Buscar los árboles más cortos</td><td><span class="chip k3">3</span></td><td>Encontrar los árboles más parsimoniosos con el método que convenga al tamaño de la matriz</td></tr>
+      <tr><td class="c">3</td><td>Pesar: sucesivos e implícitos</td><td><span class="chip k4">4</span></td><td>Ver si el resultado cambia al castigar la homoplasia</td></tr>
+      <tr><td class="c">4</td><td>Mapear cada cambio en su rama</td><td><span class="chip k5">5</span></td><td>Dibujar dónde ocurrió cada cambio y editar el árbol</td></tr>
+      <tr><td class="c">5</td><td>Diagnosticar: sinapomorfías por clado</td><td><span class="chip k6">6</span></td><td>Medir la homoplasia de cada carácter y listar lo que define a cada grupo</td></tr>
+      <tr><td class="c">6</td><td>Medir el apoyo: Bremer y remuestreo</td><td><span class="chip k7">7</span> <span class="chip k8">8</span> <span class="chip k9">9</span></td><td>Cuánto creerle a cada grupo, qué comparten los árboles empatados y qué hipótesis rechazan los datos</td></tr>
+      <tr><td class="c">7</td><td>Publicar: figura, informe y paquete</td><td><span class="chip k10">10</span></td><td>Preparar la figura, los métodos y el paquete que reproduce todo</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 1.3 -->
+  <h2 id="s1-3"><span class="num">1.3</span>Laboratorio 1: cuenta los pasos</h2>
+  <p>El primer laboratorio es la parsimonia completa en miniatura: <b>cinco taxones y seis caracteres binarios</b>. Con cinco taxones hay exactamente <b>15 árboles sin raíz</b> posibles, así que la app los evalúa todos, cuenta los pasos que necesita cada uno y los ordena del más corto al más largo. Nada de esto es una animación: cada clic recalcula con la misma optimización que la app usará con tu matriz.</p>
+  <figure class="media alta">
+    <div class="marco"><img src="../img/b1-lab1.png" alt="El laboratorio Cuenta los pasos: la matriz de cinco taxones por seis caracteres con el índice de consistencia de cada carácter; los quince árboles ordenados por longitud; el árbol elegido con sus cambios; los recuadros de longitud, CI, RI y árboles más cortos; y el histograma de longitudes"></div>
+    <figcaption><b>Figura 1.2.</b> El laboratorio 1 con su matriz de partida. Arriba a la izquierda, la matriz (cada celda cambia con un clic); a la derecha, los 15 árboles posibles con su longitud; abajo, el árbol elegido con cada cambio sobre su rama, los recuadros y el histograma de cuántos árboles hay de cada longitud.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.9in">Parte</th><th>Qué muestra</th></tr></thead>
+    <tbody>
+      <tr><td><b>Matriz (clic para cambiar)</b></td><td>Cinco filas —el grupo externo y los taxones A a D— y seis caracteres con su enunciado debajo (hoja simple o compuesta, simetría floral, fruto seco o carnoso…). Cada clic en una celda la cambia de 0 a 1, de 1 a «?» y de «?» a 0. Sobre cada columna, el índice de consistencia del carácter en el árbol elegido; abajo, los pasos que toma en él.</td></tr>
+      <tr><td><b>Los 15 árboles</b></td><td>Cada miniatura lleva su longitud en la esquina; la del árbol elegido va enmarcada. Un clic en cualquier otra lo elige.</td></tr>
+      <tr><td><b>El árbol elegido</b></td><td>Dibujado con cada cambio sobre su rama: el número del carácter arriba y el estado nuevo abajo. Las marcas siguen la convención del Bloque 5: llena si el estado aparece una sola vez, vacía si es homoplásico, gris si el cambio es ambiguo.</td></tr>
+      <tr><td><b>Los recuadros</b></td><td>La longitud del árbol elegido, sus índices de consistencia (CI) y de retención (RI), y cuántos de los 15 empatan en la longitud mínima.</td></tr>
+      <tr><td><b>Cuántos árboles hay de cada longitud</b></td><td>El histograma de las 15 longitudes; la barra de la mínima va en otro color.</td></tr>
+      <tr><td><span class="ui">Optimización</span></td><td>ACCTRAN (cambios tempranos), DELTRAN (cambios tardíos) o sólo los cambios no ambiguos. La longitud no cambia; cambia dónde se dibujan los cambios.</td></tr>
+      <tr><td><span class="ui">Restablecer</span> · <span class="ui">Matriz al azar</span></td><td>Vuelve a la matriz de partida o genera otra al azar.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · la matriz de partida</div>
+    <p>Con la matriz que trae el laboratorio, <b>uno solo de los 15 árboles es el más corto, con 7 pasos</b>: ((A, B), (C, D)) enraizado en el grupo externo. Su CI es 0.857 y su RI 0.750. Los demás miden 8 (dos árboles), 9 (cinco) y 10 (siete). La lectura que da la app al pie: <i>«De los 15 árboles posibles, 1 es el más corto con 7 pasos. En el árbol elegido, el carácter 6 cambia más de lo mínimo: eso es homoplasia.»</i> En efecto, las estípulas (carácter 6) aparecen en A y en D, que no son grupo hermano: dos marcas vacías, una en cada rama. Prueba a poner un «1» en la columna 6 de B: el carácter deja de ser homoplásico en otro árbol, el orden de los 15 cambia y el más corto puede ser otro.</p>
+  </div>
+
+  <!-- 1.4 -->
+  <h2 id="s1-4"><span class="num">1.4</span>Laboratorio 2: ACCTRAN contra DELTRAN</h2>
+  <p>El segundo laboratorio aísla una idea que confunde a casi todos al principio: <b>dos reconstrucciones igual de cortas pueden contar historias distintas</b>. El árbol está fijo; sólo se cambian los estados de las puntas de un solo carácter.</p>
+  <figure>
+    <div class="marco"><img src="../img/b1-lab2.png" alt="El laboratorio ACCTRAN contra DELTRAN: los estados de las siete puntas; el mismo árbol pintado por ACCTRAN, por DELTRAN y con los conjuntos de estados más parsimoniosos de cada nodo; y los recuadros con la longitud, las ganancias y pérdidas de cada reconstrucción y los cambios no ambiguos"></div>
+    <figcaption><b>Figura 1.3.</b> El laboratorio 2 con sus estados de partida. Las ramas se pintan con el estado de cada tramo (azul 0, naranja 1) y las marcas dicen dónde cambia el carácter. A la derecha, los conjuntos MPR: un nodo de dos colores puede estar en cualquiera de los dos estados sin alargar el árbol.</figcaption>
+  </figure>
+  <p>Con los estados de partida (B, D, E y F en 1; el grupo externo, A y C en 0), las dos reconstrucciones miden <b>2 pasos</b>. ACCTRAN pone el cambio a 1 lo antes posible —en la rama que lleva a B, C, D, E y F— y luego lo deshace en C: <b>1 ganancia y 1 pérdida</b> (una reversión). DELTRAN lo retrasa todo lo posible y lo hace aparecer dos veces, en B y en el grupo D–F: <b>2 ganancias y 0 pérdidas</b> (un paralelismo). El recuadro <i>No ambiguos</i> dice <b>0</b>: ninguno de los dos cambios cae en la misma rama en las dos reconstrucciones, así que dónde ocurrió depende de la elección.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · por qué importa</div>
+    <p>Si un carácter es una sinapomorfía del grupo B–F con ACCTRAN pero no con DELTRAN, decir que «define» a ese grupo es vender una conjetura como un hecho. Los nodos de dos colores en los conjuntos MPR (de <i>most parsimonious reconstructions</i>) son justo los que pueden estar en cualquiera de los dos estados. El Bloque 5 deja elegir ACCTRAN, DELTRAN o sólo los cambios no ambiguos, y el Bloque 6 marca como ambiguas las sinapomorfías que dependen de esa elección (Swofford y Maddison 1987; Agnarsson y Miller 2008).</p>
+  </div>
+
+  <!-- 1.5 -->
+  <h2 id="s1-5"><span class="num">1.5</span>Los diez bloques y los seis tipos de carácter</h2>
+  <p>La sección <span class="ui">Los diez bloques</span> presenta cada bloque en una tarjeta con su número, una ilustración, la palabra que lo resume (<i>Codificar</i>, <i>Buscar</i>, <i>Pesar</i>, <i>Mapear</i>…) y lo que hace. Un clic en la tarjeta lleva al bloque. Un bloque es un paso del estudio y un capítulo de este manual: el capítulo 5 explica el Bloque 5.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b1-bloques.png" alt="Las diez tarjetas de los bloques de la app, cada una con su número, una ilustración, la palabra que lo resume y una descripción"></div>
+    <figcaption><b>Figura 1.4.</b> Las primeras seis tarjetas de los diez bloques. Cada ilustración se dibuja con el mismo motor que la app usa en ese bloque.</figcaption>
+  </figure>
+  <p>La sección <span class="ui">Seis tipos de carácter</span> recuerda que la morfología no cabe en un solo modelo de cambio. Cada carácter declara el suyo en el Bloque 2, y la optimización y la búsqueda lo respetan:</p>
+  <figure>
+    <div class="marco"><img src="../img/b1-tipos.png" alt="Los seis tipos de carácter: no ordenado, ordenado, matriz de pasos, continuo, inaplicable y polimórfico o desconocido, cada uno con una ilustración y una frase"></div>
+    <figcaption><b>Figura 1.5.</b> Los seis tipos de carácter que la app distingue.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.75in">Tipo</th><th>Cómo cuenta los pasos</th><th style="width:1.2in">Fuente</th></tr></thead>
+    <tbody>
+      <tr><td><b>No ordenado</b> (no aditivo)</td><td>Cualquier estado pasa a cualquier otro con un paso. Es el tipo por omisión.</td><td>Fitch 1971</td></tr>
+      <tr><td><b>Ordenado</b> (aditivo)</td><td>Los estados forman una serie: de 0 a 2 hay que pasar por 1, y cuesta dos pasos.</td><td>Farris 1970</td></tr>
+      <tr><td><b>Matriz de pasos</b></td><td>Cada cambio tiene su propio costo, que puede ser distinto de ida y de vuelta (por ejemplo, perder una estructura cuesta menos que ganarla).</td><td>Sankoff 1975</td></tr>
+      <tr><td><b>Continuo</b></td><td>Una medida analizada como tal, sin cortarla en clases: el costo es la diferencia entre valores, y cada taxón puede llevar un intervalo.</td><td>Goloboff et al. 2006</td></tr>
+      <tr><td><b>Inaplicable</b> («–»)</td><td>El carácter no existe en ese taxón (el color de una cola que no hay). No es lo mismo que «no sé»: sólo cuenta los cambios donde la estructura existe.</td><td>Brazeau et al. 2019</td></tr>
+      <tr><td><b>Polimórfico o desconocido</b></td><td><code>{01}</code> y «?» se leen como incertidumbre entre estados: el taxón puede tomar cualquiera de ellos, el que alargue menos el árbol.</td><td>Nixon y Davis 1991</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 1.6 -->
+  <h2 id="s1-6"><span class="num">1.6</span>Los métodos y de dónde vienen</h2>
+  <p>La sección <span class="ui">Los métodos y de dónde vienen</span> es una galería de los <b>42 métodos</b> que la app implementa, cada uno con una pequeña ilustración y el artículo que lo define. Los botones de arriba filtran por familia: matriz y codificación (6), búsqueda (7), pesos (4), optimización (6), índices (3), apoyo (5), consenso (6), hipótesis (3) y figuras e informe (2). La lista completa de referencias está al final de la portada, y los métodos que redacta el Bloque 10 citan sólo los que hayas usado.</p>
+  <figure>
+    <div class="marco"><img src="../img/b1-metodos.png" alt="La galería de métodos: los botones de las nueve familias y las primeras tarjetas, cada una con su familia, una ilustración, el nombre del método y su fuente"></div>
+    <figcaption><b>Figura 1.6.</b> Las primeras tarjetas de la galería de métodos, con el filtro por familia arriba.</figcaption>
+  </figure>
+
+  <!-- 1.7 -->
+  <h2 id="s1-7"><span class="num">1.7</span>La teoría, en lenguaje llano</h2>
+  <p>Diez ideas que sostienen todo lo demás, cada una en un panel que se abre con un clic y dice en qué bloque se usa. Varias traen una figura dibujada por la app. Son el resumen de un curso de sistemática filogenética, sin fórmulas innecesarias:</p>
+  <figure>
+    <div class="marco"><img src="../img/b1-teoria.png" alt="La sección La teoría en lenguaje llano con la primera idea abierta: la lógica de Hennig, con un cladograma que muestra una sinapomorfía, otra de un subgrupo y una autapomorfía"></div>
+    <figcaption><b>Figura 1.7.</b> La primera de las diez ideas, abierta: una misma novedad es apomorfía en un nivel y plesiomorfía en otro.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:2.5in">Idea</th><th>Lo esencial</th><th style="width:0.85in">Bloques</th></tr></thead>
+    <tbody>
+      <tr><td><b>La lógica de Hennig</b></td><td>Sólo el parecido compartido y derivado (sinapomorfía) agrupa; el estado antiguo no dice nada; una autapomorfía describe a un taxón pero no agrupa a nadie.</td><td>5, 6</td></tr>
+      <tr><td><b>Grupos mono-, para- y polifiléticos</b></td><td>Un clado reúne a un antepasado y a todos sus descendientes; los grupos parafiléticos se definen por lo que «aún no tienen» y los polifiléticos por convergencia.</td><td>5, 9</td></tr>
+      <tr><td><b>Homología y homoplasia</b></td><td>La codificación propone homologías y el árbol las pone a prueba; un estado que aparece más de una vez es homoplasia.</td><td>5, 6</td></tr>
+      <tr><td><b>Por qué parsimonia</b></td><td>El árbol con menos cambios explica más semejanzas como homologías; el número de árboles crece como (2n − 5)!!.</td><td>3</td></tr>
+      <tr><td><b>Polaridad y grupo externo</b></td><td>La parsimonia da árboles sin raíz; la raíz la pone el grupo externo incluido en el análisis.</td><td>2, 5</td></tr>
+      <tr><td><b>Codificar caracteres y el «–»</b></td><td>Un buen carácter tiene enunciado y estados excluyentes; los inaplicables no son «?».</td><td>2</td></tr>
+      <tr><td><b>Optimizar</b></td><td>Fitch, Wagner y Sankoff asignan estados a los nodos con el menor número de cambios; ACCTRAN y DELTRAN eligen entre reconstrucciones empatadas.</td><td>5</td></tr>
+      <tr><td><b>Los índices CI, RI, RC</b></td><td>CI = m/s, RI = (g − s)/(g − m), RC = CI × RI; un carácter no informativo tiene RI 0/0, no cero.</td><td>6</td></tr>
+      <tr><td><b>Pesar los caracteres</b></td><td>Pesos sucesivos y pesos implícitos con su constante k; lo firme es lo que sobrevive a varios k.</td><td>4</td></tr>
+      <tr><td><b>Apoyo y consenso</b></td><td>El árbol más corto no dice cuánto creerle a cada grupo; un consenso resume los árboles empatados; una politomía es «no sé».</td><td>7, 8</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 1.8 -->
+  <h2 id="s1-8"><span class="num">1.8</span>El tamaño de la matriz y los límites</h2>
+  <p>La tabla de la sección <span class="ui">Qué tan grande puede ser tu matriz</span> (figura 1.8) da el tiempo de <b>una ronda completa de TBR</b> —revisar una vez todos los reacomodos posibles de un árbol— medido con el mismo motor que corre en el navegador. Una búsqueda repite esa ronda varias veces y el ratchet cientos, así que la tabla sirve para estimar el orden de la espera: con 25 taxones y 100 caracteres es instantáneo; con 100 × 300, decenas de segundos con ratchet; con 200 × 500, varios minutos, con las réplicas repartidas en los núcleos del procesador. Los caracteres inaplicables y las matrices de pasos son más lentos que los no ordenados, porque se cuentan uno por uno.</p>
+  <p>Las cuatro tarjetas de abajo dicen lo que el programa no hace: modelos de sustitución (para eso está PhylogenyPro, de la misma suite), alinear secuencias, fechar el árbol y matrices enormes. La sección I.9 de este manual da la lista completa.</p>
+  <figure class="media chica">
+    <div class="marco"><img src="../img/b1-limites.png" alt="La tabla de cuánto tarda una ronda completa de TBR según el tamaño de la matriz, y las cuatro cosas que el programa no hace"></div>
+    <figcaption><b>Figura 1.8.</b> Qué tan grande puede ser una matriz y lo que el programa no hace.</figcaption>
+  </figure>
+
+  <!-- 1.9 -->
+  <h2 id="s1-9"><span class="num">1.9</span>Referencias y cómo citar</h2>
+  <p>La sección <span class="ui">Referencias</span> reúne las <b>53 publicaciones</b> de las que salen los métodos y la teoría, con su referencia completa y una etiqueta del tema; los botones de arriba filtran por tema. Es la misma lista que el apéndice E de este manual, y de ella toma el Bloque 10 las referencias de los métodos que redacta.</p>
+  <figure>
+    <div class="marco"><img src="../img/b1-citar.png" alt="La sección Cómo citar con la cita del programa, el botón para copiarla y el panel con la versión BibTeX"></div>
+    <figcaption><b>Figura 1.9.</b> La cita del programa, lista para copiar, y su versión para gestores de referencias.</figcaption>
+  </figure>
+  <p>La sección <span class="ui">Cómo citar</span> da la cita del programa con su versión, un botón para copiarla y, plegada, la misma cita en BibTeX para gestores de referencias. Si el programa te sirvió para un trabajo publicado, cítalo; si usaste un método en particular (el remuestreo simétrico, los pesos implícitos extendidos, el algoritmo de inaplicables), cita también el artículo original: los métodos redactados del Bloque 10 ya lo hacen.</p>
+</section>
+
+</body>
+</html>

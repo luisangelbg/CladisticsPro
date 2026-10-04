@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<!--
+  CladisticsPro — morphological cladistics in the browser, from the character
+  matrix to the diagnosed cladogram.  Copyright (C) 2026  Luis Ángel Barrera-Guzmán
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program, in the file LICENSE.  If not, see <https://www.gnu.org/licenses/>.
+
+  This notice covers the whole program: index.html, css/ and the files in js/.
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-es="CladisticsPro · caracteres, homología y árboles" data-en="CladisticsPro · characters, homology and trees">CladisticsPro · caracteres, homología y árboles</title>
+<meta name="description" content="Character matrix editor, parsimony search, ratchet, implied weights, cladograms with the changes drawn on their branches, ACCTRAN and DELTRAN, Bremer support, resampling and consensus, entirely in the browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M3 16H8M8 6V26M8 6H29M8 26H18M18 26V20M18 20H29M18 26V31M18 31H29' stroke='%239a3b26' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='6' r='3.2' fill='%239a3b26'/%3E%3Ccircle cx='24' cy='20' r='3.2' fill='%23fff' stroke='%239a3b26' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/labg-base.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/i18n.js"></script>
+</head>
+<body class="on-home">
+
+<a class="skip-link" href="#main"><span data-l="es">Saltar al contenido</span><span data-l="en">Skip to content</span></a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-row">
+      <div class="brand" id="brand" data-es-title="Inicio" data-en-title="Home"><span id="brandLogo"></span><span>Cladistics<span class="brand-pro">Pro</span></span>
+        <span class="brand-sub">· <span data-l="es">caracteres, homología y árboles</span><span data-l="en">characters, homology and trees</span></span></div>
+      <div class="top-tools">
+        <a class="suite-link" href="https://luisangelbg.github.io/" data-es-title="Volver al portal de la LABG Suite" data-en-title="Back to the LABG Suite portal" title="Volver al portal de la LABG Suite" aria-label="Volver al portal de la LABG Suite">
+          <svg class="labg-iso" viewBox="0 0 828 946.2" aria-hidden="true" focusable="false"><defs><linearGradient id="labgIsoHo" gradientUnits="userSpaceOnUse" x1="0" y1="473.1" x2="828" y2="413.1"><stop offset="0" stop-color="#BF8B3C"/><stop offset=".3" stop-color="#C99C49"/><stop offset=".55" stop-color="#D9B05C"/><stop offset=".78" stop-color="#E6C470"/><stop offset="1" stop-color="#F6D985"/></linearGradient><linearGradient id="labgIsoHb"><stop offset="0" stop-color="#FFF8E6" stop-opacity="0"/><stop offset=".5" stop-color="#FFF8E6" stop-opacity=".95"/><stop offset="1" stop-color="#FFF8E6" stop-opacity="0"/></linearGradient><clipPath id="labgIsoHc"><path clip-rule="evenodd" d="M440.8 246.5L421.7 257.7L404.8 247.9L424 236.8ZM318.9 256.4L301.7 266.3L285.7 257.1L302.9 247.2ZM522.2 260.9L438.6 309.1L420.1 298.5L503.7 250.2ZM392.5 269.9L373.4 280.9L356.1 271L375.3 260ZM277 277.3L235 301.6L219.9 292.9L261.9 268.6ZM576.1 291.8L398.2 394.4L380.4 384.1L558.3 281.5ZM348.1 295.6L287.5 330.5L270.1 320.5L330.6 285.6ZM404.3 419.1L577.9 318.9L579.2 318.1C579.6 318 580.7 317.9 581.5 317.6C582.2 317.4 583 317 583.8 316.6C584.5 316.2 585.3 315.8 586 315.5C586.8 315.1 587.6 314.8 588.3 314.4C589 314.1 589.8 313.8 590.6 313.5C591.4 313.2 592.2 313 593 312.9C593.8 312.6 594.6 312.5 595.5 312.4C596.3 312.2 597.1 312.2 597.9 312.1C598.9 312.1 599.7 312.1 600.4 312.1C601.4 312.1 602.2 312.1 603 312.2C603.9 312.3 604.7 312.4 605.5 312.5C606.3 312.7 607.1 313 607.9 313.2C608.7 313.5 609.5 313.9 610.1 314.2C610.9 314.6 611.6 315 612.4 315.5C613.1 315.8 613.8 316.3 614.5 316.7C615.2 317.3 615.8 317.8 616.5 318.3C617.1 318.8 617.8 319.4 618.3 319.9C618.9 320.6 619.5 321.2 620.1 321.9C620.6 322.4 621.1 323.1 621.7 323.8C622.1 324.5 622.6 325.2 623 325.8C623.5 326.5 623.9 327.2 624.4 328C624.8 328.7 625.2 329.4 625.6 330.2C626 330.9 626.4 331.7 626.8 332.3C627.1 333.1 627.5 333.8 627.9 334.6C628.3 335.4 628.6 336.1 628.9 336.9C629.3 337.7 629.6 338.4 630 339.2C630.3 340 630.7 340.7 630.9 341.5C631.2 342.3 631.6 343.1 631.9 343.9C632.1 344.5 632.5 345.3 632.7 346.1C632.9 346.9 633.3 347.7 633.5 348.5C633.7 349.3 634 350.1 634.3 350.9C634.5 351.7 634.8 352.5 635.1 353.3C635.3 354.1 635.7 354.9 635.9 355.7C636.1 356.5 636.5 357.3 636.7 358.1C636.9 358.9 637.2 359.7 637.3 360.5C637.5 361.3 637.7 362.1 638 362.9C638.1 363.8 638.3 364.6 638.5 365.4C638.6 366.2 638.9 367 639.1 367.8C639.2 368.6 639.4 369.4 639.7 370.3C639.9 371.1 640 371.9 640.2 372.7C640.3 373.5 640.5 374.3 640.7 375.2C640.8 376 640.9 376.8 641 377.6C641.1 378.5 641.3 379.3 641.4 380.1C641.5 381 641.5 381.8 641.6 382.6C641.7 383.4 641.7 384.3 641.8 385.1C641.9 385.9 641.9 386.8 642.1 387.6C642.1 388.4 642.2 389.3 642.3 390.1C642.3 390.9 642.4 391.9 642.4 392.7C642.5 393.5 642.6 394.2 642.6 395.2C642.7 396 642.7 396.8 642.9 397.7C642.9 398.5 642.9 399.3 642.9 400.2C642.9 401 642.9 401.8 642.9 402.7C642.9 403.5 642.9 404.3 642.7 405.2C642.6 406 642.6 406.8 642.5 407.7C642.4 408.5 642.3 409.3 642.2 410.1C642.1 411 641.9 411.8 641.7 412.6C641.6 413.4 641.5 414.2 641.3 415.1C641.1 415.9 640.9 416.7 640.8 417.5C640.6 418.3 640.3 419.1 640.2 420C640 420.8 639.8 421.6 639.6 422.4C639.4 423.2 639.2 424 638.9 424.8C638.6 425.6 638.4 426.4 638.2 427.2C637.8 428 637.6 428.8 637.3 429.6C637 430.4 636.8 431.2 636.6 432C636.4 432.8 636.2 433.6 636.1 434.5C636.1 435.3 636.2 436.1 636.4 436.9C636.5 437.8 636.8 438.6 637 439.3C637.4 440.1 637.8 440.9 638.2 441.6C638.6 442.2 639.1 442.9 639.6 443.7C640 444.4 640.5 445.1 640.9 445.8C641.4 446.5 641.8 447.1 642.3 447.9C642.6 448.6 643.1 449.3 643.4 450.1C643.9 450.8 644.2 451.6 644.6 452.4C644.9 453.1 645.3 453.9 645.6 454.7C645.9 455.5 646.2 456.2 646.5 456.9C646.8 457.7 647.1 458.5 647.4 459.3C647.6 460.1 647.9 460.9 648.2 461.7C648.4 462.5 648.7 463.3 648.9 464.1C649.1 464.9 649.2 465.7 649.5 466.5C649.7 467.3 649.8 468.2 650 469C650.2 469.8 650.4 470.6 650.5 471.4C650.6 472.3 650.8 473.1 651 473.9C651.1 474.7 651.3 475.5 651.4 476.4C651.5 477.2 651.7 478 651.9 478.8C652 479.6 652.1 480.5 652.2 481.3C652.3 482.1 652.4 483.1 652.5 483.9C652.7 484.7 652.7 485.4 652.8 486.4C652.8 487.2 652.9 488 652.9 488.9C652.9 489.7 653 490.5 653 491.4C653 492.2 653 493 653 493.9C653 494.7 653 495.5 653 496.4C653 497.2 653 498 653 498.9C653 499.7 653 500.5 652.9 501.4C652.9 502.2 652.9 503 652.9 503.9C652.9 504.7 652.8 505.5 652.8 506.4C652.7 507.2 652.7 508 652.5 508.9C652.5 509.7 652.4 510.5 652.3 511.4C652.3 512.2 652.2 513 652.1 513.8C652 514.7 651.9 515.5 651.7 516.3C651.6 517.1 651.5 518.1 651.3 518.9C651.2 519.6 651.1 520.4 651 521.4C650.8 522.2 650.6 523 650.5 523.8C650.4 524.7 650.3 525.5 650 526.3C649.9 527.1 649.7 527.9 649.6 528.8C649.4 529.6 649.2 530.4 649 531.2C648.9 532 648.7 532.8 648.6 533.7C648.3 534.5 648.1 535.3 648 536.1C647.8 536.9 647.5 537.7 647.3 538.5C647.2 539.3 647 540.2 646.7 541C646.4 541.8 646.2 542.6 645.9 543.4C645.7 544 645.4 544.8 645 545.6C644.8 546.4 644.5 547.2 644.1 548C643.8 548.7 643.5 549.5 643.2 550.3C642.9 551.1 642.5 551.8 642.2 552.6C641.8 553.4 641.6 554.2 641.3 554.9C640.9 555.7 640.6 556.5 640.2 557.3C639.9 558 639.6 558.8 639.2 559.5C638.8 560.2 638.4 561 638 561.7C637.6 562.4 637.2 563.2 636.7 563.9C636.4 564.6 635.9 565.4 635.4 566C635 566.7 634.5 567.4 634 568.1C633.5 568.8 633.1 569.5 632.5 570.2C632 570.7 631.5 571.4 630.9 572.1C630.4 572.7 629.9 573.3 629.3 573.9C628.7 574.6 628.2 575.2 627.6 575.7C626.9 576.3 626.3 576.9 625.6 577.4C625.1 578 624.4 578.5 623.7 579C623 579.5 622.3 580 621.7 580.4C621 581 620.3 581.4 619.6 581.9C618.9 582.3 618 582.9 617.5 583.4C617.2 583.8 617.3 584.4 617.2 584.6L403.2 708.2L380.8 695.3L380.8 575.7L220.4 483.2L218.9 482.3C218.5 482.1 217.4 481.9 216.6 481.7C215.9 481.3 215.1 480.9 214.3 480.5C213.6 480.3 212.8 479.9 212.1 479.7C211.3 479.5 210.3 479.4 209.5 479.4C208.7 479.5 207.5 479.7 207 479.9C206.7 479.9 207 479.9 207 479.9L207 596.8L175.1 578.4L175.1 319.8L203.6 303.3L404.3 419.1ZM400.8 328.5L342.4 362.2L325.6 352.6L384.1 318.8ZM381.2 446.6L381.2 536.9L206.8 436.2L206.8 345.9ZM440.3 521.4L440.3 561.1L605.9 465.6L606.9 464.9C607.2 465.3 607.7 466.4 608.3 467C608.9 467.7 609.7 468 610.4 468.5C610.9 469 611.7 469.5 612.3 470.1C612.9 470.6 613.4 471.2 614 471.9C614.5 472.6 614.9 473.3 615.4 473.9C615.8 474.7 616.2 475.4 616.5 476.2C616.9 476.9 617.2 477.7 617.5 478.5C617.9 479.3 618.1 480.1 618.3 480.9C618.7 481.7 618.9 482.5 619.1 483.3C619.4 484.1 619.6 484.9 619.8 485.7C619.9 486.5 620.2 487.3 620.3 488.1C620.4 489 620.6 489.8 620.7 490.6C620.9 491.4 621 492.3 621 493.1C621.1 493.9 621.2 494.8 621.3 495.6C621.3 496.4 621.4 497.2 621.4 498.1C621.5 498.9 621.5 499.7 621.7 500.6C621.7 501.4 621.8 502.2 621.8 503.1C621.8 503.9 621.8 504.7 621.8 505.6C621.8 506.4 621.8 507.2 621.8 508.1C621.8 508.9 621.7 509.7 621.7 510.6C621.7 511.4 621.5 512.2 621.4 513.2C621.4 513.9 621.3 514.7 621.2 515.5C621.1 516.5 621.1 517.3 621 518.1C620.9 519 620.7 519.8 620.6 520.6C620.5 521.4 620.5 522.3 620.3 523.1C620.2 523.9 620.1 524.8 619.9 525.6C619.7 526.4 619.5 527.2 619.4 528C619.1 528.8 618.8 529.6 618.6 530.4C618.2 531.2 618 532 617.7 532.8C617.3 533.4 617 534.2 616.6 535C616.3 535.8 616 536.5 615.6 537.3C615.3 538.1 614.9 538.8 614.6 539.6C614.1 540.3 613.8 541.1 613.3 541.8C612.9 542.4 612.4 543.1 612 543.8C611.5 544.5 610.9 545.2 610.4 545.8C609.8 546.4 609.2 547 608.7 547.6C608.1 548.1 607.4 548.7 606.7 549.3C606.1 549.7 605.5 550.3 604.8 550.8C604.1 551.3 603.4 552 602.8 552.4C602.2 552.6 601.1 552.8 600.8 552.8C600.4 552.8 600.6 552.6 600.6 552.6L415.5 659.3L415.5 455.6L595.9 351.5L597.6 350.6C597.8 350.8 598.6 351.8 599.3 352.3C600 352.6 600.9 352.6 601.7 352.9C602.5 353.1 603.3 353.6 604 353.9C604.7 354.3 605.4 354.8 606 355.4C606.6 355.9 607.2 356.5 607.7 357.2C608.3 357.9 608.8 358.6 609.2 359.3C609.7 359.9 610.1 360.6 610.5 361.4C610.9 362.1 611.3 362.9 611.6 363.6C612 364.4 612.3 365.2 612.6 366C612.9 366.7 613.2 367.5 613.4 368.3C613.8 369.1 614 369.9 614.4 370.7C614.6 371.4 614.8 372.2 615 373C615.2 373.8 615.4 374.8 615.5 375.6C615.7 376.4 615.8 377.1 616 377.9C616.1 378.9 616.2 379.7 616.3 380.5C616.3 381.4 616.4 382.2 616.5 383C616.5 383.8 616.6 384.7 616.6 385.5C616.8 386.3 616.8 387.2 616.9 388C616.9 388.8 616.9 389.7 616.9 390.5C616.9 391.3 616.9 392.2 616.9 393C616.8 393.8 616.8 394.7 616.8 395.5C616.6 396.3 616.5 397.2 616.5 398C616.4 398.8 616.3 399.6 616.2 400.5C616.1 401.3 615.8 402.1 615.7 402.9C615.5 403.8 615.4 404.6 615.2 405.4C614.9 406.2 614.7 407 614.5 407.8C614.2 408.6 614.1 409.4 613.8 410.2C613.6 411 613.3 411.8 613 412.6C612.8 413.4 612.4 414.2 612.1 414.9C611.7 415.7 611.3 416.5 610.9 417.2C610.5 417.8 610 418.5 609.6 419.2C609 419.9 608.5 420.6 608 421.3C607.4 421.8 606.8 422.5 606.3 423.1C605.7 423.7 605.1 424.3 604.6 424.9C604 425.5 603.4 426.2 602.8 426.7C602.3 427.3 601.6 428 601 428.4C600.6 428.9 600 429.1 599.8 429.2L440.3 521.4ZM596.1 417.6L576.9 428.8L531 402.3L550.4 391.2ZM353.9 441L293.6 475.8L276.3 465.7L336.5 431ZM498.1 481.7L478.6 492.9L423.7 461.3L443.2 450ZM374.5 483.1L343.5 501L326.6 491.3L357.6 473.4ZM603.5 540.4L584 551.7L531.7 521.5L551.2 510.2ZM272.6 534.1L272.6 633.6L255.3 623.6L255.3 524.1ZM320.8 561.3L320.8 596.5L303.7 586.6L303.7 551.5ZM363.7 585.2L363.7 684.2L348.4 675.4L348.4 576.4ZM320.8 609.7L320.8 629.8L302.9 619.4L302.9 599.3ZM320.8 642.9L320.8 661.4L303.3 651.2L303.3 632.9Z"/></clipPath></defs><path fill="url(#labgIsoHo)" fill-rule="evenodd" d="M414 0L828 232.9L828 713.3L414 946.2L0 713.3L0 232.9ZM414 36.6L796 251.5L796 694.7L414 909.6L32 694.7L32 251.5Z"/><path fill="#000" d="M414 36.6L796 251.5L796 694.7L414 909.6L32 694.7L32 251.5Z"/><path class="iso-cubo" fill="url(#labgIsoHo)" fill-rule="evenodd" d="M440.8 246.5L421.7 257.7L404.8 247.9L424 236.8ZM318.9 256.4L301.7 266.3L285.7 257.1L302.9 247.2ZM522.2 260.9L438.6 309.1L420.1 298.5L503.7 250.2ZM392.5 269.9L373.4 280.9L356.1 271L375.3 260ZM277 277.3L235 301.6L219.9 292.9L261.9 268.6ZM576.1 291.8L398.2 394.4L380.4 384.1L558.3 281.5ZM348.1 295.6L287.5 330.5L270.1 320.5L330.6 285.6ZM404.3 419.1L577.9 318.9L579.2 318.1C579.6 318 580.7 317.9 581.5 317.6C582.2 317.4 583 317 583.8 316.6C584.5 316.2 585.3 315.8 586 315.5C586.8 315.1 587.6 314.8 588.3 314.4C589 314.1 589.8 313.8 590.6 313.5C591.4 313.2 592.2 313 593 312.9C593.8 312.6 594.6 312.5 595.5 312.4C596.3 312.2 597.1 312.2 597.9 312.1C598.9 312.1 599.7 312.1 600.4 312.1C601.4 312.1 602.2 312.1 603 312.2C603.9 312.3 604.7 312.4 605.5 312.5C606.3 312.7 607.1 313 607.9 313.2C608.7 313.5 609.5 313.9 610.1 314.2C610.9 314.6 611.6 315 612.4 315.5C613.1 315.8 613.8 316.3 614.5 316.7C615.2 317.3 615.8 317.8 616.5 318.3C617.1 318.8 617.8 319.4 618.3 319.9C618.9 320.6 619.5 321.2 620.1 321.9C620.6 322.4 621.1 323.1 621.7 323.8C622.1 324.5 622.6 325.2 623 325.8C623.5 326.5 623.9 327.2 624.4 328C624.8 328.7 625.2 329.4 625.6 330.2C626 330.9 626.4 331.7 626.8 332.3C627.1 333.1 627.5 333.8 627.9 334.6C628.3 335.4 628.6 336.1 628.9 336.9C629.3 337.7 629.6 338.4 630 339.2C630.3 340 630.7 340.7 630.9 341.5C631.2 342.3 631.6 343.1 631.9 343.9C632.1 344.5 632.5 345.3 632.7 346.1C632.9 346.9 633.3 347.7 633.5 348.5C633.7 349.3 634 350.1 634.3 350.9C634.5 351.7 634.8 352.5 635.1 353.3C635.3 354.1 635.7 354.9 635.9 355.7C636.1 356.5 636.5 357.3 636.7 358.1C636.9 358.9 637.2 359.7 637.3 360.5C637.5 361.3 637.7 362.1 638 362.9C638.1 363.8 638.3 364.6 638.5 365.4C638.6 366.2 638.9 367 639.1 367.8C639.2 368.6 639.4 369.4 639.7 370.3C639.9 371.1 640 371.9 640.2 372.7C640.3 373.5 640.5 374.3 640.7 375.2C640.8 376 640.9 376.8 641 377.6C641.1 378.5 641.3 379.3 641.4 380.1C641.5 381 641.5 381.8 641.6 382.6C641.7 383.4 641.7 384.3 641.8 385.1C641.9 385.9 641.9 386.8 642.1 387.6C642.1 388.4 642.2 389.3 642.3 390.1C642.3 390.9 642.4 391.9 642.4 392.7C642.5 393.5 642.6 394.2 642.6 395.2C642.7 396 642.7 396.8 642.9 397.7C642.9 398.5 642.9 399.3 642.9 400.2C642.9 401 642.9 401.8 642.9 402.7C642.9 403.5 642.9 404.3 642.7 405.2C642.6 406 642.6 406.8 642.5 407.7C642.4 408.5 642.3 409.3 642.2 410.1C642.1 411 641.9 411.8 641.7 412.6C641.6 413.4 641.5 414.2 641.3 415.1C641.1 415.9 640.9 416.7 640.8 417.5C640.6 418.3 640.3 419.1 640.2 420C640 420.8 639.8 421.6 639.6 422.4C639.4 423.2 639.2 424 638.9 424.8C638.6 425.6 638.4 426.4 638.2 427.2C637.8 428 637.6 428.8 637.3 429.6C637 430.4 636.8 431.2 636.6 432C636.4 432.8 636.2 433.6 636.1 434.5C636.1 435.3 636.2 436.1 636.4 436.9C636.5 437.8 636.8 438.6 637 439.3C637.4 440.1 637.8 440.9 638.2 441.6C638.6 442.2 639.1 442.9 639.6 443.7C640 444.4 640.5 445.1 640.9 445.8C641.4 446.5 641.8 447.1 642.3 447.9C642.6 448.6 643.1 449.3 643.4 450.1C643.9 450.8 644.2 451.6 644.6 452.4C644.9 453.1 645.3 453.9 645.6 454.7C645.9 455.5 646.2 456.2 646.5 456.9C646.8 457.7 647.1 458.5 647.4 459.3C647.6 460.1 647.9 460.9 648.2 461.7C648.4 462.5 648.7 463.3 648.9 464.1C649.1 464.9 649.2 465.7 649.5 466.5C649.7 467.3 649.8 468.2 650 469C650.2 469.8 650.4 470.6 650.5 471.4C650.6 472.3 650.8 473.1 651 473.9C651.1 474.7 651.3 475.5 651.4 476.4C651.5 477.2 651.7 478 651.9 478.8C652 479.6 652.1 480.5 652.2 481.3C652.3 482.1 652.4 483.1 652.5 483.9C652.7 484.7 652.7 485.4 652.8 486.4C652.8 487.2 652.9 488 652.9 488.9C652.9 489.7 653 490.5 653 491.4C653 492.2 653 493 653 493.9C653 494.7 653 495.5 653 496.4C653 497.2 653 498 653 498.9C653 499.7 653 500.5 652.9 501.4C652.9 502.2 652.9 503 652.9 503.9C652.9 504.7 652.8 505.5 652.8 506.4C652.7 507.2 652.7 508 652.5 508.9C652.5 509.7 652.4 510.5 652.3 511.4C652.3 512.2 652.2 513 652.1 513.8C652 514.7 651.9 515.5 651.7 516.3C651.6 517.1 651.5 518.1 651.3 518.9C651.2 519.6 651.1 520.4 651 521.4C650.8 522.2 650.6 523 650.5 523.8C650.4 524.7 650.3 525.5 650 526.3C649.9 527.1 649.7 527.9 649.6 528.8C649.4 529.6 649.2 530.4 649 531.2C648.9 532 648.7 532.8 648.6 533.7C648.3 534.5 648.1 535.3 648 536.1C647.8 536.9 647.5 537.7 647.3 538.5C647.2 539.3 647 540.2 646.7 541C646.4 541.8 646.2 542.6 645.9 543.4C645.7 544 645.4 544.8 645 545.6C644.8 546.4 644.5 547.2 644.1 548C643.8 548.7 643.5 549.5 643.2 550.3C642.9 551.1 642.5 551.8 642.2 552.6C641.8 553.4 641.6 554.2 641.3 554.9C640.9 555.7 640.6 556.5 640.2 557.3C639.9 558 639.6 558.8 639.2 559.5C638.8 560.2 638.4 561 638 561.7C637.6 562.4 637.2 563.2 636.7 563.9C636.4 564.6 635.9 565.4 635.4 566C635 566.7 634.5 567.4 634 568.1C633.5 568.8 633.1 569.5 632.5 570.2C632 570.7 631.5 571.4 630.9 572.1C630.4 572.7 629.9 573.3 629.3 573.9C628.7 574.6 628.2 575.2 627.6 575.7C626.9 576.3 626.3 576.9 625.6 577.4C625.1 578 624.4 578.5 623.7 579C623 579.5 622.3 580 621.7 580.4C621 581 620.3 581.4 619.6 581.9C618.9 582.3 618 582.9 617.5 583.4C617.2 583.8 617.3 584.4 617.2 584.6L403.2 708.2L380.8 695.3L380.8 575.7L220.4 483.2L218.9 482.3C218.5 482.1 217.4 481.9 216.6 481.7C215.9 481.3 215.1 480.9 214.3 480.5C213.6 480.3 212.8 479.9 212.1 479.7C211.3 479.5 210.3 479.4 209.5 479.4C208.7 479.5 207.5 479.7 207 479.9C206.7 479.9 207 479.9 207 479.9L207 596.8L175.1 578.4L175.1 319.8L203.6 303.3L404.3 419.1ZM400.8 328.5L342.4 362.2L325.6 352.6L384.1 318.8ZM381.2 446.6L381.2 536.9L206.8 436.2L206.8 345.9ZM440.3 521.4L440.3 561.1L605.9 465.6L606.9 464.9C607.2 465.3 607.7 466.4 608.3 467C608.9 467.7 609.7 468 610.4 468.5C610.9 469 611.7 469.5 612.3 470.1C612.9 470.6 613.4 471.2 614 471.9C614.5 472.6 614.9 473.3 615.4 473.9C615.8 474.7 616.2 475.4 616.5 476.2C616.9 476.9 617.2 477.7 617.5 478.5C617.9 479.3 618.1 480.1 618.3 480.9C618.7 481.7 618.9 482.5 619.1 483.3C619.4 484.1 619.6 484.9 619.8 485.7C619.9 486.5 620.2 487.3 620.3 488.1C620.4 489 620.6 489.8 620.7 490.6C620.9 491.4 621 492.3 621 493.1C621.1 493.9 621.2 494.8 621.3 495.6C621.3 496.4 621.4 497.2 621.4 498.1C621.5 498.9 621.5 499.7 621.7 500.6C621.7 501.4 621.8 502.2 621.8 503.1C621.8 503.9 621.8 504.7 621.8 505.6C621.8 506.4 621.8 507.2 621.8 508.1C621.8 508.9 621.7 509.7 621.7 510.6C621.7 511.4 621.5 512.2 621.4 513.2C621.4 513.9 621.3 514.7 621.2 515.5C621.1 516.5 621.1 517.3 621 518.1C620.9 519 620.7 519.8 620.6 520.6C620.5 521.4 620.5 522.3 620.3 523.1C620.2 523.9 620.1 524.8 619.9 525.6C619.7 526.4 619.5 527.2 619.4 528C619.1 528.8 618.8 529.6 618.6 530.4C618.2 531.2 618 532 617.7 532.8C617.3 533.4 617 534.2 616.6 535C616.3 535.8 616 536.5 615.6 537.3C615.3 538.1 614.9 538.8 614.6 539.6C614.1 540.3 613.8 541.1 613.3 541.8C612.9 542.4 612.4 543.1 612 543.8C611.5 544.5 610.9 545.2 610.4 545.8C609.8 546.4 609.2 547 608.7 547.6C608.1 548.1 607.4 548.7 606.7 549.3C606.1 549.7 605.5 550.3 604.8 550.8C604.1 551.3 603.4 552 602.8 552.4C602.2 552.6 601.1 552.8 600.8 552.8C600.4 552.8 600.6 552.6 600.6 552.6L415.5 659.3L415.5 455.6L595.9 351.5L597.6 350.6C597.8 350.8 598.6 351.8 599.3 352.3C600 352.6 600.9 352.6 601.7 352.9C602.5 353.1 603.3 353.6 604 353.9C604.7 354.3 605.4 354.8 606 355.4C606.6 355.9 607.2 356.5 607.7 357.2C608.3 357.9 608.8 358.6 609.2 359.3C609.7 359.9 610.1 360.6 610.5 361.4C610.9 362.1 611.3 362.9 611.6 363.6C612 364.4 612.3 365.2 612.6 366C612.9 366.7 613.2 367.5 613.4 368.3C613.8 369.1 614 369.9 614.4 370.7C614.6 371.4 614.8 372.2 615 373C615.2 373.8 615.4 374.8 615.5 375.6C615.7 376.4 615.8 377.1 616 377.9C616.1 378.9 616.2 379.7 616.3 380.5C616.3 381.4 616.4 382.2 616.5 383C616.5 383.8 616.6 384.7 616.6 385.5C616.8 386.3 616.8 387.2 616.9 388C616.9 388.8 616.9 389.7 616.9 390.5C616.9 391.3 616.9 392.2 616.9 393C616.8 393.8 616.8 394.7 616.8 395.5C616.6 396.3 616.5 397.2 616.5 398C616.4 398.8 616.3 399.6 616.2 400.5C616.1 401.3 615.8 402.1 615.7 402.9C615.5 403.8 615.4 404.6 615.2 405.4C614.9 406.2 614.7 407 614.5 407.8C614.2 408.6 614.1 409.4 613.8 410.2C613.6 411 613.3 411.8 613 412.6C612.8 413.4 612.4 414.2 612.1 414.9C611.7 415.7 611.3 416.5 610.9 417.2C610.5 417.8 610 418.5 609.6 419.2C609 419.9 608.5 420.6 608 421.3C607.4 421.8 606.8 422.5 606.3 423.1C605.7 423.7 605.1 424.3 604.6 424.9C604 425.5 603.4 426.2 602.8 426.7C602.3 427.3 601.6 428 601 428.4C600.6 428.9 600 429.1 599.8 429.2L440.3 521.4ZM596.1 417.6L576.9 428.8L531 402.3L550.4 391.2ZM353.9 441L293.6 475.8L276.3 465.7L336.5 431ZM498.1 481.7L478.6 492.9L423.7 461.3L443.2 450ZM374.5 483.1L343.5 501L326.6 491.3L357.6 473.4ZM603.5 540.4L584 551.7L531.7 521.5L551.2 510.2ZM272.6 534.1L272.6 633.6L255.3 623.6L255.3 524.1ZM320.8 561.3L320.8 596.5L303.7 586.6L303.7 551.5ZM363.7 585.2L363.7 684.2L348.4 675.4L348.4 576.4ZM320.8 609.7L320.8 629.8L302.9 619.4L302.9 599.3ZM320.8 642.9L320.8 661.4L303.3 651.2L303.3 632.9Z"/><g clip-path="url(#labgIsoHc)"><rect class="iso-brillo" x="-300" y="-40" width="220" height="1030" fill="url(#labgIsoHb)" transform="skewX(-18)"/></g></svg>
+          <span class="suite-text">LABG Suite</span>
+        </a>
+        <div class="seg lang-seg" role="group" aria-label="Idioma / Language">
+          <button type="button" data-lang="es" title="Español">ES</button><button type="button" data-lang="en" title="English">EN</button>
+        </div>
+        <button type="button" class="icon-btn theme-btn" id="themeBtn" title="Cambiar entre tema claro y oscuro" aria-label="Cambiar entre tema claro y oscuro">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+        </button>
+        <button type="button" class="icon-btn" id="helpBtn" data-es-title="Atajos de teclado (?)" data-en-title="Keyboard shortcuts (?)" title="Atajos de teclado (?)" aria-label="Atajos de teclado (?)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav class="stepper" id="stepper" aria-label="Bloques"></nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<!-- ==================== BLOCK 1 · HOME ==================== -->
+<section class="step-panel active" id="panel-1">
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow"><span data-l="es">Cladística morfológica</span><span data-l="en">Morphological cladistics</span></div>
+        <h1><span data-l="es">De la <span class="accent">matriz de caracteres</span> al <span class="gold">cladograma diagnosticado</span></span><span data-l="en">From the <span class="accent">character matrix</span> to the <span class="gold">diagnosed cladogram</span></span></h1>
+        <p class="lead"><span data-l="es">Escribe tus caracteres con sus enunciados y sus estados, busca los árboles <b>más parsimoniosos</b> con
+          <b>ratchet</b> y <b>pesos implícitos</b>, mira <b>cada cambio dibujado sobre su rama</b>, edita el cladograma con el
+          ratón, mide el <b>apoyo</b> y resume con <b>consensos</b>. Todo dentro de tu navegador: sin instalar nada, sin
+          servidor y sin que tus datos salgan de tu computadora.</span><span data-l="en">Write your characters with their statements and states, search for the <b>most parsimonious</b>
+          trees with the <b>ratchet</b> and <b>implied weights</b>, see <b>every change drawn on its branch</b>, edit the
+          cladogram with the mouse, measure <b>support</b> and summarise with <b>consensus</b> trees. All inside your browser:
+          nothing to install, no server, and your data never leave your computer.</span></p>
+        <div class="hero-cta">
+          <button type="button" class="btn btn-primary btn-lg" id="startBtn"><span data-l="es">Empezar con mi matriz →</span><span data-l="en">Start with my matrix →</span></button>
+          <button type="button" class="btn btn-secondary btn-lg" id="labsBtn"><span data-l="es">Probar los laboratorios</span><span data-l="en">Try the labs</span></button>
+          <button type="button" class="btn btn-ghost btn-lg" id="theoryBtn"><span data-l="es">Leer la teoría</span><span data-l="en">Read the theory</span></button>
+          <button type="button" class="btn btn-ghost btn-lg" id="citeBtn"><span data-l="es">Cómo citar</span><span data-l="en">How to cite</span></button>
+        </div>
+        <div class="badge-row">
+          <span class="badge ok"><span data-l="es">Funciona completo en tu navegador</span><span data-l="en">Runs entirely in your browser</span></span>
+          <span class="badge ok"><span data-l="es">Tus datos no salen de tu computadora</span><span data-l="en">Your data never leave your computer</span></span>
+          <span class="badge ok"><span data-l="es">Inaplicables, continuos y matrices de pasos</span><span data-l="en">Inapplicables, continuous and step matrices</span></span>
+          <span class="badge ok"><span data-l="es">Español e inglés</span><span data-l="en">Spanish and English</span></span>
+        </div>
+      </div>
+      <div class="hero-art" id="heroArt" role="img" data-es-title="Una matriz de caracteres optimizada sobre su cladograma" data-en-title="A character matrix optimised on its cladogram" aria-label="Una matriz de caracteres optimizada sobre su cladograma"></div>
+    </div>
+  </div>
+
+  <div class="messages" id="homeMessages"></div>
+
+  <h2 class="section-title"><span data-l="es">Cómo funciona</span><span data-l="en">How it works</span></h2>
+  <p class="section-sub"><span data-l="es">La ruta es la de un estudio cladístico real, en el orden en que se hace. Cada bloque explica la idea,
+    revisa si tus datos la sostienen y dice qué conviene hacer después.</span><span data-l="en">The route is that of a real cladistic study, in the order it is actually done. Each block explains the
+    idea, checks whether your data can support it and says what to do next.</span></p>
+  <div class="workflow">
+    <div class="wf-step"><div class="wf-n"><span data-l="es">PASO 1</span><span data-l="en">STEP 1</span></div><div class="wf-t"><span data-l="es">Codificar</span><span data-l="en">Code</span></div><div class="wf-d"><span data-l="es">caracteres y estados</span><span data-l="en">characters and states</span></div></div>
+    <div class="wf-step"><div class="wf-n"><span data-l="es">PASO 2</span><span data-l="en">STEP 2</span></div><div class="wf-t"><span data-l="es">Buscar</span><span data-l="en">Search</span></div><div class="wf-d"><span data-l="es">los árboles más cortos</span><span data-l="en">the shortest trees</span></div></div>
+    <div class="wf-step"><div class="wf-n"><span data-l="es">PASO 3</span><span data-l="en">STEP 3</span></div><div class="wf-t"><span data-l="es">Pesar</span><span data-l="en">Weight</span></div><div class="wf-d"><span data-l="es">sucesivos e implícitos</span><span data-l="en">successive and implied</span></div></div>
+    <div class="wf-step"><div class="wf-n"><span data-l="es">PASO 4</span><span data-l="en">STEP 4</span></div><div class="wf-t"><span data-l="es">Mapear</span><span data-l="en">Map</span></div><div class="wf-d"><span data-l="es">cada cambio en su rama</span><span data-l="en">each change on its branch</span></div></div>
+    <div class="wf-step"><div class="wf-n"><span data-l="es">PASO 5</span><span data-l="en">STEP 5</span></div><div class="wf-t"><span data-l="es">Diagnosticar</span><span data-l="en">Diagnose</span></div><div class="wf-d"><span data-l="es">sinapomorfías por clado</span><span data-l="en">synapomorphies per clade</span></div></div>
+    <div class="wf-step"><div class="wf-n"><span data-l="es">PASO 6</span><span data-l="en">STEP 6</span></div><div class="wf-t"><span data-l="es">Medir el apoyo</span><span data-l="en">Measure support</span></div><div class="wf-d"><span data-l="es">Bremer y remuestreo</span><span data-l="en">Bremer and resampling</span></div></div>
+    <div class="wf-step"><div class="wf-n"><span data-l="es">PASO 7</span><span data-l="en">STEP 7</span></div><div class="wf-t"><span data-l="es">Publicar</span><span data-l="en">Publish</span></div><div class="wf-d"><span data-l="es">figura, informe y paquete</span><span data-l="en">figure, report and package</span></div></div>
+  </div>
+
+  <!-- ---------- Interactive labs ---------- -->
+  <h2 class="section-title" id="labs"><span data-l="es">Pruébalo: dos laboratorios que calculan de verdad</span><span data-l="en">Try it: two labs that really compute</span></h2>
+  <p class="section-sub"><span data-l="es">Nada de esto es una animación. Cada clic recalcula, con la misma optimización que la app usará con tu
+    matriz, la longitud de todos los árboles posibles y dónde cae cada cambio.</span><span data-l="en">None of this is an animation. Every click recomputes, with the same optimization the app will use on
+    your matrix, the length of every possible tree and where each change falls.</span></p>
+
+  <div class="playground">
+    <div class="lab-tabs" role="tablist" data-es-title="Laboratorios" data-en-title="Labs" aria-label="Laboratorios">
+      <button type="button" class="lab-tab on" data-lab="lab1" role="tab" aria-selected="true" aria-controls="lab1" id="tabLab1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12h4M7 5v14M7 5h13M7 19h6M13 19v-4M13 15h7M13 19v2h7"/><circle cx="13" cy="5" r="1.6" fill="currentColor"/></svg>
+        <span data-l="es">Cuenta los pasos</span><span data-l="en">Count the steps</span></button>
+      <button type="button" class="lab-tab" data-lab="lab2" role="tab" aria-selected="false" aria-controls="lab2" id="tabLab2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4v16M4 8h6M4 16h6M10 6v4M10 14v4M14 4v16M14 8h6M14 16h6"/></svg>
+        <span data-l="es">ACCTRAN contra DELTRAN</span><span data-l="en">ACCTRAN against DELTRAN</span></button>
+    </div>
+
+    <!-- LAB 1 -->
+    <div class="lab on" id="lab1" role="tabpanel" aria-labelledby="tabLab1">
+      <p class="hint" style="margin-top:0"><span data-l="es">Cinco taxones y seis caracteres binarios. Con cinco taxones hay exactamente <b>15</b> árboles sin raíz
+        posibles: la app los evalúa todos y los ordena de más corto a más largo. Haz clic en las celdas de la matriz para cambiarlas y
+        en cualquier árbol para verlo con sus cambios.</span><span data-l="en">Five taxa and six binary characters. With five taxa there are exactly <b>15</b> possible unrooted
+        trees: the app evaluates all of them and sorts them from shortest to longest. Click the cells of the matrix to change them and
+        any tree to see it with its changes.</span></p>
+      <div class="pg-controls">
+        <button type="button" class="btn btn-secondary btn-sm" id="lab1Reset"><span data-l="es">Restablecer</span><span data-l="en">Reset</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" id="lab1Random"><span data-l="es">Matriz al azar</span><span data-l="en">Random matrix</span></button>
+        <label class="inline-label" for="lab1Opt"><span data-l="es">Optimización</span><span data-l="en">Optimization</span>
+          <select id="lab1Opt">
+            <option value="acctran" data-es="ACCTRAN (cambios tempranos)" data-en="ACCTRAN (early changes)">ACCTRAN (cambios tempranos)</option>
+            <option value="deltran" data-es="DELTRAN (cambios tardíos)" data-en="DELTRAN (late changes)">DELTRAN (cambios tardíos)</option>
+            <option value="unamb" data-es="Sólo cambios no ambiguos" data-en="Unambiguous changes only">Sólo cambios no ambiguos</option>
+          </select></label>
+      </div>
+      <div class="lab-grid">
+        <div class="pg-pane">
+          <div class="pg-title"><span data-l="es">Matriz (clic para cambiar)</span><span data-l="en">Matrix (click to change)</span></div>
+          <div class="lab-matrix-wrap" style="padding:8px 12px 4px" id="lab1Matrix"></div>
+          <ul class="lab-legend" id="lab1Legend" style="padding:0 12px 10px"></ul>
+        </div>
+        <div class="pg-pane">
+          <div class="pg-title"><span data-l="es">Los 15 árboles, del más corto al más largo</span><span data-l="en">The 15 trees, shortest first</span></div>
+          <div class="lab-trees" id="lab1Trees" style="padding:8px 10px 10px"></div>
+        </div>
+      </div>
+      <div class="lab-grid" style="margin-top:14px">
+        <div class="pg-pane">
+          <div class="pg-title"><span data-l="es">El árbol elegido, con cada cambio sobre su rama</span><span data-l="en">The chosen tree, with each change on its branch</span></div>
+          <div class="lab-big" id="lab1Big"></div>
+        </div>
+        <div>
+          <div id="lab1Tiles"></div>
+          <div class="pg-pane lab-hist"><div class="pg-title"><span data-l="es">Cuántos árboles hay de cada longitud</span><span data-l="en">How many trees of each length</span></div><div id="lab1Hist" style="padding:4px 12px 8px"></div></div>
+        </div>
+      </div>
+      <div class="pg-status" id="lab1Status"></div>
+    </div>
+
+    <!-- LAB 2 -->
+    <div class="lab" id="lab2" role="tabpanel" aria-labelledby="tabLab2">
+      <p class="hint" style="margin-top:0"><span data-l="es">Un árbol fijo y un solo carácter. Cambia el estado de las puntas y compara las dos reconstrucciones más
+        parsimoniosas con nombre: las ramas se pintan con el estado de cada tramo y las marcas dicen dónde cambia.</span><span data-l="en">A fixed tree and a single character. Change the states of the tips and compare the two named most
+        parsimonious reconstructions: branches are painted with the state of each stretch and the marks say where it changes.</span></p>
+      <div class="pg-controls">
+        <span class="inline-label"><span data-l="es">Estados de las puntas</span><span data-l="en">States of the tips</span></span>
+        <div id="lab2Tips"></div>
+        <button type="button" class="btn btn-secondary btn-sm" id="lab2Reset"><span data-l="es">Restablecer</span><span data-l="en">Reset</span></button>
+      </div>
+      <div class="lab-grid three">
+        <div class="pg-pane lab-fit" id="lab2Acc"></div>
+        <div class="pg-pane lab-fit" id="lab2Del"></div>
+        <div class="pg-pane lab-fit" id="lab2Mpr"></div>
+      </div>
+      <div id="lab2Tiles"></div>
+      <div class="pg-status" id="lab2Status"></div>
+    </div>
+  </div>
+
+  <!-- ---------- The ten blocks ---------- -->
+  <h2 class="section-title"><span data-l="es">Los diez bloques</span><span data-l="en">The ten blocks</span></h2>
+  <p class="section-sub"><span data-l="es">Un bloque es un paso del estudio y un capítulo del manual: el capítulo 5 explica el Bloque 5.</span><span data-l="en">A block is a step of the study and a chapter of the manual: chapter 5 explains Block 5.</span></p>
+  <div class="feature-grid" id="blockGrid" data-lnav-skip></div>
+
+  <!-- ---------- Kinds of character ---------- -->
+  <h2 class="section-title"><span data-l="es">Seis tipos de carácter</span><span data-l="en">Six kinds of character</span></h2>
+  <p class="section-sub"><span data-l="es">La morfología no cabe en un solo modelo de cambio. Cada carácter declara el suyo, y la
+    optimización y la búsqueda lo respetan.</span><span data-l="en">Morphology does not fit a single model of change. Each character declares its own, and the
+    optimization and the search respect it.</span></p>
+  <div class="material-strip" id="typeStrip"></div>
+
+  <!-- ---------- Methods ---------- -->
+  <h2 class="section-title"><span data-l="es">Los métodos y de dónde vienen</span><span data-l="en">The methods and where they come from</span></h2>
+  <p class="section-sub"><span data-l="es">Cada método cita el artículo que lo define; la lista completa está al pie de esta página y el
+    informe del Bloque 10 cita sólo los que hayas usado.</span><span data-l="en">Each method cites the paper that defines it; the full list is at the foot of this page and the report
+    of Block 10 cites only those you used.</span></p>
+  <div class="method-filter" id="methodFilter"></div>
+  <div class="method-gallery" id="methodGallery"></div>
+
+  <!-- ---------- Theory ---------- -->
+  <h2 class="section-title" id="theory"><span data-l="es">La teoría, en lenguaje llano</span><span data-l="en">The theory, in plain words</span></h2>
+  <p class="section-sub"><span data-l="es">Diez ideas que sostienen todo lo demás. Cada una dice en qué bloque se usa.</span><span data-l="en">Ten ideas that hold up everything else. Each one says in which block it is used.</span></p>
+  <div class="card theory-card" id="theoryHost"></div>
+
+  <!-- ---------- Limits ---------- -->
+  <h2 class="section-title"><span data-l="es">Qué tan grande puede ser tu matriz</span><span data-l="en">How large your matrix can be</span></h2>
+  <p class="section-sub"><span data-l="es">Medido en una computadora de escritorio con el mismo motor que corre en tu navegador: el tiempo de
+    revisar <b>todos</b> los reordenamientos TBR de un árbol una vez. Una búsqueda repite esa ronda varias veces, y el ratchet,
+    cientos.</span><span data-l="en">Measured on a desktop computer with the same engine that runs in your browser: the time to review
+    <b>every</b> TBR rearrangement of a tree once. A search repeats that round several times, and the ratchet, hundreds.</span></p>
+  <div class="limits" id="limitsTable"></div>
+  <h3 style="margin:22px 0 10px"><span data-l="es">Lo que este programa no hace</span><span data-l="en">What this program does not do</span></h3>
+  <div class="notdo">
+    <div><b><span data-l="es">Modelos de sustitución</span><span data-l="en">Substitution models</span></b><span data-l="es">Ni verosimilitud ni inferencia bayesiana: es parsimonia. Para datos moleculares con modelo está PhylogenyPro, de la misma suite.</span><span data-l="en">Neither likelihood nor Bayesian inference: it is parsimony. For molecular data with a model there is PhylogenyPro, in the same suite.</span></div>
+    <div><b><span data-l="es">Alinear secuencias</span><span data-l="en">Aligning sequences</span></b><span data-l="es">Lee matrices ya codificadas (también de ADN), pero no alinea.</span><span data-l="en">It reads matrices already coded (DNA too), but it does not align.</span></div>
+    <div><b><span data-l="es">Fechar el árbol</span><span data-l="en">Dating the tree</span></b><span data-l="es">Un cladograma no tiene tiempo: no hay reloj ni calibraciones.</span><span data-l="en">A cladogram has no time: there is no clock and no calibrations.</span></div>
+    <div><b><span data-l="es">Matrices enormes</span><span data-l="en">Huge matrices</span></b><span data-l="es">Más allá de unos 200 taxones la espera crece mucho; el programa avisa antes de empezar.</span><span data-l="en">Beyond about 200 taxa the wait grows a lot; the program warns before starting.</span></div>
+  </div>
+
+  <!-- ---------- References ---------- -->
+  <h2 class="section-title"><span data-l="es">Referencias</span><span data-l="en">References</span></h2>
+  <div class="ref-tools" id="refTools"></div>
+  <ol class="ref-list" id="refList"></ol>
+
+  <!-- ---------- Cite ---------- -->
+  <h2 class="section-title" id="cite"><span data-l="es">Cómo citar</span><span data-l="en">How to cite</span></h2>
+  <div class="cite-box">
+    <p style="margin:0 0 8px"><span data-l="es">Si este programa te sirvió para un trabajo publicado, cítalo así:</span><span data-l="en">If this program helped with a published work, cite it as:</span></p>
+    <div class="cite-ref" id="citeApa"></div>
+    <button type="button" class="btn btn-secondary btn-sm" id="copyApa"><span data-l="es">Copiar la cita</span><span data-l="en">Copy the citation</span></button>
+    <details style="margin-top:12px"><summary><span data-l="es">BibTeX</span><span data-l="en">BibTeX</span></summary>
+      <pre class="cite-ref" id="citeBib"></pre>
+      <button type="button" class="btn btn-ghost btn-sm" id="copyBib"><span data-l="es">Copiar BibTeX</span><span data-l="en">Copy BibTeX</span></button>
+    </details>
+  </div>
+
+  <p class="footer-note"><span data-l="es">CladisticsPro · © 2026 Luis Ángel Barrera-Guzmán · Software libre bajo la licencia GPL-3.0 · Parte de la LABG Suite</span><span data-l="en">CladisticsPro · © 2026 Luis Ángel Barrera-Guzmán · Free software under the GPL-3.0 licence · Part of the LABG Suite</span></p>
+</section>
+
+<!-- ==================== BLOCK 2 · CHARACTER MATRIX ==================== -->
+<section class="step-panel" id="panel-2">
+  <div class="panel-title"><div class="pt-num">2</div><div><h2><span data-l="es">Matriz de caracteres</span><span data-l="en">Character matrix</span></h2>
+    <p><span data-l="es">Codificar: taxones × caracteres, con el enunciado de cada carácter y el nombre de cada estado</span><span data-l="en">Coding: taxa × characters, with the statement of each character and the name of each state</span></p></div></div>
+
+  <div class="card" id="b2Load">
+    <h2><span data-l="es">Abrir o crear una matriz</span><span data-l="en">Open or create a matrix</span></h2>
+    <p class="hint"><span data-l="es">Lee NEXUS, el formato xread de los programas clásicos de parsimonia y tablas (CSV, TSV o lo que pegues de una hoja de cálculo). Todo se queda en tu computadora; la sesión se guarda sola en este navegador.</span><span data-l="en">It reads NEXUS, the xread format of the classic parsimony programs and tables (CSV, TSV or whatever you paste from a spreadsheet). Everything stays on your computer; the session saves itself in this browser.</span></p>
+    <h3><span data-l="es">Ejemplos simulados</span><span data-l="en">Simulated examples</span></h3>
+    <div class="src-grid" id="b2Examples"></div>
+    <h3><span data-l="es">Tus datos</span><span data-l="en">Your data</span></h3>
+    <div class="src-grid">
+      <button type="button" class="src-tile src-drop" id="b2Drop"><b><span data-l="es">Abrir un archivo</span><span data-l="en">Open a file</span></b>
+        <small><span data-l="es">Haz clic o suéltalo aquí: .nex, .ss, .csv, .tsv, .txt o un proyecto .json</span><span data-l="en">Click or drop it here: .nex, .ss, .csv, .tsv, .txt or a .json project</span></small></button>
+      <button type="button" class="src-tile" id="b2PasteBtn"><b><span data-l="es">Pegar texto</span><span data-l="en">Paste text</span></b>
+        <small><span data-l="es">Una matriz copiada de un artículo, un archivo o una hoja de cálculo</span><span data-l="en">A matrix copied from a paper, a file or a spreadsheet</span></small></button>
+      <button type="button" class="src-tile" id="b2NewBtn"><b><span data-l="es">Matriz nueva</span><span data-l="en">New matrix</span></b>
+        <small><span data-l="es">Empieza en blanco y codifica aquí</span><span data-l="en">Start blank and code here</span></small></button>
+      <button type="button" class="src-tile" id="b2Recover" hidden><b><span data-l="es">Recuperar la última sesión</span><span data-l="en">Recover the last session</span></b><small></small></button>
+    </div>
+    <input type="file" id="b2File" accept=".nex,.nexus,.nxs,.ss,.xread,.csv,.tsv,.txt,.json" hidden data-es-title="Archivo de matriz" data-en-title="Matrix file" aria-label="Archivo de matriz">
+    <div id="b2PasteBox" hidden>
+      <div class="field"><label for="b2PasteText"><span data-l="es">Texto de la matriz</span><span data-l="en">Matrix text</span></label>
+        <textarea id="b2PasteText" rows="8" spellcheck="false" data-es-ph="Pega aquí NEXUS, xread o una tabla con los taxones en la primera columna" data-en-ph="Paste NEXUS, xread or a table with the taxa in the first column here"></textarea></div>
+      <button type="button" class="btn btn-primary" id="b2PasteRead"><span data-l="es">Leer</span><span data-l="en">Read</span></button>
+    </div>
+    <div id="b2NewBox" hidden class="form-grid">
+      <div class="field"><label for="b2NewTaxa"><span data-l="es">Taxones</span><span data-l="en">Taxa</span></label><input type="number" id="b2NewTaxa" min="3" max="2000" value="10"></div>
+      <div class="field"><label for="b2NewChars"><span data-l="es">Caracteres</span><span data-l="en">Characters</span></label><input type="number" id="b2NewChars" min="1" max="5000" value="20"></div>
+      <div class="field"><span class="field-spacer" aria-hidden="true">&nbsp;</span><button type="button" class="btn btn-primary" id="b2NewMake"><span data-l="es">Crear</span><span data-l="en">Create</span></button></div>
+    </div>
+    <div class="messages" id="b2Msg"></div>
+  </div>
+
+  <div class="card soon-box" id="b2Empty">
+    <div class="soon-art" data-art="2"></div>
+    <h3><span data-l="es">Todavía no hay una matriz</span><span data-l="en">There is no matrix yet</span></h3>
+    <p><span data-l="es">Carga un ejemplo o tu archivo para empezar.</span><span data-l="en">Load an example or your file to start.</span></p>
+  </div>
+
+  <div id="b2Work" hidden>
+    <div class="card" id="b2Summary">
+      <h2><span data-l="es">Resumen de la matriz</span><span data-l="en">Matrix summary</span></h2>
+      <div class="field b2-title"><label for="b2Title"><span data-l="es">Título</span><span data-l="en">Title</span></label><input type="text" id="b2Title"></div>
+      <div id="b2Tiles"></div>
+    </div>
+
+    <div class="card" id="b2EditorCard">
+      <h2><span data-l="es">Editor</span><span data-l="en">Editor</span></h2>
+      <p class="hint"><span data-l="es">Haz clic en una celda y escribe el estado (0–9, A–T), <b>?</b> o <b>-</b>. <b>Ctrl + número</b> suma o quita un estado (polimorfismo). <b>Intro</b> abre la celda para escribir {01} o un valor como 2.1-3.4. Clic en el número de un carácter o en el nombre de un taxón selecciona la columna o la fila. Copia y pega con una hoja de cálculo.</span><span data-l="en">Click a cell and type the state (0–9, A–T), <b>?</b> or <b>-</b>. <b>Ctrl + digit</b> adds or removes a state (polymorphism). <b>Enter</b> opens the cell to type {01} or a value such as 2.1-3.4. Clicking the number of a character or the name of a taxon selects the column or the row. Copy and paste with a spreadsheet.</span></p>
+      <div class="b2-tools" role="toolbar" data-es-title="Herramientas de la matriz" data-en-title="Matrix tools" aria-label="Herramientas de la matriz">
+        <button type="button" class="btn btn-secondary btn-sm" id="b2Undo"><span data-l="es">↶ Deshacer</span><span data-l="en">↶ Undo</span></button>
+        <button type="button" class="btn btn-secondary btn-sm" id="b2Redo"><span data-l="es">↷ Rehacer</span><span data-l="en">↷ Redo</span></button>
+        <span class="b2-sep" aria-hidden="true"></span>
+        <button type="button" class="btn btn-ghost btn-sm" id="b2AddTaxon"><span data-l="es">+ Taxón</span><span data-l="en">+ Taxon</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" id="b2AddChar"><span data-l="es">+ Carácter</span><span data-l="en">+ Character</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" id="b2DelSel"><span data-l="es">Eliminar la selección</span><span data-l="en">Delete the selection</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" id="b2SortTaxa"><span data-l="es">Ordenar taxones A–Z</span><span data-l="en">Sort taxa A–Z</span></button>
+        <span class="b2-sep" aria-hidden="true"></span>
+        <button type="button" class="icon-btn" id="b2ZoomOut" data-es-title="Celdas más chicas" data-en-title="Smaller cells" aria-label="Celdas más chicas">−</button>
+        <button type="button" class="icon-btn" id="b2ZoomIn" data-es-title="Celdas más grandes" data-en-title="Larger cells" aria-label="Celdas más grandes">+</button>
+        <label class="inline-label"><input type="checkbox" id="b2ShowNames"> <span data-l="es">Nombres de estado en las celdas</span><span data-l="en">State names in the cells</span></label>
+      </div>
+      <div class="b2-edit">
+        <div class="b2-gridcol"><div id="b2Grid"></div></div>
+        <aside class="b2-insp" id="b2Insp" data-es-title="Inspector" data-en-title="Inspector" aria-label="Inspector"></aside>
+      </div>
+    </div>
+
+    <div class="card" id="b2Pics">
+      <h2><span data-l="es">Imágenes de los taxones</span><span data-l="en">Pictures of the taxa</span></h2>
+      <p class="hint"><span data-l="es">Una foto o un dibujo de cada taxón, encuadrado como se verá junto a su nombre en los cladogramas (Bloques 5 y 10). Sólo se dibujan las que confirmes; se guardan en este navegador y viajan en el archivo de proyecto. Con varias a la vez, cada archivo se empareja con el taxón de su nombre.</span><span data-l="en">A photo or drawing of each taxon, framed as it will look beside its name in the cladograms (Blocks 5 and 10). Only the ones you confirm are drawn; they are kept in this browser and travel in the project file. With several at once, each file is matched with the taxon of its name.</span></p>
+      <div id="b2PicsHost"></div>
+    </div>
+    <div class="card" id="b2QC">
+      <h2><span data-l="es">Control de calidad</span><span data-l="en">Quality control</span></h2>
+      <p class="hint"><span data-l="es">Lo que conviene revisar antes de buscar árboles. «Ir» te lleva a la celda, al carácter o al taxón.</span><span data-l="en">What is worth checking before searching for trees. «Go» takes you to the cell, the character or the taxon.</span></p>
+      <div id="b2QCTiles"></div>
+      <label class="inline-label" for="b2QCFilter"><span data-l="es">Mostrar</span><span data-l="en">Show</span>
+        <select id="b2QCFilter">
+          <option value="" data-es="Todo" data-en="Everything">Todo</option>
+          <option value="error" data-es="Sólo errores" data-en="Errors only">Sólo errores</option>
+          <option value="warn" data-es="Sólo avisos" data-en="Warnings only">Sólo avisos</option>
+          <option value="info" data-es="Sólo notas" data-en="Notes only">Sólo notas</option>
+        </select></label>
+      <ul class="qc-list" id="b2QCList"></ul>
+    </div>
+
+    <div class="card" id="b2ListCard">
+      <h2><span data-l="es">Lista de caracteres</span><span data-l="en">Character list</span></h2>
+      <p class="hint"><span data-l="es">Como va en un artículo o en su material suplementario. El HTML incluye las imágenes de los estados que confirmaste.</span><span data-l="en">As it goes in a paper or its supplementary material. The HTML includes the pictures of the states you confirmed.</span></p>
+      <div class="btn-row">
+        <label class="inline-label" for="b2ListBase"><span data-l="es">Numerar desde</span><span data-l="en">Number from</span>
+          <select id="b2ListBase"><option value="1">1</option><option value="0">0</option></select></label>
+        <button type="button" class="btn btn-secondary btn-sm" id="b2ListCopy"><span data-l="es">Copiar</span><span data-l="en">Copy</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" data-export="list"><span data-l="es">Descargar .txt</span><span data-l="en">Download .txt</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" data-export="listhtml"><span data-l="es">Descargar .html con imágenes</span><span data-l="en">Download .html with pictures</span></button>
+      </div>
+      <ol class="char-list" id="b2ListOut"></ol>
+    </div>
+
+    <div class="card" id="b2Export">
+      <h2><span data-l="es">Exportar</span><span data-l="en">Export</span></h2>
+      <p class="hint"><span data-l="es">NEXUS guarda todo (tipos, pesos, matrices de pasos, continuos y, en un bloque propio, el grupo externo y las dependencias). xread pone los continuos primero, como exige el formato. La tabla no guarda las matrices de pasos. El proyecto .json guarda además las imágenes.</span><span data-l="en">NEXUS keeps everything (types, weights, step matrices, continuous characters and, in a block of its own, the outgroup and the dependencies). xread puts the continuous characters first, as the format requires. The table does not keep step matrices. The .json project also keeps the pictures.</span></p>
+      <label class="checkbox-label"><input type="checkbox" id="b2ExpTrees" checked> <span data-l="es">Incluir en NEXUS los árboles que traía el archivo</span><span data-l="en">Include in NEXUS the trees the file brought</span></label>
+      <div class="btn-row">
+        <button type="button" class="btn btn-primary" data-export="nexus">NEXUS (.nex)</button>
+        <button type="button" class="btn btn-secondary" data-export="xread">xread (.ss)</button>
+        <button type="button" class="btn btn-secondary" data-export="csv">CSV</button>
+        <button type="button" class="btn btn-secondary" data-export="tsv">TSV</button>
+        <button type="button" class="btn btn-secondary" data-export="project"><span data-l="es">Proyecto (.json)</span><span data-l="en">Project (.json)</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BLOCK 3 · TREE SEARCH ==================== -->
+<section class="step-panel" id="panel-3">
+  <div class="panel-title"><div class="pt-num">3</div><div><h2><span data-l="es">Búsqueda de árboles</span><span data-l="en">Tree search</span></h2>
+    <p><span data-l="es">Buscar los árboles que necesitan menos cambios</span><span data-l="en">Searching for the trees that need fewest changes</span></p></div></div>
+
+  <div class="card soon-box" id="b3NoData">
+    <div class="soon-art" data-art="3"></div>
+    <h3><span data-l="es">Primero hace falta una matriz</span><span data-l="en">A matrix is needed first</span></h3>
+    <p><span data-l="es">Carga un ejemplo o tu archivo en el Bloque 2.</span><span data-l="en">Load an example or your file in Block 2.</span></p>
+    <button type="button" class="btn btn-primary" id="b3GoMatrix"><span data-l="es">Ir a la matriz</span><span data-l="en">Go to the matrix</span></button>
+  </div>
+
+  <div id="b3Work" hidden>
+    <div class="card" id="b3Data">
+      <h2><span data-l="es">Qué se va a analizar</span><span data-l="en">What will be analysed</span></h2>
+      <div id="b3DataTiles"></div>
+      <div class="form-grid">
+        <div class="field" id="b3InapRow"><label for="b3Inap"><span data-l="es">Los «–» (inaplicables)</span><span data-l="en">The «–» (inapplicables)</span></label>
+          <select id="b3Inap">
+            <option value="algorithm" data-es="Algoritmo de inaplicables (recomendado)" data-en="Inapplicable algorithm (recommended)">Algoritmo de inaplicables (recomendado)</option>
+            <option value="missing" data-es="Leerlos como «?»" data-en="Read them as «?»">Leerlos como «?»</option>
+          </select>
+          <span class="field-help"><span data-l="es">El algoritmo de Brazeau, Guillerme y Smith (2019) no inventa estados donde la estructura no existe.</span><span data-l="en">The algorithm of Brazeau, Guillerme and Smith (2019) does not invent states where the structure does not exist.</span></span></div>
+        <div class="field" id="b3ContRow"><label for="b3Cont"><span data-l="es">Caracteres continuos</span><span data-l="en">Continuous characters</span></label>
+          <select id="b3Cont">
+            <option value="scaled" data-es="Escalados: su rango vale un paso" data-en="Scaled: their range is worth one step">Escalados: su rango vale un paso</option>
+            <option value="raw" data-es="En sus unidades" data-en="In their units">En sus unidades</option>
+            <option value="off" data-es="Excluirlos" data-en="Leave them out">Excluirlos</option>
+          </select>
+          <span class="field-help"><span data-l="es">Se optimizan como intervalos aditivos, sin cortarlos en clases (Goloboff, Mattoni y Quinteros 2006).</span><span data-l="en">They are optimized as additive intervals, without cutting them into classes (Goloboff, Mattoni and Quinteros 2006).</span></span></div>
+      </div>
+    </div>
+
+    <div class="card" id="b3Method">
+      <h2><span data-l="es">Método y parámetros</span><span data-l="en">Method and parameters</span></h2>
+      <div class="design-tiles" id="b3Methods" role="group" data-es-title="Método de búsqueda" data-en-title="Search method" aria-label="Método de búsqueda"></div>
+      <p class="hint" id="b3Hint"></p>
+      <div class="form-grid">
+        <div class="field" id="b3RepsF"><label for="b3Reps"><span data-l="es">Réplicas</span><span data-l="en">Replicates</span></label><input type="number" id="b3Reps" min="1" max="1000" value="20"></div>
+        <div class="field" id="b3RatchF"><label for="b3Ratch"><span data-l="es">Ciclos de ratchet por réplica</span><span data-l="en">Ratchet cycles per replicate</span></label><input type="number" id="b3Ratch" min="1" max="2000" value="30"></div>
+        <div class="field" id="b3FracF"><label for="b3Frac"><span data-l="es">% de caracteres reponderados</span><span data-l="en">% of characters reweighted</span></label><input type="number" id="b3Frac" min="5" max="60" value="25"></div>
+        <div class="field"><label for="b3MaxTrees"><span data-l="es">Árboles máximos a guardar</span><span data-l="en">Maximum trees to keep</span></label><input type="number" id="b3MaxTrees" min="1" max="10000" value="100"></div>
+        <div class="field"><label for="b3MaxTime"><span data-l="es">Tiempo máximo (s)</span><span data-l="en">Maximum time (s)</span></label><input type="number" id="b3MaxTime" min="5" max="86400" value="600"></div>
+        <div class="field"><label for="b3Seed"><span data-l="es">Semilla</span><span data-l="en">Seed</span></label><input type="number" id="b3Seed" min="1" value="1"></div>
+        <div class="field"><label for="b3Collapse"><span data-l="es">Ramas de longitud cero</span><span data-l="en">Zero-length branches</span></label>
+          <select id="b3Collapse">
+            <option value="rule1" data-es="Colapsar (regla 1)" data-en="Collapse (rule 1)">Colapsar (regla 1)</option>
+            <option value="none" data-es="No colapsar" data-en="Do not collapse">No colapsar</option>
+          </select></div>
+      </div>
+      <p class="hint" id="b3Threads"></p>
+    </div>
+
+    <div class="card" id="b3Cons">
+      <h2><span data-l="es">Restricciones</span><span data-l="en">Constraints</span></h2>
+      <p class="hint"><span data-l="es">Obliga a que un grupo sea monofilético o prohíbe que lo sea. El Bloque 9 compara lo que cuesta cada hipótesis.</span><span data-l="en">Forces a group to be monophyletic or forbids it. Block 9 compares what each hypothesis costs.</span></p>
+      <div id="b3ConsList"></div>
+      <details class="acc-plain"><summary><span data-l="es">Añadir un grupo</span><span data-l="en">Add a group</span></summary>
+        <div class="form-grid">
+          <div class="field"><label for="b3ConsName"><span data-l="es">Nombre del grupo</span><span data-l="en">Name of the group</span></label><input type="text" id="b3ConsName"></div>
+          <div class="field"><label for="b3ConsType"><span data-l="es">Tipo</span><span data-l="en">Type</span></label>
+            <select id="b3ConsType"><option value="pos" data-es="Debe ser monofilético" data-en="Must be monophyletic">Debe ser monofilético</option><option value="neg" data-es="No debe ser monofilético" data-en="Must not be monophyletic">No debe ser monofilético</option></select></div>
+          <div class="field"><label for="b3ConsFilter"><span data-l="es">Buscar taxón</span><span data-l="en">Find a taxon</span></label><input type="text" id="b3ConsFilter"></div>
+        </div>
+        <div class="b3-taxa" id="b3ConsTaxa"></div>
+        <button type="button" class="btn btn-secondary btn-sm" id="b3ConsAdd"><span data-l="es">Añadir el grupo</span><span data-l="en">Add the group</span></button>
+      </details>
+    </div>
+
+    <div class="btn-row b3-runrow"><button type="button" class="btn btn-primary btn-lg" id="b3Run"><span data-l="es">Buscar</span><span data-l="en">Search</span></button></div>
+    <div class="messages" id="b3Msg"></div>
+
+    <div class="card" id="b3Results" hidden>
+      <h2><span data-l="es">Resultados de la búsqueda</span><span data-l="en">Search results</span></h2>
+      <div class="msg msg-warning" id="b3Stale" hidden><span data-l="es">La matriz cambió después de esta búsqueda: conviene repetirla.</span><span data-l="en">The matrix changed after this search: it should be repeated.</span></div>
+      <div id="b3Tiles"></div>
+      <div class="fig-grid">
+        <div class="fig-block"><div class="fig-head"><h4><span data-l="es">Convergencia</span><span data-l="en">Convergence</span></h4></div><div class="fig-canvas" id="b3Chart"></div>
+          <p class="hint"><span data-l="es">Si muchas réplicas llegan a la misma longitud, es probable que sea el óptimo; si cada una termina en un valor distinto, conviene buscar más.</span><span data-l="en">If many replicates reach the same length, it is probably the optimum; if each ends at a different value, search more.</span></p></div>
+        <div class="fig-block"><div class="fig-head"><h4><span data-l="es">Árboles más cortos</span><span data-l="en">Shortest trees</span></h4></div><div class="table-scroll" id="b3TreeTable"></div></div>
+      </div>
+      <div class="fig-block">
+        <div class="fig-head"><h4><span data-l="es">Árbol</span><span data-l="en">Tree</span></h4>
+          <label class="inline-label" for="b3TreeSel"><span data-l="es">Mostrar</span><span data-l="en">Show</span> <select id="b3TreeSel"></select></label></div>
+        <div class="fig-canvas" id="b3Tree"></div>
+        <p class="hint"><span data-l="es">Las marcas de cada cambio, la diagnosis de cada clado y la edición con el ratón están en el Bloque 5.</span><span data-l="en">The marks of every change, the diagnosis of each clade and mouse editing are in Block 5.</span></p>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" data-exp="nwk"><span data-l="es">Árboles (Newick)</span><span data-l="en">Trees (Newick)</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" data-exp="collapsed"><span data-l="es">Colapsados</span><span data-l="en">Collapsed</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" data-exp="strict"><span data-l="es">Consenso estricto</span><span data-l="en">Strict consensus</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" data-exp="nexus"><span data-l="es">Matriz y árboles (NEXUS)</span><span data-l="en">Matrix and trees (NEXUS)</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BLOCK 4 · WEIGHTING ==================== -->
+<section class="step-panel" id="panel-4">
+  <div class="panel-title"><div class="pt-num">4</div><div><h2><span data-l="es">Pesos</span><span data-l="en">Weighting</span></h2>
+    <p><span data-l="es">Dar menos peso a los caracteres más homoplásicos</span><span data-l="en">Giving less weight to the most homoplastic characters</span></p></div></div>
+
+  <div class="card soon-box" id="b4NoData">
+    <div class="soon-art" data-art="4"></div>
+    <h3><span data-l="es">Primero hace falta una matriz</span><span data-l="en">A matrix is needed first</span></h3>
+    <p><span data-l="es">Carga un ejemplo o tu archivo en el Bloque 2.</span><span data-l="en">Load an example or your file in Block 2.</span></p>
+    <button type="button" class="btn btn-primary" id="b4GoMatrix"><span data-l="es">Ir a la matriz</span><span data-l="en">Go to the matrix</span></button>
+  </div>
+
+  <div id="b4Work" hidden>
+    <div class="card" id="b4Scheme">
+      <h2><span data-l="es">Esquema de pesos</span><span data-l="en">Weighting scheme</span></h2>
+      <div class="design-tiles" id="b4Schemes" role="group" data-es-title="Esquema de pesos" data-en-title="Weighting scheme" aria-label="Esquema de pesos"></div>
+      <div class="form-grid">
+        <div class="field" id="b4KRow" data-show="iw eiw"><label for="b4K"><span data-l="es">Constante de concavidad k</span><span data-l="en">Concavity constant k</span></label><input type="number" id="b4K" min="0.1" max="1000" step="0.5" value="3"></div>
+        <div class="field" id="b4EiwRow" data-show="eiw sens"><label for="b4R"><span data-l="es">Proporción de homoplasia que se supone en los «?» (r)</span><span data-l="en">Proportion of homoplasy assumed in the «?» (r)</span></label><input type="number" id="b4R" min="0.01" max="1" step="0.05" value="0.5"></div>
+        <div class="field" id="b4EiwRowM" data-show="eiw sens"><label for="b4M"><span data-l="es">Factor máximo (M)</span><span data-l="en">Maximum factor (M)</span></label><input type="number" id="b4M" min="1" max="100" step="0.5" value="5"></div>
+        <div class="field" id="b4SwRow" data-show="sw"><label for="b4SwIndex"><span data-l="es">Índice</span><span data-l="en">Index</span></label>
+          <select id="b4SwIndex"><option value="rc" data-es="RC (CI × RI)" data-en="RC (CI × RI)">RC (CI × RI)</option><option value="ci" data-es="CI" data-en="CI">CI</option><option value="ri" data-es="RI" data-en="RI">RI</option></select></div>
+        <div class="field" data-show="sw"><label for="b4SwBase"><span data-l="es">Peso máximo</span><span data-l="en">Maximum weight</span></label><input type="number" id="b4SwBase" min="2" max="1000" value="10"></div>
+        <div class="field" data-show="sw"><label for="b4SwHow"><span data-l="es">Con varios árboles, el valor</span><span data-l="en">With several trees, the value</span></label>
+          <select id="b4SwHow"><option value="max" data-es="máximo" data-en="maximum">máximo</option><option value="mean" data-es="promedio" data-en="mean">promedio</option><option value="min" data-es="mínimo" data-en="minimum">mínimo</option></select></div>
+        <div class="field" id="b4SensRow" data-show="sens"><label for="b4Ks"><span data-l="es">Valores de k a probar</span><span data-l="en">Values of k to try</span></label><input type="text" id="b4Ks" value="1 2 3 5 7 10 15 20 30 50"></div>
+        <div class="field" data-show="sens"><span class="field-spacer" aria-hidden="true">&nbsp;</span><label class="checkbox-label"><input type="checkbox" id="b4SensEiw"> <span data-l="es">Con pesos extendidos</span><span data-l="en">With extended weights</span></label></div>
+      </div>
+      <div class="fig-block"><div class="fig-canvas" id="b4Curve"></div><p class="hint" id="b4CurveNote"></p></div>
+      <p class="hint"><span data-l="es">La búsqueda usa el método, las réplicas, las restricciones y el trato de «–» y continuos del Bloque 3.</span><span data-l="en">The search uses the method, replicates, constraints and treatment of «–» and continuous characters of Block 3.</span></p>
+    </div>
+    <div class="btn-row b3-runrow"><button type="button" class="btn btn-primary btn-lg" id="b4Run"><span data-l="es">Analizar</span><span data-l="en">Analyse</span></button></div>
+    <div class="messages" id="b4Msg"></div>
+
+    <div class="card" id="b4Results" hidden>
+      <h2><span data-l="es">Resultados con pesos</span><span data-l="en">Results with weights</span></h2>
+      <div id="b4ResSingle">
+        <div id="b4Tiles"></div>
+        <div class="fig-grid">
+          <div class="fig-block" id="b4ResCurveBox"><div class="fig-head"><h4><span data-l="es">Cada carácter en la curva de pesos</span><span data-l="en">Every character on the weight curve</span></h4></div><div class="fig-canvas" id="b4ResCurve"></div></div>
+          <div class="fig-block"><div class="fig-head"><h4><span data-l="es">Árbol</span><span data-l="en">Tree</span></h4><label class="inline-label" for="b4TreeSel"><span data-l="es">Mostrar</span><span data-l="en">Show</span> <select id="b4TreeSel"></select></label></div><div class="fig-canvas" id="b4Tree"></div></div>
+        </div>
+        <div class="fig-block" id="b4LogBox" hidden><div class="fig-head"><h4><span data-l="es">Iteraciones</span><span data-l="en">Iterations</span></h4></div><div class="table-scroll" id="b4Log"></div></div>
+        <div class="fig-block"><div class="fig-head"><h4><span data-l="es">Pesos por carácter (del más castigado al menos)</span><span data-l="en">Weights by character (most penalised first)</span></h4></div><div class="table-scroll tall" id="b4Table"></div></div>
+      </div>
+      <div id="b4ResSens">
+        <p class="hint" id="b4SensNote"></p>
+        <div class="table-scroll" id="b4SensTable"></div>
+        <div class="fig-block"><div class="fig-head"><h4><span data-l="es">Qué clados aparecen con cada k</span><span data-l="en">Which clades appear with each k</span></h4></div><div class="table-scroll" id="b4Heat"></div></div>
+        <div class="fig-block"><div class="fig-canvas" id="b4SensTree"></div></div>
+      </div>
+      <div class="btn-row"><button type="button" class="btn btn-secondary btn-sm" id="b4Export"><span data-l="es">Árboles (Newick)</span><span data-l="en">Trees (Newick)</span></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BLOCK 5 ==================== -->
+<section class="step-panel" id="panel-5">
+  <div class="panel-title"><div class="pt-num">5</div><div><h2><span data-l="es">Cladograma y mapeo</span><span data-l="en">Cladogram and mapping</span></h2>
+    <p><span data-l="es">Ver dónde ocurrió cada cambio y explorar el árbol con el ratón</span><span data-l="en">Seeing where each change happened and exploring the tree with the mouse</span></p></div></div>
+
+  <div class="card soon-box" id="b5NoData">
+    <div class="soon-art" data-art="5"></div>
+    <h3 id="b5NoTitle"></h3>
+    <p id="b5NoText"></p>
+    <div class="btn-row" style="justify-content:center">
+      <button type="button" class="btn btn-primary" id="b5GoMatrix"><span data-l="es">Ir a la matriz</span><span data-l="en">Go to the matrix</span></button>
+      <button type="button" class="btn btn-primary" id="b5GoSearch"><span data-l="es">Ir a la búsqueda</span><span data-l="en">Go to the search</span></button>
+    </div>
+  </div>
+
+  <div id="b5Work" hidden>
+    <div class="card" id="b5Source">
+      <h2><span data-l="es">Qué árbol</span><span data-l="en">Which tree</span></h2>
+      <div class="form-grid">
+        <div class="field b5-wide"><label for="b5Src"><span data-l="es">Árboles de</span><span data-l="en">Trees from</span></label><select id="b5Src"></select></div>
+        <div class="field"><label for="b5TreeSel"><span data-l="es">Árbol</span><span data-l="en">Tree</span></label>
+          <div class="b5-nav"><button type="button" class="btn btn-ghost btn-sm" id="b5Prev" data-es-title="Árbol anterior" data-en-title="Previous tree" title="Árbol anterior" aria-label="Árbol anterior">‹</button><select id="b5TreeSel"></select><button type="button" class="btn btn-ghost btn-sm" id="b5Next" data-es-title="Árbol siguiente" data-en-title="Next tree" title="Árbol siguiente" aria-label="Árbol siguiente">›</button></div></div>
+        <div class="field"><label for="b5Opt"><span data-l="es">Optimización</span><span data-l="en">Optimization</span></label>
+          <select id="b5Opt">
+            <option value="acctran" data-es="ACCTRAN (cambios hacia la raíz)" data-en="ACCTRAN (changes towards the root)">ACCTRAN (cambios hacia la raíz)</option>
+            <option value="deltran" data-es="DELTRAN (cambios hacia las puntas)" data-en="DELTRAN (changes towards the tips)">DELTRAN (cambios hacia las puntas)</option>
+            <option value="unambiguous" data-es="Sólo los cambios no ambiguos" data-en="Only unambiguous changes">Sólo los cambios no ambiguos</option>
+          </select></div>
+        <div class="field" id="b5InapF"><label for="b5Inap"><span data-l="es">Los «–»</span><span data-l="en">The «–»</span></label>
+          <select id="b5Inap">
+            <option value="algorithm" data-es="Algoritmo de inaplicables" data-en="Inapplicable algorithm">Algoritmo de inaplicables</option>
+            <option value="missing" data-es="Leerlos como «?»" data-en="Read them as «?»">Leerlos como «?»</option>
+          </select></div>
+        <div class="field" id="b5ContF"><label for="b5Cont"><span data-l="es">Continuos</span><span data-l="en">Continuous</span></label>
+          <select id="b5Cont">
+            <option value="scaled" data-es="Escalados" data-en="Scaled">Escalados</option>
+            <option value="raw" data-es="En sus unidades" data-en="In their units">En sus unidades</option>
+            <option value="off" data-es="Fuera" data-en="Left out">Fuera</option>
+          </select></div>
+      </div>
+      <details class="acc-plain"><summary><span data-l="es">Pegar un árbol en Newick</span><span data-l="en">Paste a tree in Newick</span></summary>
+        <div class="field"><label for="b5Paste"><span data-l="es">Árbol (los nombres deben ser los de la matriz)</span><span data-l="en">Tree (names must be those of the matrix)</span></label>
+          <textarea id="b5Paste" rows="3" spellcheck="false" placeholder="((A,B),(C,D));"></textarea></div>
+        <button type="button" class="btn btn-secondary btn-sm" id="b5PasteUse"><span data-l="es">Usar este árbol</span><span data-l="en">Use this tree</span></button>
+      </details>
+      <div id="b5Msg"></div>
+    </div>
+
+    <div class="card" id="b5Clado">
+      <h2><span data-l="es">El cladograma</span><span data-l="en">The cladogram</span></h2>
+      <div id="b5Tiles"></div>
+      <div class="b5-bar">
+        <div class="seg" role="group" id="b5Mode" data-es-title="Qué dibujar" data-en-title="What to draw" aria-label="Qué dibujar">
+          <button type="button" data-mode="marks" class="on" aria-pressed="true"><span data-l="es">Marcas de cambio</span><span data-l="en">Change marks</span></button>
+          <button type="button" data-mode="paint" aria-pressed="false"><span data-l="es">Pintar un carácter</span><span data-l="en">Paint a character</span></button>
+        </div>
+        <label class="inline-label" for="b5Show" id="b5ShowL"><span data-l="es">Caracteres</span><span data-l="en">Characters</span>
+          <select id="b5Show">
+            <option value="all" data-es="todos" data-en="all">todos</option>
+            <option value="inf" data-es="sólo informativos" data-en="informative only">sólo informativos</option>
+            <option value="unique" data-es="sólo cambios únicos" data-en="unique changes only">sólo cambios únicos</option>
+            <option value="none" data-es="ninguno (sólo el árbol)" data-en="none (the tree only)">ninguno (sólo el árbol)</option>
+          </select></label>
+        <label class="inline-label" for="b5Labels" id="b5LabelsL"><span data-l="es">Bajo la marca</span><span data-l="en">Below the mark</span>
+          <select id="b5Labels">
+            <option value="num" data-es="el estado" data-en="the state">el estado</option>
+            <option value="name" data-es="el nombre del estado" data-en="the state's name">el nombre del estado</option>
+          </select></label>
+        <label class="inline-label" for="b5Char" id="b5CharL" hidden><span data-l="es">Carácter</span><span data-l="en">Character</span>
+          <select id="b5Char"></select></label>
+        <label class="checkbox-label" id="b5ImgL"><input type="checkbox" id="b5Img"> <span data-l="es">Imágenes de los taxones</span><span data-l="en">Taxon pictures</span></label>
+        <button type="button" class="btn btn-ghost btn-sm" id="b5ImgManage"><span data-l="es">Imágenes…</span><span data-l="en">Pictures…</span></button>
+      </div>
+      <div class="b5-layout">
+        <div class="fig-block b5-fig">
+          <div class="fig-head"><h4 id="b5FigTitle"><span data-l="es">Cladograma</span><span data-l="en">Cladogram</span></h4></div>
+          <div class="fig-canvas" id="b5Tree"></div>
+          <p class="hint" id="b5Note"></p>
+        </div>
+        <aside class="b5-side" id="b5Side" aria-live="polite">
+          <h3><span data-l="es">Editar el árbol</span><span data-l="en">Edit the tree</span></h3>
+          <div class="field"><label for="b5NodeSel"><span data-l="es">Clado elegido</span><span data-l="en">Chosen clade</span></label><select id="b5NodeSel"></select></div>
+          <p class="hint" id="b5Help"></p>
+          <div class="b5-tools">
+            <button type="button" class="btn btn-secondary btn-sm" data-ed="move"><span data-l="es">Mover el clado</span><span data-l="en">Move the clade</span></button>
+            <button type="button" class="btn btn-secondary btn-sm" data-ed="collapse"><span data-l="es">Colapsar</span><span data-l="en">Collapse</span></button>
+            <button type="button" class="btn btn-secondary btn-sm" data-ed="reroot"><span data-l="es">Enraizar aquí</span><span data-l="en">Root here</span></button>
+            <button type="button" class="btn btn-secondary btn-sm" data-ed="rotate"><span data-l="es">Girar</span><span data-l="en">Rotate</span></button>
+            <button type="button" class="btn btn-ghost btn-sm" data-ed="ladder"><span data-l="es">Escalonar</span><span data-l="en">Ladderize</span></button>
+            <button type="button" class="btn btn-ghost btn-sm" data-ed="undo"><span data-l="es">Deshacer</span><span data-l="en">Undo</span></button>
+            <button type="button" class="btn btn-ghost btn-sm" data-ed="reset"><span data-l="es">Volver al original</span><span data-l="en">Back to the original</span></button>
+          </div>
+          <div id="b5Resolve"></div>
+          <div id="b5NodeInfo"></div>
+        </aside>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" id="b5ExpNwk"><span data-l="es">Este árbol (Newick)</span><span data-l="en">This tree (Newick)</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" id="b5ExpChanges"><span data-l="es">Lista de cambios (CSV)</span><span data-l="en">List of changes (CSV)</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BLOCK 6 · CHARACTER DIAGNOSIS ==================== -->
+<section class="step-panel" id="panel-6">
+  <div class="panel-title"><div class="pt-num">6</div><div><h2><span data-l="es">Diagnóstico de caracteres</span><span data-l="en">Character diagnosis</span></h2>
+    <p><span data-l="es">Qué hace cada carácter en los árboles y qué define a cada clado</span><span data-l="en">What each character does on the trees and what defines each clade</span></p></div></div>
+
+  <div class="card soon-box" id="b6NoData">
+    <div class="soon-art" data-art="6"></div>
+    <h3><span data-l="es">Primero hace falta un árbol</span><span data-l="en">A tree is needed first</span></h3>
+    <p><span data-l="es">Busca árboles en el Bloque 3 (o carga una matriz con árboles) y elige uno en el Bloque 5.</span><span data-l="en">Search for trees in Block 3 (or load a matrix with trees) and choose one in Block 5.</span></p>
+    <button type="button" class="btn btn-primary" id="b6GoClado"><span data-l="es">Ir al cladograma</span><span data-l="en">Go to the cladogram</span></button>
+  </div>
+
+  <div id="b6Work" hidden>
+    <div class="card" id="b6Summary">
+      <h2><span data-l="es">Resumen</span><span data-l="en">Summary</span></h2>
+      <p class="hint" id="b6Source"></p>
+      <div id="b6Tiles"></div>
+    </div>
+
+    <div class="card" id="b6Chars">
+      <h2><span data-l="es">Cada carácter</span><span data-l="en">Each character</span></h2>
+      <div class="b5-bar">
+        <label class="inline-label" for="b6Filter"><span data-l="es">Mostrar</span><span data-l="en">Show</span>
+          <select id="b6Filter">
+            <option value="all" data-es="todos" data-en="all">todos</option>
+            <option value="homo" data-es="sólo los homoplásicos" data-en="homoplastic only">sólo los homoplásicos</option>
+            <option value="clean" data-es="sólo los que no tienen homoplasia" data-en="without homoplasy only">sólo los que no tienen homoplasia</option>
+            <option value="unstable" data-es="sólo los que cambian entre árboles" data-en="those that change among trees only">sólo los que cambian entre árboles</option>
+            <option value="uninf" data-es="sólo los no informativos" data-en="uninformative only">sólo los no informativos</option>
+          </select></label>
+        <label class="inline-label" for="b6K"><span data-l="es">k para el ajuste</span><span data-l="en">k for the fit</span>
+          <input type="number" id="b6K" min="0.1" max="1000" step="0.5" value="3" style="width:6em"></label>
+      </div>
+      <div class="table-scroll tall" id="b6Table"></div>
+      <p class="hint"><span data-l="es">Mín. y máx.: los pasos que el carácter necesita en el mejor y en el peor árbol posible. CI = mín./pasos; RI = (máx. − pasos)/(máx. − mín.). El ajuste es k/(k + h), con h los pasos extra: el peso que el carácter tendría bajo pesos implícitos.</span><span data-l="en">Min. and max.: the steps the character needs on the best and on the worst possible tree. CI = min./steps; RI = (max. − steps)/(max. − min.). The fit is k/(k + h), with h the extra steps: the weight the character would have under implied weights.</span></p>
+      <div class="btn-row"><button type="button" class="btn btn-secondary btn-sm" id="b6ExpChars"><span data-l="es">Tabla (CSV)</span><span data-l="en">Table (CSV)</span></button></div>
+    </div>
+
+    <div class="card" id="b6Clades">
+      <h2><span data-l="es">Diagnosis de cada clado</span><span data-l="en">Diagnosis of each clade</span></h2>
+      <p class="hint" id="b6CladeHint"></p>
+      <div class="b6-split">
+        <div class="fig-block"><div class="fig-head"><h4><span data-l="es">Clados numerados</span><span data-l="en">Numbered clades</span></h4></div><div class="fig-canvas fit" id="b6Tree"></div></div>
+        <div class="b6-diag" id="b6Diag"></div>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" id="b6ExpDiag"><span data-l="es">Diagnosis (texto)</span><span data-l="en">Diagnosis (text)</span></button>
+      </div>
+    </div>
+
+    <div class="card" id="b6Ordered">
+      <h2><span data-l="es">La matriz ordenada por el árbol</span><span data-l="en">The matrix ordered by the tree</span></h2>
+      <div class="b5-bar">
+        <label class="inline-label" for="b6Order"><span data-l="es">Columnas</span><span data-l="en">Columns</span>
+          <select id="b6Order">
+            <option value="clade" data-es="por el clado donde cambian" data-en="by the clade where they change">por el clado donde cambian</option>
+            <option value="matrix" data-es="en el orden de la matriz" data-en="in the order of the matrix">en el orden de la matriz</option>
+          </select></label>
+        <label class="inline-label" for="b6Focus"><span data-l="es">Resaltar el clado</span><span data-l="en">Highlight clade</span>
+          <select id="b6Focus"></select></label>
+      </div>
+      <div class="table-scroll tall" id="b6Matrix"></div>
+      <p class="hint"><span data-l="es">Cada celda con el color de su estado. Con borde: el estado derivado de una sinapomorfía (un cambio único) en los taxones del clado que la tiene.</span><span data-l="en">Each cell in the colour of its state. With a border: the derived state of a synapomorphy (a unique change) in the taxa of the clade that has it.</span></p>
+    </div>
+
+    <div class="card" id="b6Unstable">
+      <h2><span data-l="es">Lo que cambia entre árboles</span><span data-l="en">What changes among trees</span></h2>
+      <div id="b6UnstableBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BLOCK 7 ==================== -->
+<section class="step-panel" id="panel-7">
+  <div class="panel-title"><div class="pt-num">7</div><div><h2><span data-l="es">Apoyo de ramas</span><span data-l="en">Branch support</span></h2>
+    <p><span data-l="es">Cuánto aguanta cada grupo: pasos para perderlo y remuestreo</span><span data-l="en">How much each group withstands: steps to lose it and resampling</span></p></div></div>
+
+  <div class="card soon-box" id="b7NoData">
+    <div class="soon-art" data-art="7"></div>
+    <h3><span data-l="es">Primero hace falta una búsqueda</span><span data-l="en">A search is needed first</span></h3>
+    <p><span data-l="es">El apoyo se mide sobre los árboles más cortos: búscalos en el Bloque 3.</span><span data-l="en">Support is measured on the shortest trees: search for them in Block 3.</span></p>
+    <button type="button" class="btn btn-primary" id="b7GoSearch"><span data-l="es">Ir a la búsqueda</span><span data-l="en">Go to the search</span></button>
+  </div>
+
+  <div id="b7Work" hidden>
+    <div class="card" id="b7Ref">
+      <h2><span data-l="es">Sobre qué árbol</span><span data-l="en">On which tree</span></h2>
+      <div class="form-grid">
+        <div class="field b5-wide"><label for="b7RefSel"><span data-l="es">Árbol de referencia</span><span data-l="en">Reference tree</span></label>
+          <select id="b7RefSel">
+            <option value="strict" data-es="Consenso estricto de los árboles más cortos" data-en="Strict consensus of the shortest trees">Consenso estricto de los árboles más cortos</option>
+            <option value="mpt" data-es="El primer árbol más corto" data-en="The first shortest tree">El primer árbol más corto</option>
+            <option value="clado" data-es="El árbol a la vista en el Bloque 5" data-en="The tree on screen in Block 5">El árbol a la vista en el Bloque 5</option>
+          </select></div>
+      </div>
+      <div id="b7RefTiles"></div>
+    </div>
+
+    <div class="card" id="b7Bremer">
+      <h2><span data-l="es">Apoyo de Bremer</span><span data-l="en">Bremer support</span></h2>
+      <p class="hint"><span data-l="es">Cuántos pasos más largo es el mejor árbol que no tiene el grupo (Bremer 1988). El relativo compara, carácter por carácter, lo que está a favor y en contra del grupo en ese árbol (Goloboff y Farris 2001).</span><span data-l="en">How many steps longer the best tree without the group is (Bremer 1988). The relative one compares, character by character, what is for and against the group on that tree (Goloboff and Farris 2001).</span></p>
+      <div class="form-grid">
+        <div class="field"><label for="b7BMethod"><span data-l="es">Cómo</span><span data-l="en">How</span></label>
+          <select id="b7BMethod">
+            <option value="constraint" data-es="Una búsqueda sin cada grupo (recomendado)" data-en="One search without each group (recommended)">Una búsqueda sin cada grupo (recomendado)</option>
+            <option value="subopt" data-es="Árboles subóptimos hasta k pasos" data-en="Suboptimal trees up to k steps">Árboles subóptimos hasta k pasos</option>
+          </select></div>
+        <div class="field" id="b7KF"><label for="b7K"><span data-l="es">k (pasos de más)</span><span data-l="en">k (extra steps)</span></label><input type="number" id="b7K" min="1" max="50" value="3"></div>
+        <div class="field" id="b7MaxF"><label for="b7Max"><span data-l="es">Árboles subóptimos máximos</span><span data-l="en">Maximum suboptimal trees</span></label><input type="number" id="b7Max" min="50" max="20000" value="2000"></div>
+        <div class="field" id="b7RepsF"><label for="b7BReps"><span data-l="es">Réplicas por grupo</span><span data-l="en">Replicates per group</span></label><input type="number" id="b7BReps" min="1" max="200" value="5"></div>
+      </div>
+      <p class="hint" id="b7BHint"></p>
+      <div class="btn-row"><button type="button" class="btn btn-primary" id="b7BRun"><span data-l="es">Calcular el Bremer</span><span data-l="en">Compute Bremer</span></button></div>
+    </div>
+
+    <div class="card" id="b7Resample">
+      <h2><span data-l="es">Remuestreo</span><span data-l="en">Resampling</span></h2>
+      <div class="design-tiles" id="b7Methods" role="group" data-es-title="Método de remuestreo" data-en-title="Resampling method" aria-label="Método de remuestreo"></div>
+      <div class="form-grid">
+        <div class="field"><label for="b7Reps"><span data-l="es">Pseudorréplicas</span><span data-l="en">Pseudoreplicates</span></label><input type="number" id="b7Reps" min="10" max="10000" value="100"></div>
+        <div class="field" id="b7PF"><label for="b7P"><span data-l="es">Probabilidad (%)</span><span data-l="en">Probability (%)</span></label><input type="number" id="b7P" min="1" max="80" value="36"></div>
+        <div class="field"><label for="b7Search"><span data-l="es">Búsqueda en cada una</span><span data-l="en">Search in each one</span></label>
+          <select id="b7Search">
+            <option value="quick" data-es="Rápida: 2 adiciones + TBR" data-en="Quick: 2 additions + TBR">Rápida: 2 adiciones + TBR</option>
+            <option value="thorough" data-es="Cuidadosa: 10 adiciones + TBR" data-en="Thorough: 10 additions + TBR">Cuidadosa: 10 adiciones + TBR</option>
+            <option value="exact" data-es="Exacta (hasta 12 taxones)" data-en="Exact (up to 12 taxa)">Exacta (hasta 12 taxones)</option>
+          </select></div>
+        <div class="field"><label for="b7Seed"><span data-l="es">Semilla</span><span data-l="en">Seed</span></label><input type="number" id="b7Seed" min="1" value="1"></div>
+      </div>
+      <p class="hint" id="b7RHint"></p>
+      <div class="btn-row"><button type="button" class="btn btn-primary" id="b7RRun"><span data-l="es">Remuestrear</span><span data-l="en">Resample</span></button></div>
+    </div>
+
+    <div class="card" id="b7Results" hidden>
+      <h2><span data-l="es">El apoyo de cada grupo</span><span data-l="en">The support of each group</span></h2>
+      <div id="b7Msg"></div>
+      <div id="b7Tiles"></div>
+      <div class="b5-bar">
+        <label class="inline-label" for="b7Show"><span data-l="es">En el árbol</span><span data-l="en">On the tree</span> <select id="b7Show"></select></label>
+      </div>
+      <div class="fig-block">
+        <div class="fig-head"><h4 id="b7FigTitle"><span data-l="es">Árbol con el apoyo</span><span data-l="en">Tree with the support</span></h4></div>
+        <div class="fig-canvas" id="b7Tree"></div>
+        <p class="hint" id="b7Scale"></p>
+      </div>
+      <div class="table-scroll tall" id="b7Table"></div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" id="b7ExpNwk"><span data-l="es">Árbol con los valores (Newick)</span><span data-l="en">Tree with the values (Newick)</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" id="b7ExpCsv"><span data-l="es">Tabla (CSV)</span><span data-l="en">Table (CSV)</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BLOCK 8 · CONSENSUS AND WILDCARDS ==================== -->
+<section class="step-panel" id="panel-8">
+  <div class="panel-title"><div class="pt-num">8</div><div><h2><span data-l="es">Consensos y comodines</span><span data-l="en">Consensus and wildcards</span></h2>
+    <p><span data-l="es">Resumir muchos árboles en uno y encontrar los taxones que no se quedan quietos</span><span data-l="en">Summarizing many trees in one and finding the taxa that will not stay put</span></p></div></div>
+
+  <div class="card soon-box" id="b8NoData">
+    <div class="soon-art" data-art="8"></div>
+    <h3><span data-l="es">Primero hacen falta árboles</span><span data-l="en">Trees are needed first</span></h3>
+    <p><span data-l="es">Busca árboles en el Bloque 3 o carga una matriz que los traiga.</span><span data-l="en">Search for trees in Block 3 or load a matrix that brings them.</span></p>
+    <button type="button" class="btn btn-primary" id="b8GoSearch"><span data-l="es">Ir a la búsqueda</span><span data-l="en">Go to the search</span></button>
+  </div>
+
+  <div id="b8Work" hidden>
+    <div class="card" id="b8Trees">
+      <h2><span data-l="es">Qué árboles</span><span data-l="en">Which trees</span></h2>
+      <div class="form-grid">
+        <div class="field b5-wide"><label for="b8Src"><span data-l="es">Árboles de</span><span data-l="en">Trees from</span></label><select id="b8Src"></select></div>
+      </div>
+      <div id="b8SrcTiles"></div>
+    </div>
+
+    <div class="card" id="b8Cons">
+      <h2><span data-l="es">Consensos</span><span data-l="en">Consensus trees</span></h2>
+      <div class="design-tiles" id="b8Methods" role="group" data-es-title="Tipo de consenso" data-en-title="Kind of consensus" aria-label="Tipo de consenso"></div>
+      <div class="form-grid" id="b8ThF"><div class="field"><label for="b8Th"><span data-l="es">Umbral de la mayoría (%)</span><span data-l="en">Majority threshold (%)</span></label><input type="number" id="b8Th" min="50" max="100" value="50"></div></div>
+      <div id="b8Tiles"></div>
+      <div class="fig-grid">
+        <div class="fig-block"><div class="fig-head"><h4 id="b8FigTitle"></h4></div><div class="fig-canvas fit" id="b8Tree"></div><p class="hint" id="b8Note"></p></div>
+        <div class="fig-block"><div class="fig-head"><h4><span data-l="es">Los consensos, lado a lado</span><span data-l="en">The consensus trees, side by side</span></h4></div><div class="table-scroll" id="b8Compare"></div></div>
+      </div>
+      <div class="btn-row"><button type="button" class="btn btn-secondary btn-sm" id="b8ExpNwk"><span data-l="es">Este consenso (Newick)</span><span data-l="en">This consensus (Newick)</span></button></div>
+    </div>
+
+    <div class="card" id="b8Wild">
+      <h2><span data-l="es">Taxones comodín</span><span data-l="en">Wildcard taxa</span></h2>
+      <p class="hint"><span data-l="es">Un comodín cambia de lugar entre los árboles igual de cortos y deshace el consenso. Se busca, uno por uno, el taxón cuya poda devuelve más clados al consenso estricto (consenso reducido).</span><span data-l="en">A wildcard changes place among the equally short trees and dissolves the consensus. The taxon whose pruning gives back most clades to the strict consensus is sought one at a time (reduced consensus).</span></p>
+      <div class="form-grid"><div class="field"><label for="b8MaxWild"><span data-l="es">Comodines a buscar como máximo</span><span data-l="en">Most wildcards to look for</span></label><input type="number" id="b8MaxWild" min="1" max="20" value="5"></div></div>
+      <div class="btn-row"><button type="button" class="btn btn-primary" id="b8WildRun"><span data-l="es">Buscar comodines</span><span data-l="en">Look for wildcards</span></button></div>
+      <div id="b8WildOut"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BLOCK 9 ==================== -->
+<section class="step-panel" id="panel-9">
+  <div class="panel-title"><div class="pt-num">9</div><div><h2><span data-l="es">Hipótesis</span><span data-l="en">Hypotheses</span></h2>
+    <p><span data-l="es">Cuánto cuesta un grupo propuesto y si los datos lo rechazan</span><span data-l="en">What a proposed group costs and whether the data reject it</span></p></div></div>
+
+  <div class="card soon-box" id="b9NoData">
+    <div class="soon-art" data-art="9"></div>
+    <h3><span data-l="es">Primero hace falta una búsqueda</span><span data-l="en">A search is needed first</span></h3>
+    <p><span data-l="es">Una hipótesis se compara con los árboles más cortos: búscalos en el Bloque 3.</span><span data-l="en">A hypothesis is compared with the shortest trees: search for them in Block 3.</span></p>
+    <button type="button" class="btn btn-primary" id="b9GoSearch"><span data-l="es">Ir a la búsqueda</span><span data-l="en">Go to the search</span></button>
+  </div>
+
+  <div id="b9Work" hidden>
+    <div class="card" id="b9Hyp">
+      <h2><span data-l="es">La hipótesis</span><span data-l="en">The hypothesis</span></h2>
+      <div class="design-tiles" id="b9Modes" role="group" data-es-title="Tipo de hipótesis" data-en-title="Kind of hypothesis" aria-label="Tipo de hipótesis"></div>
+      <div id="b9GroupBox">
+        <div id="b9Groups"></div>
+        <details class="acc-plain" id="b9AddBox" open><summary><span data-l="es">Añadir un grupo</span><span data-l="en">Add a group</span></summary>
+          <div class="form-grid">
+            <div class="field"><label for="b9GName"><span data-l="es">Nombre del grupo</span><span data-l="en">Name of the group</span></label><input type="text" id="b9GName" placeholder="Sección Entemophyllon"></div>
+            <div class="field"><label for="b9GType"><span data-l="es">Tipo</span><span data-l="en">Kind</span></label>
+              <select id="b9GType">
+                <option value="pos" data-es="Debe ser monofilético" data-en="Must be monophyletic">Debe ser monofilético</option>
+                <option value="neg" data-es="No debe ser monofilético" data-en="Must not be monophyletic">No debe ser monofilético</option>
+              </select></div>
+            <div class="field"><label for="b9GFilter"><span data-l="es">Buscar taxón</span><span data-l="en">Find taxon</span></label><input type="search" id="b9GFilter"></div>
+          </div>
+          <div class="b3-taxa" id="b9GTaxa"></div>
+          <button type="button" class="btn btn-secondary btn-sm" id="b9GAdd"><span data-l="es">Añadir el grupo</span><span data-l="en">Add the group</span></button>
+        </details>
+      </div>
+      <div id="b9TreeBox" hidden>
+        <div class="form-grid">
+          <div class="field b5-wide"><label for="b9TreeSrc"><span data-l="es">El árbol de la hipótesis</span><span data-l="en">The tree of the hypothesis</span></label><select id="b9TreeSrc"></select></div>
+        </div>
+        <div class="field" id="b9PasteF" hidden><label for="b9Paste"><span data-l="es">Árbol en Newick (nombres de la matriz)</span><span data-l="en">Tree in Newick (names of the matrix)</span></label>
+          <textarea id="b9Paste" rows="3" spellcheck="false" placeholder="((A,B),(C,D));"></textarea></div>
+      </div>
+      <div class="form-grid" id="b9SearchF">
+        <div class="field"><label for="b9Reps"><span data-l="es">Réplicas de la búsqueda con la hipótesis</span><span data-l="en">Replicates of the search with the hypothesis</span></label><input type="number" id="b9Reps" min="1" max="1000" value="10"></div>
+      </div>
+      <p class="hint" id="b9Hint"></p>
+      <div id="b9Msg"></div>
+      <div class="btn-row"><button type="button" class="btn btn-primary" id="b9Run"><span data-l="es">Poner a prueba</span><span data-l="en">Put to the test</span></button></div>
+    </div>
+
+    <div class="card" id="b9Results" hidden>
+      <h2><span data-l="es">Lo que dicen los datos</span><span data-l="en">What the data say</span></h2>
+      <div class="b5-bar"><label class="inline-label" for="b9Which"><span data-l="es">Hipótesis</span><span data-l="en">Hypothesis</span> <select id="b9Which"></select></label></div>
+      <div id="b9Tiles"></div>
+      <div class="table-scroll" id="b9Tests"></div>
+      <p class="hint" id="b9Caveat"></p>
+      <div class="fig-grid one">
+        <div class="fig-block"><div class="fig-head"><h4><span data-l="es">El árbol de la hipótesis</span><span data-l="en">The tree of the hypothesis</span></h4></div><div class="fig-canvas fit" id="b9Tree"></div><p class="hint" id="b9TreeNote"></p></div>
+      </div>
+      <h3 class="b8-sub"><span data-l="es">Carácter por carácter: los que cambian de pasos</span><span data-l="en">Character by character: those that change their steps</span></h3>
+      <div class="table-scroll tall" id="b9Chars"></div>
+      <h3 class="b8-sub"><span data-l="es">Todas las hipótesis probadas</span><span data-l="en">Every hypothesis tested</span></h3>
+      <div class="table-scroll" id="b9All"></div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" id="b9ExpCsv"><span data-l="es">Carácter por carácter (CSV)</span><span data-l="en">Character by character (CSV)</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" id="b9ExpNwk"><span data-l="es">Árbol de la hipótesis (Newick)</span><span data-l="en">Tree of the hypothesis (Newick)</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BLOCK 10 ==================== -->
+<section class="step-panel" id="panel-10">
+  <div class="panel-title"><div class="pt-num">10</div><div><h2><span data-l="es">Figuras e informe</span><span data-l="en">Figures and report</span></h2>
+    <p><span data-l="es">La figura para publicar, los archivos para otros programas, los métodos redactados y todo en un paquete</span><span data-l="en">The figure to publish, the files for other programs, the methods written and everything in one package</span></p></div></div>
+
+  <div class="card soon-box" id="b10NoData">
+    <div class="soon-art" data-art="10"></div>
+    <h3><span data-l="es">Primero hace falta una matriz</span><span data-l="en">A matrix is needed first</span></h3>
+    <p><span data-l="es">El informe y las figuras salen de lo que se analizó: carga o escribe una matriz en el Bloque 2.</span><span data-l="en">The report and the figures come from what was analysed: load or type a matrix in Block 2.</span></p>
+    <button type="button" class="btn btn-primary" id="b10GoMatrix"><span data-l="es">Ir a la matriz</span><span data-l="en">Go to the matrix</span></button>
+  </div>
+
+  <div id="b10Work" hidden>
+    <div class="card" id="b10Fig">
+      <h2><span data-l="es">Cladograma para publicar</span><span data-l="en">Cladogram to publish</span></h2>
+      <p class="hint" id="b10FigHint"></p>
+      <div class="form-grid">
+        <div class="field b5-wide"><label for="b10Src"><span data-l="es">Árbol</span><span data-l="en">Tree</span></label><select id="b10Src"></select></div>
+        <div class="field" id="b10IdxF"><label for="b10Idx"><span data-l="es">Cuál de ellos</span><span data-l="en">Which of them</span></label><select id="b10Idx"></select></div>
+        <div class="field"><label for="b10Marks"><span data-l="es">Marcas de cambio</span><span data-l="en">Change marks</span></label>
+          <select id="b10Marks">
+            <option value="all" data-es="Todos los cambios" data-en="Every change">Todos los cambios</option>
+            <option value="inf" data-es="Sólo caracteres informativos" data-en="Informative characters only">Sólo caracteres informativos</option>
+            <option value="unique" data-es="Sólo cambios únicos" data-en="Unique changes only">Sólo cambios únicos</option>
+            <option value="none" data-es="Sin marcas" data-en="No marks">Sin marcas</option>
+          </select></div>
+        <div class="field"><label for="b10Opt"><span data-l="es">Optimización</span><span data-l="en">Optimization</span></label>
+          <select id="b10Opt">
+            <option value="acctran">ACCTRAN</option>
+            <option value="deltran">DELTRAN</option>
+            <option value="unambiguous" data-es="Sólo no ambiguos" data-en="Unambiguous only">Sólo no ambiguos</option>
+          </select></div>
+        <div class="field"><label for="b10Lab"><span data-l="es">Debajo de cada marca</span><span data-l="en">Below each mark</span></label>
+          <select id="b10Lab">
+            <option value="sym" data-es="El símbolo del estado" data-en="The symbol of the state">El símbolo del estado</option>
+            <option value="name" data-es="El nombre del estado" data-en="The name of the state">El nombre del estado</option>
+          </select></div>
+        <div class="field"><label for="b10Sup"><span data-l="es">Valores en las ramas</span><span data-l="en">Values on the branches</span></label><select id="b10Sup"></select></div>
+        <div class="field"><label for="b10Len"><span data-l="es">Largo de las ramas</span><span data-l="en">Branch length</span></label>
+          <select id="b10Len">
+            <option value="marks" data-es="Según sus marcas" data-en="By their marks">Según sus marcas</option>
+            <option value="equal" data-es="Iguales (cladograma)" data-en="Equal (cladogram)">Iguales (cladograma)</option>
+          </select></div>
+        <div class="field"><label for="b10Font"><span data-l="es">Tamaño de letra</span><span data-l="en">Font size</span></label><input type="number" id="b10Font" min="8" max="20" step="0.5" value="12"></div>
+        <div class="field b5-wide"><label for="b10Title"><span data-l="es">Título de la figura</span><span data-l="en">Title of the figure</span></label><input type="text" id="b10Title"></div>
+        <div class="field"><label for="b10Img"><span data-l="es">Imágenes de los taxones</span><span data-l="en">Taxon pictures</span></label>
+          <select id="b10Img">
+            <option value="none" data-es="Sin imágenes" data-en="No pictures">Sin imágenes</option>
+            <option value="before" data-es="Antes del nombre" data-en="Before the name">Antes del nombre</option>
+            <option value="after" data-es="En columna, después del nombre" data-en="In a column, after the name">En columna, después del nombre</option>
+          </select></div>
+        <div class="field" id="b10ImgSizeF"><label for="b10ImgSize"><span data-l="es">Tamaño de la imagen</span><span data-l="en">Picture size</span></label><input type="number" id="b10ImgSize" min="16" max="160" step="2" value="44"></div>
+        <div class="field" id="b10ImgShapeF"><label for="b10ImgShape"><span data-l="es">Forma</span><span data-l="en">Shape</span></label>
+          <select id="b10ImgShape">
+            <option value="round" data-es="Esquinas suaves" data-en="Soft corners">Esquinas suaves</option>
+            <option value="circle" data-es="Círculo" data-en="Circle">Círculo</option>
+            <option value="square" data-es="Cuadrado" data-en="Square">Cuadrado</option>
+          </select></div>
+      </div>
+      <div class="b5-bar">
+        <label class="checkbox-label"><input type="checkbox" id="b10Italic" checked> <span data-l="es">Nombres en cursiva</span><span data-l="en">Names in italics</span></label>
+        <label class="checkbox-label"><input type="checkbox" id="b10Legend" checked> <span data-l="es">Leyenda</span><span data-l="en">Legend</span></label>
+        <label class="checkbox-label" id="b10ImgFrameL"><input type="checkbox" id="b10ImgFrame" checked> <span data-l="es">Marco de las imágenes</span><span data-l="en">Picture frame</span></label>
+        <button type="button" class="btn btn-ghost btn-sm" id="b10ImgManage"><span data-l="es">Imágenes de los taxones…</span><span data-l="en">Taxon pictures…</span></button>
+      </div>
+      <div class="fig-block"><div class="fig-head"><h4><span data-l="es">Cladograma</span><span data-l="en">Cladogram</span></h4></div><div class="fig-canvas fit" id="b10Tree"></div></div>
+      <div id="b10Credits" class="b10-credits" hidden></div>
+      <p class="hint"><span data-l="es">El estudio de figuras (botón junto al título) la exporta en PNG, SVG o PDF al tamaño y la resolución que pida la revista.</span><span data-l="en">The figure studio (button next to the title) exports it as PNG, SVG or PDF at the size and resolution the journal asks for.</span></p>
+    </div>
+
+    <div class="card" id="b10Gal">
+      <h2><span data-l="es">Todas las figuras</span><span data-l="en">Every figure</span></h2>
+      <p class="hint"><span data-l="es">Las figuras que ya se dibujaron en los bloques, con los resultados vigentes. El SVG se guarda con los colores del tema claro.</span><span data-l="en">The figures already drawn in the blocks, with the current results. The SVG is saved with the colours of the light theme.</span></p>
+      <div class="table-scroll" id="b10Figs"></div>
+    </div>
+
+    <div class="card" id="b10Exp">
+      <h2><span data-l="es">Árboles y matriz para otros programas</span><span data-l="en">Trees and matrix for other programs</span></h2>
+      <div id="b10Sets" class="b10-sets"></div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" id="b10Nex"><span data-l="es">NEXUS (matriz y árboles)</span><span data-l="en">NEXUS (matrix and trees)</span></button>
+        <button type="button" class="btn btn-secondary btn-sm" id="b10Xread"><span data-l="es">xread (matriz y árboles)</span><span data-l="en">xread (matrix and trees)</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" id="b10Nwk"><span data-l="es">Newick (sólo árboles)</span><span data-l="en">Newick (trees only)</span></button>
+      </div>
+    </div>
+
+    <div class="card" id="b10Rep">
+      <h2><span data-l="es">Métodos redactados</span><span data-l="en">Methods written</span></h2>
+      <div class="b5-bar">
+        <label class="inline-label" for="b10Lang"><span data-l="es">Idioma del texto</span><span data-l="en">Language of the text</span>
+          <select id="b10Lang"><option value="es">Español</option><option value="en">English</option></select></label>
+      </div>
+      <p class="hint"><span data-l="es">Sólo aparece lo que se corrió en esta sesión; las referencias son sólo las citadas. Conviene revisarlo y adaptarlo al estilo de la revista.</span><span data-l="en">Only what was run in this session appears; the references are only those cited. It should be revised and adapted to the style of the journal.</span></p>
+      <div class="b10-report" id="b10RepView"></div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary btn-sm" id="b10Copy"><span data-l="es">Copiar el texto</span><span data-l="en">Copy the text</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" id="b10Txt"><span data-l="es">Texto (.txt)</span><span data-l="en">Text (.txt)</span></button>
+        <button type="button" class="btn btn-ghost btn-sm" id="b10Html"><span data-l="es">Página para imprimir (.html)</span><span data-l="en">Printable page (.html)</span></button>
+      </div>
+    </div>
+
+    <div class="card" id="b10Zip">
+      <h2><span data-l="es">Paquete reproducible</span><span data-l="en">Reproducible package</span></h2>
+      <p class="hint"><span data-l="es">Un ZIP con la matriz, los árboles, las figuras, las tablas y los métodos, con un índice que dice qué es cada archivo. Lo escribe la propia app, sin red.</span><span data-l="en">A ZIP with the matrix, the trees, the figures, the tables and the methods, with an index that says what each file is. The app writes it itself, offline.</span></p>
+      <div class="b5-bar" id="b10ZipOpts">
+        <label class="checkbox-label"><input type="checkbox" id="b10ZMat" checked> <span data-l="es">Matriz</span><span data-l="en">Matrix</span></label>
+        <label class="checkbox-label"><input type="checkbox" id="b10ZTre" checked> <span data-l="es">Árboles</span><span data-l="en">Trees</span></label>
+        <label class="checkbox-label"><input type="checkbox" id="b10ZFig" checked> <span data-l="es">Figuras (SVG)</span><span data-l="en">Figures (SVG)</span></label>
+        <label class="checkbox-label"><input type="checkbox" id="b10ZTab" checked> <span data-l="es">Tablas (CSV)</span><span data-l="en">Tables (CSV)</span></label>
+        <label class="checkbox-label"><input type="checkbox" id="b10ZRep" checked> <span data-l="es">Métodos</span><span data-l="en">Methods</span></label>
+      </div>
+      <div id="b10ZipMsg"></div>
+      <div class="btn-row"><button type="button" class="btn btn-primary" id="b10ZipRun"><span data-l="es">Armar el paquete</span><span data-l="en">Build the package</span></button></div>
+      <div id="b10ZipTiles"></div>
+      <div class="table-scroll" id="b10ZipList"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="js/labg-core.js"></script>
+<script src="js/labg-figure-studio.js" defer></script>
+<script src="js/labg-navigator.js" defer></script>
+<script src="js/core.js"></script>
+<script src="js/tree.js"></script>
+<script src="js/optimize.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/cladogram.js"></script>
+<script src="js/matrix.js"></script>
+<script src="js/matio.js"></script>
+<script src="js/mapping.js"></script>
+<script src="js/support.js"></script>
+<script src="js/hypo.js"></script>
+<script src="js/report.js"></script>
+<script src="js/examples.js"></script>
+<script src="js/store.js"></script>
+<script src="js/stateimg.js"></script>
+<script src="js/taxonimg.js"></script>
+<script src="js/grid.js"></script>
+<script src="js/pool.js"></script>
+<script src="js/labg-figedit.js" data-key="cladisticspro:figedit"></script>
+<script src="js/art.js"></script>
+<script src="js/home.js"></script>
+<script src="js/labs.js"></script>
+<script src="js/block2.js"></script>
+<script src="js/block3.js"></script>
+<script src="js/block4.js"></script>
+<script src="js/block5.js"></script>
+<script src="js/block6.js"></script>
+<script src="js/block7.js"></script>
+<script src="js/block8.js"></script>
+<script src="js/block9.js"></script>
+<script src="js/block10.js"></script>
+</body>
+</html>

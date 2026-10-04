@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario · Capítulo 10</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  figure.media .marco { width: 78%; }
+  figure.media figcaption { margin-left: 11%; margin-right: 11%; }
+  figure.grande .marco { width: 88%; margin: 0 auto; }
+  figure.grande figcaption { margin-left: 6%; margin-right: 6%; }
+  figure.chica .marco { width: 54%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 21%; margin-right: 21%; }
+  .cita-metodos { font-family: var(--serif); font-size: 10pt; border-left: 3px solid var(--acento); padding: 0.06in 0.16in; margin: 0.1in 0 0.16in; color: #2b2523; background: #faf7f2; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b10" data-pestana="B10" data-orden="10" style="--acento: var(--b10)">
+  <div class="cap-apertura">
+    <div class="cap-num">10</div>
+    <div class="cap-etiqueta">Bloque 10 · Figuras e informe</div>
+    <h1>Figuras e informe: lo que se publica</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">El último bloque reúne todo lo que sale de la sesión: el cladograma para publicar, con las marcas de cambio, los valores de apoyo y, si se quiere, las imágenes de los taxones; todas las figuras de los bloques, listas para el estudio de figuras; los árboles y la matriz en los formatos de otros programas; los métodos redactados en español o en inglés con sus referencias, y un paquete que guarda todo junto para que otra persona pueda repetir el análisis.</p>
+    <ul class="cap-contenido">
+      <li><b>10.1</b>Lo que sale de la app</li>
+      <li><b>10.2</b>El cladograma para publicar</li>
+      <li><b>10.3</b>Todas las figuras, el estudio y el editor</li>
+      <li><b>10.4</b>Árboles y matriz para otros programas</li>
+      <li><b>10.5</b>Los métodos redactados</li>
+      <li><b>10.6</b>El paquete reproducible</li>
+      <li><b>10.7</b>Antes de entregar</li>
+    </ul>
+  </div>
+
+  <!-- 10.1 -->
+  <h2 id="s10-1"><span class="num">10.1</span>Lo que sale de la app</h2>
+  <p class="lead">Un análisis cladístico se publica con tres cosas: una figura que muestre el árbol y lo que lo sostiene, un texto que diga exactamente cómo se obtuvo y los datos para repetirlo. El Bloque 10 las arma con lo que se hizo en la sesión, sin copiar números a mano.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:2.05in">Tarjeta</th><th>Qué entrega</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Cladograma para publicar</span></td><td>La figura principal: cualquier árbol de la sesión con marcas, apoyo e imágenes, que el estudio exporta en PNG, SVG, PDF o TIFF.</td></tr>
+      <tr><td><span class="ui">Todas las figuras</span></td><td>Las figuras de los Bloques 3 a 10 ya dibujadas, cada una en SVG o abierta en el estudio.</td></tr>
+      <tr><td><span class="ui">Árboles y matriz para otros programas</span></td><td>La matriz con los árboles elegidos en NEXUS o xread, y los árboles solos en Newick.</td></tr>
+      <tr><td><span class="ui">Métodos redactados</span></td><td>La sección de métodos, en español o en inglés, con sólo lo que se corrió y sus referencias completas.</td></tr>
+      <tr><td><span class="ui">Paquete reproducible</span></td><td>Un ZIP con la matriz, los árboles, las figuras, las tablas y los métodos, con un índice.</td></tr>
+    </tbody>
+  </table>
+  <p>Cada bloque tiene además sus propias descargas —la lista de caracteres (sección 2.8), la tabla de caracteres (6.3), la del apoyo (7.5), la de una hipótesis (9.4)—; el paquete las reúne. Si no hay matriz, el bloque lo dice (<i>«Primero hace falta una matriz»</i>); con matriz pero sin análisis, entrega lo que hay: la matriz y un método que la describe.</p>
+
+  <!-- 10.2 -->
+  <h2 id="s10-2"><span class="num">10.2</span>El cladograma para publicar</h2>
+  <p>La tarjeta <span class="ui">Cladograma para publicar</span> combina en una figura lo que cada bloque calculó por separado: el árbol (Bloques 3, 5 u 8), las marcas de cambio (Bloque 5) y el apoyo (Bloque 7). Los valores de apoyo se leen en cualquier árbol que tenga el grupo.</p>
+  <figure class="grande">
+    <div class="marco"><img src="../img/b10-figura.png" alt="La tarjeta Cladograma para publicar: los controles del árbol, las marcas, la optimización, los valores en las ramas, el largo de las ramas, la letra, el título y las imágenes; y el cladograma de Dahlia con todos sus cambios y el Bremer y el GC del jackknife sobre cada rama"></div>
+    <figcaption><b>Figura 10.1.</b> El cladograma para publicar: el árbol del Bloque 5 con todos sus cambios (ACCTRAN) y el Bremer / GC del jackknife sobre cada rama.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.85in">Control</th><th>Qué decide</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Árbol</span> · <span class="ui">Cuál de ellos</span></td><td>El árbol del Bloque 5 (con sus ediciones), los árboles más cortos, los colapsados, el consenso estricto, los del archivo, el consenso del Bloque 8 o los del último análisis con pesos; y cuál, si la fuente tiene varios.</td></tr>
+      <tr><td><span class="ui">Marcas de cambio</span> · <span class="ui">Optimización</span></td><td><i>Todos los cambios</i>, <i>Sólo caracteres informativos</i>, <i>Sólo cambios únicos</i> o <i>Sin marcas</i>; con ACCTRAN, DELTRAN o sólo los no ambiguos.</td></tr>
+      <tr><td><span class="ui">Debajo de cada marca</span></td><td>El símbolo del estado o su nombre.</td></tr>
+      <tr><td><span class="ui">Valores en las ramas</span></td><td>Ninguno, el Bremer, el Bremer relativo, la frecuencia o el GC de cada remuestreo, o <i>Bremer / GC</i>. Un «?» es un grupo del árbol dibujado que no estaba en el árbol de referencia del Bloque 7, así que no tiene Bremer.</td></tr>
+      <tr><td><span class="ui">Largo de las ramas</span></td><td><i>Según sus marcas</i> (cada rama mide lo que necesitan sus cambios) o <i>Iguales</i>, el cladograma clásico.</td></tr>
+      <tr><td><span class="ui">Tamaño de letra</span> · <span class="ui">Título de la figura</span></td><td>De 8 a 20 puntos (12 por omisión) y un título opcional dentro de la figura.</td></tr>
+      <tr><td><span class="ui">Imágenes de los taxones</span></td><td><i>Sin imágenes</i>, <i>Antes del nombre</i> o <i>En columna, después del nombre</i>, con su <span class="ui">Tamaño de la imagen</span> (44 por omisión), su <span class="ui">Forma</span> (esquinas suaves, círculo o cuadrado) y la casilla <span class="ui">Marco de las imágenes</span>.</td></tr>
+      <tr><td><span class="ui">Nombres en cursiva</span> · <span class="ui">Leyenda</span></td><td>Los nombres de los taxones en cursiva, como se escriben los nombres científicos, y la leyenda de las marcas.</td></tr>
+    </tbody>
+  </table>
+  <p>Con imágenes, debajo de la figura aparece la línea <span class="ui">Créditos de las imágenes</span>, lista para el pie de figura: cada autor y licencia con los taxones que cubre, y el botón <span class="ui">Copiar los créditos</span>. El botón <span class="ui">Imágenes de los taxones…</span> abre la galería del Bloque 2 sin salir de aquí.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b10-flores.png" alt="El cladograma de Dahlia sin marcas, con ramas iguales, el Bremer y el GC sobre cada rama y una flor dibujada en columna después del nombre de doce taxones, unida al nombre por una línea punteada; debajo, la línea de créditos de las imágenes"></div>
+    <figcaption><b>Figura 10.2.</b> El mismo árbol para un cartel: ramas iguales, sin marcas, con el apoyo y las imágenes en columna, y la línea de créditos debajo. Las flores son los dibujos esquemáticos de la sección 2.6.</figcaption>
+  </figure>
+
+  <!-- 10.3 -->
+  <h2 id="s10-3"><span class="num">10.3</span>Todas las figuras, el estudio y el editor</h2>
+  <p>La tarjeta <span class="ui">Todas las figuras</span> lista las figuras que ya se dibujaron en los bloques, con los resultados vigentes: el bloque, el nombre, el tamaño del dibujo, un enlace <span class="ui">SVG</span> que la descarga con los colores del tema claro (aunque la app esté en oscuro) y <span class="ui">Abrir en el estudio</span>. En la sesión de este capítulo son seis: la convergencia y el árbol del Bloque 3, el cladograma del 5, el árbol con el apoyo del 7, el consenso del 8 y el cladograma del 10.</p>
+  <figure>
+    <div class="marco"><img src="../img/b10-estudio.png" alt="El estudio de figuras con el cladograma para publicar: arriba, la barra con deshacer, comparar, zoom, preajustes, exportar y cerrar; a la izquierda, la figura sobre el papel con su tamaño de salida de 85 por 55 milímetros a 600 puntos por pulgada; a la derecha, el inspector con los ajustes de la figura reflejados desde la app y la edición fina"></div>
+    <figcaption><b>Figura 10.3.</b> El estudio de figuras abierto con el cladograma: la figura a escala sobre el papel, a la izquierda, y el inspector, a la derecha.</figcaption>
+  </figure>
+  <p>El <b>estudio de figuras</b> se abre con el botón de la regla y el lápiz que tiene cada figura en su esquina, o desde la lista. Muestra la figura a la izquierda, siempre a la vista y a escala, con la silueta de su tamaño de exportación —en milímetros o pulgadas, por columnas de revista— y su resolución; a la derecha, un inspector con los mismos controles de la tarjeta (cada cambio se escribe en la app) y la edición fina. Arriba, deshacer y rehacer, comparar antes y después con una cortina, el zoom, los preajustes y <span class="ui">Exportar</span>: PNG a 300, 600 o 1200 ppp, SVG, PDF o TIFF, con fondo transparente si se quiere y vista a tamaño real. Tiene paletas científicas con simulación de daltonismo, deja cambiar un texto con doble clic y recuerda los ajustes en este navegador. <span class="ui">Cerrar estudio</span> devuelve la figura a su lugar.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b10-editor.png" alt="El panel Editar esta figura del cladograma: las pestañas general, ejes y rejilla, series, leyenda, textos y anotaciones; el título, el subtítulo y la nota al pie; la tipografía, el tamaño y el color de los textos, el grosor de las líneas y el tamaño de los puntos; el fondo y el marco; y los botones para deshacer todo y copiar el estilo a todas las figuras"></div>
+    <figcaption><b>Figura 10.4.</b> El editor de una figura, abierto con su botón ✎.</figcaption>
+  </figure>
+  <p>El botón <span class="ui">✎</span>, en la esquina de cada figura, abre el <b>editor</b> de esa figura sin salir del bloque: un título, un subtítulo y una nota al pie dentro de la figura; la tipografía, el tamaño y el color de los textos, el grosor de las líneas y el tamaño de los puntos; el fondo y un marco; y, en sus otras pestañas, los ejes, las series, la leyenda, cada texto y anotaciones propias. <span class="ui">Copiar el estilo a todas las figuras</span> da a todas el mismo aspecto, y <span class="ui">Deshacer todo en esta figura</span> la devuelve a como la dibujó la app. Las ediciones se guardan en el navegador y se aplican cada vez que la figura se vuelve a dibujar.</p>
+
+  <!-- 10.4 -->
+  <h2 id="s10-4"><span class="num">10.4</span>Árboles y matriz para otros programas</h2>
+  <figure class="media">
+    <div class="marco"><img src="../img/b10-exportar.png" alt="La tarjeta Árboles y matriz para otros programas: las casillas de los conjuntos de árboles —árboles más cortos, colapsados, consenso estricto, el árbol del Bloque 5, el consenso del Bloque 8 y los del archivo— y los botones NEXUS, xread y Newick"></div>
+    <figcaption><b>Figura 10.5.</b> Los conjuntos de árboles que se pueden exportar y los tres formatos.</figcaption>
+  </figure>
+  <p>Las casillas eligen qué conjuntos de árboles van al archivo; por omisión, los árboles más cortos, el consenso estricto y el consenso del Bloque 8. Cada árbol lleva un nombre que dice de dónde viene.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.95in">Botón</th><th>Qué escribe</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">NEXUS (matriz y árboles)</span></td><td>La matriz completa (sección 2.8) y un bloque <code>TREES</code> con los árboles, por número, con su tabla <code>TRANSLATE</code>: así no hay problemas con los nombres que llevan espacios.</td></tr>
+      <tr><td><span class="ui">xread (matriz y árboles)</span></td><td>La matriz en el formato de los programas clásicos de parsimonia y los árboles en un bloque <code>tread</code>.</td></tr>
+      <tr><td><span class="ui">Newick (sólo árboles)</span></td><td>Los árboles, uno por línea, cada uno precedido por su nombre entre corchetes, que los lectores de Newick toman como comentario; una línea pegada en el Bloque 5 o en el 9 se lee tal cual.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Los archivos se leen en otros programas</div>
+    <p>Los árboles que escribe la app se comprobaron con tres lectores independientes —de NEXUS, de Newick y de <code>tread</code>—, que leyeron los mismos grupos, y las matrices se compararon celda por celda al leerlas de vuelta. Lo que un archivo NEXUS no prevé, como las dependencias o los taxones inactivos, va en el bloque propio de la app, que los demás programas saltan sin error.</p>
+  </div>
+
+  <!-- 10.5 -->
+  <h2 id="s10-5"><span class="num">10.5</span>Los métodos redactados</h2>
+  <p>La tarjeta <span class="ui">Métodos redactados</span> escribe la sección de métodos del artículo con lo que se corrió en la sesión: ni un análisis de más ni uno de menos. Cada parámetro sale de la sesión —el número de réplicas, la semilla, los pesos, las pseudorréplicas, la probabilidad— y cada método lleva su cita, con la bibliografía completa al final. <span class="ui">Idioma del texto</span> lo da en español o en inglés.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b10-metodos.png" alt="La tarjeta Métodos redactados con el idioma en español y el principio del texto: los párrafos de la matriz de caracteres y de la búsqueda de árboles de Dahlia, con sus citas"></div>
+    <figcaption><b>Figura 10.6.</b> El principio de los métodos redactados de la sesión de Dahlia.</figcaption>
+  </figure>
+  <p>El texto se organiza en las secciones de lo que se hizo —matriz de caracteres, búsqueda de árboles, pesos, cladograma y optimización, diagnóstico, apoyo de ramas, consensos y comodines, hipótesis— y termina con el programa y las referencias. En la sesión de este capítulo, el párrafo de la búsqueda dice:</p>
+  <div class="cita-metodos">Los árboles más cortos con todos los caracteres de igual peso se buscaron con 20 réplicas de adición de Wagner con orden al azar (Farris 1970) seguidas de intercambio de ramas por bisección y reconexión (TBR; Swofford y Olsen 1990); cada réplica siguió con 30 iteraciones de ratchet (Nixon 1999) que reponderan al azar el 25 % de los caracteres, con la semilla 1 y hasta 100 árboles guardados. Se obtuvieron 6 árboles más cortos de 97.036 pasos (índice de consistencia 0.574, de retención 0.742; Kluge y Farris 1969; Farris 1989). 20 de 20 réplicas llegaron a esa longitud.</div>
+  <p><span class="ui">Copiar el texto</span> lo deja en el portapapeles; <span class="ui">Texto (.txt)</span> lo descarga para pegarlo en el procesador de textos, y <span class="ui">Página para imprimir (.html)</span>, como una página con formato y la bibliografía en lista.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Un borrador, no un texto final</div>
+    <p>El texto es exacto, pero es un borrador: conviene revisarlo, adaptarlo al estilo de la revista y añadir lo que la app no sabe —de dónde salieron los ejemplares, por qué se eligió el grupo externo, qué se hizo fuera del programa—. Si se usaron caracteres continuos, matrices de pasos o inaplicables, el texto ya cita los artículos de cada método; si un análisis se repitió con otros parámetros, sólo aparece el último.</p>
+  </div>
+
+  <!-- 10.6 -->
+  <h2 id="s10-6"><span class="num">10.6</span>El paquete reproducible</h2>
+  <p>La tarjeta <span class="ui">Paquete reproducible</span> arma un ZIP con todo lo de la sesión: la matriz en cuatro formatos y la lista de caracteres, los árboles en NEXUS, Newick y xread, las figuras en SVG, las tablas en CSV y los métodos en texto y en página, con un <code>LEEME.txt</code> que dice qué es cada archivo. Las casillas <span class="ui">Matriz</span>, <span class="ui">Árboles</span>, <span class="ui">Figuras (SVG)</span>, <span class="ui">Tablas (CSV)</span> y <span class="ui">Métodos</span> eligen qué va. El ZIP lo escribe la propia app, sin red ni programas externos, con su propia suma de verificación (CRC-32); cualquier descompresor lo abre.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b10-paquete.png" alt="El paquete reproducible de la sesión de Dahlia: 19 archivos, 41.1 kilobytes comprimido, 519.4 sin comprimir, y la lista de archivos con lo que es cada uno y su tamaño: el índice, la matriz en proyecto, NEXUS, xread y tabla, la lista de caracteres, los árboles, seis figuras, dos tablas y los métodos"></div>
+    <figcaption><b>Figura 10.7.</b> El paquete de la sesión de Dahlia: 19 archivos en 41 kB.</figcaption>
+  </figure>
+  <p>Con el paquete, otra persona —un revisor, un coautor, uno mismo dentro de cinco años— tiene todo para repetir el análisis: abre el proyecto <code>.json</code> en CladisticsPro, o el NEXUS en cualquier programa, y sigue los métodos. Es el archivo que conviene depositar en un repositorio de datos junto con el artículo.</p>
+
+  <!-- 10.7 -->
+  <h2 id="s10-7"><span class="num">10.7</span>Antes de entregar</h2>
+  <p>Una lista para repasar antes de enviar el artículo, con la sección del manual donde se explica cada punto:</p>
+  <ol class="pasos">
+    <li><b>La matriz está limpia.</b> El control de calidad no tiene errores y cada aviso se revisó; cada carácter tiene enunciado y sus estados tienen nombre (secciones 2.7 y 2.8).</li>
+    <li><b>La búsqueda llegó.</b> Muchas réplicas alcanzaron la mejor longitud, otra semilla da la misma, y no se llegó al máximo de árboles sin revisarlo (secciones 3.5 y 3.6).</li>
+    <li><b>El consenso es el de los árboles colapsados.</b> El estricto de los árboles colapsados por la regla 1; si hay comodines, también el reducido y dónde va cada uno (secciones 8.2 y 8.5).</li>
+    <li><b>El apoyo está medido.</b> El Bremer y un remuestreo con 1000 pseudorréplicas y búsqueda cuidadosa, con el método y su probabilidad (sección 7.5).</li>
+    <li><b>Se sabe qué depende de los pesos.</b> Los grupos que cambian con pesos implícitos o con otros k están señalados (sección 4.6).</li>
+    <li><b>La diagnosis es prudente.</b> Las sinapomorfías que se citan son únicas y no ambiguas, o se dice con qué optimización (secciones 5.3 y 6.6).</li>
+    <li><b>Las hipótesis se probaron como tales.</b> Las pruebas se aplicaron a grupos planteados de antemano (sección 9.1).</li>
+    <li><b>La figura se entiende sola.</b> Tiene leyenda o pie que explique las marcas y los valores, y los créditos de las imágenes (sección 10.2).</li>
+    <li><b>Los métodos están revisados y el paquete depositado.</b> Se citan el programa y los artículos de cada método (secciones 10.5, 10.6 y el apéndice F).</li>
+  </ol>
+</section>
+
+</body>
+</html>

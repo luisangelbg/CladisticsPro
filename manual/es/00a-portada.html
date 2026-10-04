@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../manual.css">
+<style>
+  .cover { background: #ffffff; }
+  .cover text { font-kerning: normal; }
+</style>
+</head>
+<body>
+
+<section class="page cover" aria-label="Portada">
+  <svg id="cover" viewBox="0 0 850 1100" xmlns="http://www.w3.org/2000/svg" role="img"
+       aria-label="Portada del manual de CladisticsPro: al centro, el cladograma de ocho compuestas —Bidens, Cosmos y seis dalias— con cada cambio de carácter dibujado sobre su rama, el apoyo de Bremer de cada grupo y, a la derecha, la matriz de caracteres de la que sale; a los lados, dalia roja, mirasol, aceitilla, palo mulato, ciruela mexicana y dalia arbórea, cada una con su nombre científico; abajo, cuatro viñetas del programa: los conjuntos de Fitch, el intercambio de ramas TBR, el apoyo de Bremer y el consenso estricto."></svg>
+</section>
+
+<script>
+/* The cover is drawn once, deterministically, as vector graphics: it prints
+   sharp at any size and every illustration is original. */
+(function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('cover');
+  const el = (tag, attrs, parent, text) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) if (attrs[k] != null) n.setAttribute(k, attrs[k]);
+    if (text != null) n.textContent = text;
+    (parent || svg).appendChild(n);
+    return n;
+  };
+  const W = 850, H = 1100;
+  const INK = '#2a1a14', GRIS = '#6a625e', BLANCO = '#ffffff';
+  const TERRA = '#9a3b26', TEAL = '#1f7a72', AZUL = '#2d74b0', NARANJA = '#c96f22', OLIVA = '#5c7a2a', ROSA = '#b8456e', VIOLETA = '#6f55a0', ORO = '#c9a24a', HOJA = '#4f7f3a', TIERRA = '#7a5a3a';
+  const ST0 = '#cfe0ee', ST1 = '#d55e00', ST2 = '#e69f00';
+  const f1 = v => (+v).toFixed(2);
+  const hex = c => [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16));
+  const mix = (a, b, t) => { const A = hex(a), B = hex(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
+  const sans = (attrs, parent, text) => el('text', Object.assign({ 'font-family': 'Jost, sans-serif' }, attrs), parent, text);
+
+  const defs = el('defs');
+  const halo = el('radialGradient', { id: 'halo' }, defs);
+  [[0, '#f8ece6', 1], [0.6, '#fbf5f2', 1], [1, '#ffffff', 0]].forEach(([o, c, a]) => el('stop', { offset: o, 'stop-color': c, 'stop-opacity': a }, halo));
+  el('rect', { x: 0, y: 0, width: W, height: H, fill: BLANCO });
+
+  /* ---------------------------------------------------------------- the colours of the ten blocks (plus preliminaries and appendices) */
+  const BLOQUES = ['#7a2c1b', TERRA, TEAL, AZUL, NARANJA, OLIVA, VIOLETA, ROSA, '#5f6b86', '#8a6a3a', '#94721a', '#111111'];
+  BLOQUES.forEach((c, i) => {
+    el('rect', { x: f1(i * W / BLOQUES.length), y: 0, width: f1(W / BLOQUES.length + 0.5), height: 9, fill: c });
+    el('rect', { x: f1(i * W / BLOQUES.length), y: H - 5, width: f1(W / BLOQUES.length + 0.5), height: 5, fill: c });
+  });
+
+  /* ---------------------------------------------------------------- title */
+  const tb = el('g', { 'text-anchor': 'middle' });
+  const t1 = el('text', { x: W / 2, y: 132, fill: INK, 'font-family': 'Cormorant, serif', 'font-size': 96, 'font-weight': 700, 'letter-spacing': 0.4 }, tb);
+  el('tspan', {}, t1, 'Cladistics');
+  el('tspan', { fill: TERRA, 'font-style': 'italic', 'font-weight': 600 }, t1, 'Pro');
+  el('text', { x: W / 2, y: 210, fill: INK, 'font-family': 'Cormorant, serif', 'font-size': 50, 'font-weight': 600, 'letter-spacing': 0.8 }, tb, 'Manual de usuario');
+  el('text', { x: W / 2, y: 254, fill: TERRA, 'font-family': 'Cormorant, serif', 'font-size': 46, 'font-style': 'italic', 'font-weight': 500, 'letter-spacing': 0.6 }, tb, 'User Manual');
+  el('path', { d: 'M288 280 L 390 280 M 460 280 L 562 280', stroke: GRIS, 'stroke-width': 0.9 }, tb);
+  [TERRA, TEAL, AZUL, NARANJA, ROSA].forEach((c, i) => el('circle', { cx: 405 + i * 10, cy: 280, r: 3.2, fill: c }, tb));
+  sans({ x: W / 2, y: 305, fill: GRIS, 'font-size': 11.5, 'font-weight': 400, 'letter-spacing': 2.6 }, tb, 'CARACTERES, HOMOLOGÍA Y ÁRBOLES · CHARACTERS, HOMOLOGY AND TREES');
+
+  /* ================================================================= a cladogram and the matrix it comes from
+     Eight composites: Bidens as the outgroup, Cosmos, and six dahlias. Every change
+     of a character sits on the branch where it happened (filled: it happened once;
+     open: it happened more than once), the number on each group is the steps it
+     would cost to lose it, and the matrix on the right holds the states that the
+     marks explain. */
+  const CX = 425, CY = 590;
+  el('circle', { cx: CX, cy: CY, r: 222, fill: 'url(#halo)' });
+  el('circle', { cx: CX, cy: CY, r: 188, fill: 'none', stroke: '#ead8d0', 'stroke-width': 0.9, 'stroke-dasharray': '1.5 5', 'stroke-linecap': 'round' });
+  const TAXA = [['Bidens', 'pilosa'], ['Cosmos', 'bipinnatus'], ['Dahlia', 'coccinea'], ['Dahlia', 'pinnata'], ['Dahlia', 'merckii'], ['Dahlia', 'scapigera'], ['Dahlia', 'imperialis'], ['Dahlia', 'excelsa']];
+  /* the matrix: six characters, states 0, 1 and 2 */
+  const M = [
+    [0, 0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0, 0],
+    [1, 1, 1, 0, 0, 0],
+    [1, 1, 0, 0, 0, 0],
+    [1, 1, 0, 1, 0, 0],
+    [1, 1, 0, 1, 1, 0],
+    [1, 1, 1, 1, 1, 2],
+    [1, 1, 0, 1, 1, 2],
+  ];
+  const Y0 = 452, RH = 39.5;
+  const ty = i => Y0 + i * RH;
+  const XT = 452;                                  // the tips
+  /* the tree, as nested groups: [x of the node, children] */
+  const node = (x, kids) => ({ x, kids });
+  const tip = i => ({ i, x: XT });
+  const tree = node(258, [tip(0), node(292, [tip(1), node(330, [node(390, [tip(2), tip(3)]), node(366, [tip(4), node(394, [tip(5), node(418, [tip(6), tip(7)])])])])])]);
+  const yOf = n => (n.kids ? (yOf(n.kids[0]) + yOf(n.kids[n.kids.length - 1])) / 2 : ty(n.i));
+  const LINE = INK;
+  (function draw(n, parentX) {
+    const y = yOf(n);
+    el('path', { d: `M${f1(parentX)} ${f1(y)} L${f1(n.x)} ${f1(y)}`, stroke: LINE, 'stroke-width': 2.2, 'stroke-linecap': 'round' });
+    if (n.kids) {
+      el('path', { d: `M${f1(n.x)} ${f1(yOf(n.kids[0]))} L${f1(n.x)} ${f1(yOf(n.kids[n.kids.length - 1]))}`, stroke: LINE, 'stroke-width': 2.2, 'stroke-linecap': 'round' });
+      n.kids.forEach(k => draw(k, n.x));
+    }
+  })(tree, 238);
+  /* the change marks: [branch end x, branch start x, y, character, new state, homoplastic] */
+  const mark = (x, y, c, s, open) => {
+    el('circle', { cx: f1(x), cy: f1(y), r: 5, fill: open ? BLANCO : INK, stroke: INK, 'stroke-width': 1.6 });
+    sans({ x: f1(x), y: f1(y - 9), 'text-anchor': 'middle', 'font-size': 9.5, 'font-weight': 600, fill: INK }, null, String(c));
+    sans({ x: f1(x), y: f1(y + 17), 'text-anchor': 'middle', 'font-size': 9, fill: GRIS }, null, String(s));
+  };
+  mark(276, yOf(tree.kids[1]), 2, 1, false);                              // Cosmos + dahlias
+  mark(311, yOf(tree.kids[1].kids[1]), 1, 1, false);                       // the dahlias
+  mark(421, ty(2), 3, 1, true);                                            // D. coccinea: 3 again
+  mark(352, yOf(tree.kids[1].kids[1].kids[1]), 4, 1, false);               // merckii group
+  mark(383, yOf(tree.kids[1].kids[1].kids[1].kids[1]), 5, 1, false);       // scapigera group
+  mark(406, yOf(tree.kids[1].kids[1].kids[1].kids[1].kids[1]), 6, 2, false); // imperialis + excelsa
+  mark(444, ty(6), 3, 1, true);                                            // D. imperialis: 3 again
+  /* Bremer support on the groups */
+  const bremer = (n, v) => sans({ x: f1(n.x + 5), y: f1(yOf(n) + 4), 'text-anchor': 'start', 'font-size': 10.5, 'font-style': 'italic', 'font-weight': 600, fill: TERRA }, null, String(v));
+  bremer(tree.kids[1], 2); bremer(tree.kids[1].kids[1], 3); bremer(tree.kids[1].kids[1].kids[0], 1); bremer(tree.kids[1].kids[1].kids[1], 2); bremer(tree.kids[1].kids[1].kids[1].kids[1], 1); bremer(tree.kids[1].kids[1].kids[1].kids[1].kids[1], 3);
+  /* the names and the matrix */
+  TAXA.forEach(([g, sp], i) => {
+    const t = el('text', { x: XT + 8, y: f1(ty(i) + 4), 'font-family': 'Cormorant, serif', 'font-style': 'italic', 'font-size': 14, fill: INK });
+    el('tspan', {}, t, g[0] + '. '); el('tspan', {}, t, sp);
+    M[i].forEach((s, j) => {
+      const x = 556 + j * 15, y = ty(i) - 7;
+      el('rect', { x, y, width: 12.5, height: 14, rx: 2.5, fill: s === 0 ? ST0 : s === 1 ? ST1 : ST2 });
+      sans({ x: x + 6.25, y: y + 10.5, 'text-anchor': 'middle', 'font-size': 8.5, 'font-weight': 600, fill: s === 0 ? '#3a5a75' : BLANCO }, null, String(s));
+    });
+  });
+  for (let j = 0; j < 6; j++) sans({ x: 556 + j * 15 + 6.25, y: Y0 - 18, 'text-anchor': 'middle', 'font-size': 8.5, fill: GRIS }, null, String(j + 1));
+  sans({ x: 556 + 45, y: Y0 - 32, 'text-anchor': 'middle', 'font-size': 8, fill: GRIS, 'letter-spacing': 1.8 }, null, 'MATRIZ');
+  sans({ x: 330, y: Y0 - 32, 'text-anchor': 'middle', 'font-size': 8, fill: GRIS, 'letter-spacing': 1.8 }, null, 'CLADOGRAMA');
+  /* legend */
+  const lg = el('g', { 'font-family': 'Jost, sans-serif', 'font-size': 9.5, fill: GRIS });
+  const LY = ty(7) + 46, L0 = 262;
+  el('circle', { cx: L0, cy: LY, r: 4.5, fill: INK }, lg); el('text', { x: L0 + 9, y: LY + 3.5 }, lg, 'cambio único');
+  el('circle', { cx: L0 + 92, cy: LY, r: 4.5, fill: BLANCO, stroke: INK, 'stroke-width': 1.5 }, lg); el('text', { x: L0 + 101, y: LY + 3.5 }, lg, 'homoplasia');
+  el('text', { x: L0 + 176, y: LY + 3.5, fill: TERRA, 'font-style': 'italic', 'font-weight': 600 }, lg, '3');
+  el('text', { x: L0 + 186, y: LY + 3.5 }, lg, 'apoyo de Bremer');
+  el('rect', { x: L0 + 278, y: LY - 6, width: 10, height: 12, rx: 2, fill: ST0 }, lg); el('rect', { x: L0 + 290, y: LY - 6, width: 10, height: 12, rx: 2, fill: ST1 }, lg); el('rect', { x: L0 + 302, y: LY - 6, width: 10, height: 12, rx: 2, fill: ST2 }, lg);
+  el('text', { x: L0 + 318, y: LY + 3.5 }, lg, 'estados');
+
+  /* ================================================================= plants at the sides
+     Six plants of the examples, drawn with simple shapes, each with its scientific name. */
+  function dahliaRoja(x, y) {
+    const g = el('g', { transform: `translate(${x} ${y}) scale(0.84)` });
+    el('path', { d: 'M0 0 C -4 -40 4 -64 0 -92', stroke: HOJA, 'stroke-width': 2.6, fill: 'none', 'stroke-linecap': 'round' }, g);
+    [[-1, -24], [1, -44]].forEach(([d, yy]) => { for (let k = 0; k < 3; k++) el('ellipse', { cx: d * (9 + k * 8), cy: yy - k * 4, rx: 6.5, ry: 3.6, fill: mix(HOJA, '#ffffff', k * 0.12), transform: `rotate(${d * -20} ${d * (9 + k * 8)} ${yy - k * 4})` }, g); });
+    for (let k = 0; k < 8; k++) el('ellipse', { cx: 0, cy: -104, rx: 5.5, ry: 13, fill: k % 2 ? '#c0392b' : '#d9473a', transform: `rotate(${k * 45} 0 -92)` }, g);
+    el('circle', { cx: 0, cy: -92, r: 6, fill: ORO }, g);
+  }
+  function cosmos(x, y) {
+    const g = el('g', { transform: `translate(${x} ${y}) scale(0.84)` });
+    el('path', { d: 'M0 0 C 6 -36 -6 -60 0 -88', stroke: HOJA, 'stroke-width': 2, fill: 'none', 'stroke-linecap': 'round' }, g);
+    [[-1, -28], [1, -48], [-1, -64]].forEach(([d, yy]) => { for (let k = 0; k < 5; k++) el('path', { d: `M0 ${yy} q ${d * 8} ${-6 + k * 3} ${d * (16 + k * 2)} ${-10 + k * 5}`, stroke: HOJA, 'stroke-width': 1.1, fill: 'none', 'stroke-linecap': 'round' }, g); });
+    for (let k = 0; k < 8; k++) {
+      const p = el('path', { d: 'M0 -92 q -7 -10 -5 -21 q 2 2 5 0 q 3 2 5 0 q 2 11 -5 21 Z', fill: k % 2 ? '#d1497e' : '#e0609a', transform: `rotate(${k * 45 + 22.5} 0 -92)` }, g);
+      void p;
+    }
+    el('circle', { cx: 0, cy: -92, r: 5, fill: ORO }, g);
+  }
+  function bidens(x, y) {
+    const g = el('g', { transform: `translate(${x} ${y}) scale(0.84)` });
+    el('path', { d: 'M0 0 L0 -84', stroke: HOJA, 'stroke-width': 2, 'stroke-linecap': 'round' }, g);
+    [[-30, -1], [-54, 1]].forEach(([yy, d]) => { [-1, 0, 1].forEach(k => el('ellipse', { cx: d * 13 + k * 3, cy: yy + k * 7, rx: 8, ry: 3.6, fill: HOJA, transform: `rotate(${d * (-25 + k * 25)} ${d * 13 + k * 3} ${yy + k * 7})` }, g)); });
+    for (let k = 0; k < 5; k++) el('ellipse', { cx: 0, cy: -97, rx: 4.6, ry: 9, fill: '#fbfaf5', stroke: '#d8d2c4', 'stroke-width': 0.8, transform: `rotate(${k * 72} 0 -88)` }, g);
+    el('circle', { cx: 0, cy: -88, r: 5.4, fill: ORO }, g);
+    /* the achene with its two barbed awns, the reason the plant travels */
+    const a = el('g', { transform: 'translate(22 -66) rotate(18)' }, g);
+    el('path', { d: 'M0 0 L0 -14', stroke: TIERRA, 'stroke-width': 2.4, 'stroke-linecap': 'round' }, a);
+    el('path', { d: 'M0 -14 l -3 -7 M0 -14 l 3 -7', stroke: TIERRA, 'stroke-width': 1.1, 'stroke-linecap': 'round' }, a);
+  }
+  function bursera(x, y) {
+    const g = el('g', { transform: `translate(${x} ${y}) scale(0.84)` });
+    el('path', { d: 'M-4 0 C -6 -24 -2 -40 -8 -60 M4 0 C 6 -22 2 -40 8 -58', stroke: '#b5553c', 'stroke-width': 5, fill: 'none', 'stroke-linecap': 'round' }, g);
+    /* the peeling bark: little curls */
+    [[-6, -16], [6, -26], [-7, -38], [5, -46]].forEach(([cx, cy]) => el('path', { d: `M${cx} ${cy} q 5 -2 4 3`, stroke: '#e3a07f', 'stroke-width': 1.4, fill: 'none', 'stroke-linecap': 'round' }, g));
+    [[-22, -74, 18], [0, -86, 22], [22, -72, 17], [-8, -64, 14], [12, -62, 13]].forEach(([cx, cy, r], i) => el('circle', { cx, cy, r, fill: mix(HOJA, '#ffffff', 0.08 + i * 0.05) }, g));
+  }
+  function spondias(x, y) {
+    const g = el('g', { transform: `translate(${x} ${y}) scale(0.84)` });
+    el('path', { d: 'M-24 -8 C -4 -30 12 -52 26 -90', stroke: TIERRA, 'stroke-width': 2.6, fill: 'none', 'stroke-linecap': 'round' }, g);
+    for (let k = 0; k < 6; k++) { const t = k / 5, xx = -16 + t * 38, yy = -18 - t * 64; el('ellipse', { cx: xx - 9, cy: yy - 2, rx: 7, ry: 3, fill: HOJA, transform: `rotate(-30 ${xx - 9} ${yy - 2})` }, g); el('ellipse', { cx: xx + 9, cy: yy + 1, rx: 7, ry: 3, fill: mix(HOJA, '#ffffff', 0.15), transform: `rotate(20 ${xx + 9} ${yy + 1})` }, g); }
+    [[-6, -30], [2, -40], [10, -34]].forEach(([cx, cy]) => { el('ellipse', { cx, cy: cy + 8, rx: 5, ry: 6.5, fill: '#c4372c' }, g); el('ellipse', { cx: cx - 1.5, cy: cy + 6, rx: 1.4, ry: 2, fill: '#f0a090' }, g); });
+  }
+  function dahliaArborea(x, y) {
+    const g = el('g', { transform: `translate(${x} ${y}) scale(0.84)` });
+    el('path', { d: 'M0 0 L2 -104', stroke: mix(HOJA, TIERRA, 0.35), 'stroke-width': 4.4, 'stroke-linecap': 'round' }, g);
+    [-24, -48, -72, -94].forEach(yy => el('line', { x1: -3, y1: yy, x2: 5, y2: yy, stroke: mix(HOJA, TIERRA, 0.6), 'stroke-width': 2 }, g));
+    [[-1, -48], [1, -72]].forEach(([d, yy]) => el('path', { d: `M1 ${yy} q ${d * 18} -4 ${d * 26} -16 q ${-d * 4} 14 ${-d * 26} 16 Z`, fill: HOJA }, g));
+    [[-14, -102], [14, -98], [2, -112]].forEach(([cx, cy]) => { for (let k = 0; k < 8; k++) el('ellipse', { cx, cy: cy + 7, rx: 2.6, ry: 7, fill: k % 2 ? '#b39ddb' : '#9b84c9', transform: `rotate(${k * 45} ${cx} ${cy})` }, g); el('circle', { cx, cy, r: 3, fill: ORO }, g); });
+  }
+  const NOMBRE = (x, y, common, sci) => { sans({ x, y, 'text-anchor': 'middle', 'font-size': 10, 'font-weight': 500, fill: INK }, null, common); el('text', { x, y: y + 13, 'text-anchor': 'middle', 'font-family': 'Cormorant, serif', 'font-style': 'italic', 'font-size': 12, fill: GRIS }, null, sci); };
+  dahliaRoja(96, 500);     NOMBRE(96, 528, 'dalia roja', 'Dahlia coccinea');
+  cosmos(96, 660);         NOMBRE(96, 688, 'mirasol', 'Cosmos bipinnatus');
+  bidens(96, 820);         NOMBRE(96, 848, 'aceitilla', 'Bidens pilosa');
+  bursera(754, 500);       NOMBRE(754, 528, 'palo mulato', 'Bursera simaruba');
+  spondias(754, 660);      NOMBRE(754, 688, 'ciruela mexicana', 'Spondias purpurea');
+  dahliaArborea(754, 820); NOMBRE(754, 848, 'dalia arbórea', 'Dahlia imperialis');
+
+  /* ================================================================= four vignettes of the program */
+  const VY = 900, VW = 150, VH = 96, VG = 20, VX0 = (W - 4 * VW - 3 * VG) / 2;
+  function vignette(i, title) {
+    const x = VX0 + i * (VW + VG);
+    el('rect', { x, y: VY, width: VW, height: VH, rx: 8, fill: '#fbf7f5', stroke: '#e7dfdb' });
+    sans({ x: x + VW / 2, y: VY + VH + 16, 'text-anchor': 'middle', 'font-size': 9.5, 'font-weight': 500, fill: INK, 'letter-spacing': 0.4 }, null, title);
+    return el('g', { transform: `translate(${x} ${VY})` });
+  }
+  const small = (g, x, y, txt, attrs) => sans(Object.assign({ x, y, 'font-size': 7.8, fill: GRIS }, attrs || {}), g, txt);
+  /* 1 · Fitch sets: the states each node can take, from the tips down */
+  (function () {
+    const g = vignette(0, 'conjuntos de Fitch');
+    const tips = [[22, 80, 0], [56, 80, 1], [94, 80, 1], [128, 80, 0]];
+    const n1 = [39, 54], n2 = [111, 54], r = [75, 28];
+    [[tips[0], n1], [tips[1], n1], [tips[2], n2], [tips[3], n2], [n1, r], [n2, r]].forEach(([a, b]) => el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: INK, 'stroke-width': 1.3 }, g));
+    tips.forEach(([x, y, s]) => { el('circle', { cx: x, cy: y, r: 5.5, fill: s ? ST1 : ST0, stroke: INK, 'stroke-width': 0.8 }, g); small(g, x, y + 3, String(s), { 'text-anchor': 'middle', 'font-size': 7, fill: s ? BLANCO : '#3a5a75', 'font-weight': 600 }); });
+    small(g, n1[0] - 4, n1[1] - 5, '{0,1}', { 'text-anchor': 'end' });
+    small(g, n2[0] + 4, n2[1] - 5, '{0,1}');
+    small(g, r[0], r[1] - 8, '{0,1} · 2 pasos', { 'text-anchor': 'middle', fill: TERRA, 'font-weight': 600 });
+  })();
+  /* 2 · TBR: cut a branch, reroot the piece and reconnect it elsewhere */
+  (function () {
+    const g = vignette(1, 'TBR: cortar y reconectar');
+    const ln = (x1, y1, x2, y2, extra) => el('line', Object.assign({ x1, y1, x2, y2, stroke: INK, 'stroke-width': 1.3, 'stroke-linecap': 'round' }, extra || {}), g);
+    ln(16, 52, 40, 52); ln(40, 30, 40, 74); ln(40, 30, 70, 30); ln(40, 74, 62, 74); ln(62, 64, 62, 84); ln(62, 64, 74, 64); ln(62, 84, 74, 84);
+    ln(70, 22, 70, 38); ln(70, 22, 80, 22); ln(70, 38, 80, 38);
+    /* the cut */
+    el('path', { d: 'M51 25 l 5 10 M56 25 l -5 10', stroke: TERRA, 'stroke-width': 1.6 }, g);
+    /* the piece, rerooted, on the right */
+    ln(106, 44, 106, 72, { stroke: NARANJA }); ln(106, 44, 124, 44, { stroke: NARANJA }); ln(106, 72, 124, 72, { stroke: NARANJA }); ln(96, 58, 106, 58, { stroke: NARANJA });
+    el('path', { d: 'M96 58 C 86 66 80 74 74 76', stroke: NARANJA, 'stroke-width': 1.2, fill: 'none', 'stroke-dasharray': '3 2' }, g);
+    small(g, 75, 14, 'otra raíz, otra rama', { 'text-anchor': 'middle' });
+  })();
+  /* 3 · Bremer support: the steps a group costs to lose */
+  (function () {
+    const g = vignette(2, 'apoyo de Bremer');
+    const ln = (x1, y1, x2, y2, c) => el('line', { x1, y1, x2, y2, stroke: c || INK, 'stroke-width': 1.3, 'stroke-linecap': 'round' }, g);
+    ln(16, 56, 34, 56); ln(34, 34, 34, 78); ln(34, 34, 134, 34); ln(34, 78, 70, 78);
+    ln(70, 64, 70, 90, TERRA); ln(70, 64, 134, 64, TERRA); ln(70, 90, 134, 90, TERRA);
+    [34, 64, 90].forEach(y => el('circle', { cx: 134, cy: y, r: 2.4, fill: INK }, g));
+    el('rect', { x: 46, y: 66, width: 22, height: 13, rx: 3, fill: TERRA }, g);
+    small(g, 57, 75.5, '+2', { 'text-anchor': 'middle', fill: BLANCO, 'font-weight': 600 });
+    small(g, 84, 18, 'pasos para perder el grupo', { 'text-anchor': 'middle' });
+  })();
+  /* 4 · the strict consensus: only what every tree shares */
+  (function () {
+    const g = vignette(3, 'consenso estricto');
+    const mini = (ox, order, col) => {
+      const ys = [30, 44, 58, 72];
+      const ln = (x1, y1, x2, y2) => el('line', { x1: ox + x1, y1, x2: ox + x2, y2, stroke: col, 'stroke-width': 1.1, 'stroke-linecap': 'round' }, g);
+      ln(0, 51, 6, 51); ln(6, 30, 6, 72); ln(6, 30, 30, 30);
+      ln(6, order ? 51 : 65, 14, order ? 51 : 65);
+      if (order) { ln(14, 44, 14, 58); ln(14, 44, 30, 44); ln(14, 58, 30, 58); ln(6, 72, 30, 72); }
+      else { ln(14, 58, 14, 72); ln(14, 58, 30, 58); ln(14, 72, 30, 72); ln(6, 44, 30, 44); }
+      void ys;
+    };
+    mini(12, 1, GRIS); mini(54, 0, GRIS);
+    small(g, 48, 56, '+', { 'text-anchor': 'middle', 'font-size': 11 });
+    small(g, 93, 56, '=', { 'text-anchor': 'middle', 'font-size': 11 });
+    const ox = 104, ln = (x1, y1, x2, y2) => el('line', { x1: ox + x1, y1, x2: ox + x2, y2, stroke: INK, 'stroke-width': 1.4, 'stroke-linecap': 'round' }, g);
+    ln(0, 51, 6, 51); ln(6, 30, 6, 72); ln(6, 30, 32, 30); ln(6, 44, 32, 44); ln(6, 58, 32, 58); ln(6, 72, 32, 72);
+    small(g, 75, 18, 'sólo lo que todos comparten', { 'text-anchor': 'middle' });
+  })();
+
+  /* ---------------------------------------------------------------- author and edition */
+  const foot = el('g', { 'text-anchor': 'middle', 'font-family': 'Cormorant, serif' });
+  el('text', { x: W / 2, y: 1052, 'font-size': 19, 'font-weight': 600, fill: INK, 'letter-spacing': 0.5 }, foot, 'Luis Ángel Barrera-Guzmán');
+  sans({ x: W / 2, y: 1074, 'font-size': 9.5, fill: GRIS, 'letter-spacing': 2.4 }, foot, 'PRIMERA EDICIÓN · 2026 · VERSIÓN 1.0');
+})();
+</script>
+</body>
+</html>

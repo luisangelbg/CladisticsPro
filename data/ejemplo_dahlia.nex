@@ -1,0 +1,193 @@
+#NEXUS
+[Dahlia (didáctico) — matriz SIMULADA para enseñar y probar CladisticsPro; los estados no se observaron en ejemplares]
+
+BEGIN TAXA;
+  DIMENSIONS NTAX=20;
+  TAXLABELS 'Bidens pilosa' 'Cosmos bipinnatus' 'Dahlia macdougallii' 'Dahlia imperialis' 'Dahlia excelsa' 'Dahlia tenuicaulis' 'Dahlia campanulata' 'Dahlia linearis' 'Dahlia rupicola' 'Dahlia dissecta' 'Dahlia scapigera' 'Dahlia cardiophylla' 'Dahlia merckii' 'Dahlia moorei' 'Dahlia coccinea' 'Dahlia sherffii' 'Dahlia atropurpurea' 'Dahlia pinnata' 'Dahlia rudis' 'Dahlia australis';
+END;
+
+BEGIN CHARACTERS;
+  TITLE 'Discretos';
+  DIMENSIONS NCHAR=42;
+  FORMAT DATATYPE=STANDARD MISSING=? GAP=- SYMBOLS="0 1 2 3";
+  CHARSTATELABELS
+    1 'Hábito' / 'herbáceo' 'sufrútice' arborescente 'epífito',
+    2 'Raíces tuberosas' / ausentes presentes,
+    3 Tallo / 'sólido' fistuloso,
+    4 Entrenudos / 'no engrosados' 'engrosados en los nudos',
+    5 'Tricomas del tallo' / ausentes presentes,
+    6 'Tipo de tricoma del tallo' / simples glandulares,
+    7 'Densidad de tricomas' / escasos densos,
+    8 'División de la hoja' / simple pinnada bipinnada tripinnada,
+    9 Hojas / 'sésiles' pecioladas,
+    10 Raquis / 'sin alas' alado,
+    11 'Margen del folíolo' / entero serrado crenado,
+    12 'Ápice del folíolo' / agudo acuminado obtuso,
+    13 'Hojas en roseta basal' / no 'sí',
+    14 'Envés de la hoja' / glabro pubescente,
+    15 'Nervación del folíolo' / pinnada 'palmeada desde la base',
+    16 'Capítulos por rama' / solitarios 'de dos a cuatro' muchos,
+    17 'Capítulos' / erectos nutantes,
+    18 'Pedúnculo' / 'más corto que la hoja' 'más largo que la hoja',
+    19 'Brácteas involucrales externas' / reflejas patentes adpresas,
+    20 'Número de brácteas externas' / cinco 'ocho o más',
+    21 'Forma de la bráctea externa' / ovada linear espatulada,
+    22 'Brácteas internas' / libres 'connadas en la base',
+    23 'Páleas' / persistentes caducas,
+    24 'Flores liguladas' / ocho 'más de ocho',
+    25 'Color de la lígula' / blanco rosado morado rojo,
+    26 'Ápice de la lígula' / entero tridentado,
+    27 'Lígula' / plana acanalada,
+    28 'Corola del disco' / amarilla anaranjada morada,
+    29 'Lóbulos de la corola' / glabros pilosos,
+    30 Anteras / amarillas negras,
+    31 'Ramas del estilo' / agudas obtusas,
+    32 'Forma del aquenio' / oblanceolado linear,
+    33 'Aquenio alado' / no 'sí',
+    34 'Tipo de ala' / entera fimbriada,
+    35 Vilano / ausente presente,
+    36 'Tipo de vilano' / aristas escamas,
+    37 'Número de aristas' / dos cuatro,
+    38 'Superficie del aquenio' / lisa tuberculada,
+    39 'Color del aquenio' / negro 'café' moteado,
+    40 'Número cromosómico' / diploide tetraploide octoploide,
+    41 'Látex' / ausente presente,
+    42 'Disposición de las hojas' / opuestas verticiladas;
+  MATRIX
+    'Bidens pilosa'        00000--11010010101000000310001010-10001000
+    'Cosmos bipinnatus'    000010010010000001211000300110010-10100000
+    'Dahlia macdougallii'  310(01)0--100110(01)101120210010001??00-0--00000
+    'Dahlia imperialis'    ?1100--2001100011020?1(01)1(01)1000000(01)-0--1?111
+    'Dahlia excelsa'       21???--20011?00(01)1120?1(01)0110000000-0--00101
+    'Dahlia tenuicaulis'   21100--2001?000010200100110000000-0--00101
+    'Dahlia campanulata'   2?1(01)0--200110000??200100110000000-0--00100
+    'Dahlia linearis'      ?100100311010?02000011(01)0200?10100-0--00000
+    'Dahlia rupicola'      01011??31010010200001110210?10000-0--10000
+    'Dahlia dissecta'      0?011003101001020001111021001?000-0--00000
+    'Dahlia scapigera'     0100?010111010010101110?10?20000110--00000
+    'Dahlia cardiophylla'  010110?011101(01)?1011121011?0200000-0--00?0?
+    'Dahlia merckii'       1100101110?001010101110011?000100-1110(01)000
+    'Dahlia moorei'        010010111020010001011100110000000-11000000
+    'Dahlia coccinea'      0110111110200011010121(01)011100?000-0--0220?
+    'Dahlia sherffii'      1100111110200002010021001110010(01)0-0--02200
+    'Dahlia atropurpurea'  010011111?20000201002101111001?00-0--02200
+    'Dahlia pinnata'       011011111020000100012100111000000-0--00200
+    'Dahlia rudis'         0100(01)111102?0001000121001110000010?--00200
+    'Dahlia australis'     110011111(01)2000010001210011100000?-0--00200
+  ;
+END;
+
+BEGIN CHARACTERS;
+  TITLE 'Continuos';
+  DIMENSIONS NCHAR=3;
+  FORMAT DATATYPE=CONTINUOUS MISSING=? GAP=-;
+  CHARLABELS 'Altura de la planta' 'Longitud de la hoja' 'Longitud de la lígula';
+  MATRIX
+    'Bidens pilosa'        171.5 24.5 34.9
+    'Cosmos bipinnatus'    151.5 7.2 22.4
+    'Dahlia macdougallii'  227.0 65.6 46.1
+    'Dahlia imperialis'    871.5 ? 44.2
+    'Dahlia excelsa'       665.9 ? 35.4
+    'Dahlia tenuicaulis'   1285.7 64.5 39.2
+    'Dahlia campanulata'   1323.1 52.3 49.1
+    'Dahlia linearis'      135.3 40.3 26.0
+    'Dahlia rupicola'      117.3 35.5 24.0
+    'Dahlia dissecta'      99.5 29.4 27.5
+    'Dahlia scapigera'     51.6 18.5 33.1
+    'Dahlia cardiophylla'  33.6 16.3 41.0
+    'Dahlia merckii'       65.3 25.5 44.2
+    'Dahlia moorei'        101.4 21.0 38.5
+    'Dahlia coccinea'      123.3 19.9 47.0
+    'Dahlia sherffii'      121.7 18.2 36.7
+    'Dahlia atropurpurea'  110.9 20.7 40.5
+    'Dahlia pinnata'       90.4 35.9 43.8
+    'Dahlia rudis'         91.9 28.5 41.4
+    'Dahlia australis'     72.4 21.9 35.3
+  ;
+END;
+
+BEGIN ASSUMPTIONS;
+  USERTYPE paso_25 (STEPMATRIX) = 4
+    0 1 2 3
+    . 1 2 2
+    1 . 1 1
+    2 1 . 2
+    3 2 2 .
+  ;
+  TYPESET * tipos = unord: 1 2 3 4 5 6 7 9 10 11 12 13 14 15 17 18 19 20 21 22 23 24 26 27 28 29 30 31 32 33 34 35 36 37 38 39 41 42, ord: 8 16 40, paso_25: 25;
+END;
+
+BEGIN TREES;
+  TREE arbol_verdadero = [&R] (Bidens_pilosa:1.306513122,(Cosmos_bipinnatus:1.251206233,((Dahlia_macdougallii:0.3756288047,(Dahlia_imperialis:0.298406239,(Dahlia_excelsa:0.2157420951,(Dahlia_tenuicaulis:0.1239112948,Dahlia_campanulata:0.1239112948):0.09183080021):0.08266414398):0.07722256572):0.8196522401,((Dahlia_linearis:0.2157420951,(Dahlia_rupicola:0.1239112948,Dahlia_dissecta:0.1239112948):0.09183080021):0.688856465,((Dahlia_scapigera:0.1239112948,Dahlia_cardiophylla:0.1239112948):0.5947179762,((Dahlia_merckii:0.1239112948,Dahlia_moorei:0.1239112948):0.4638342249,((Dahlia_coccinea:0.2157420951,(Dahlia_sherffii:0.1239112948,Dahlia_atropurpurea:0.1239112948):0.09183080021):0.233299838,(Dahlia_pinnata:0.2157420951,(Dahlia_rudis:0.1239112948,Dahlia_australis:0.1239112948):0.09183080021):0.233299838):0.1387035867):0.1308837513):0.185969289):0.2906824848):0.05592518861):0.05530688886);
+END;
+
+BEGIN CLADISTICSPRO;
+  TITLE 'Dahlia (didáctico)';
+  OUTGROUP 1 2;
+  DEPENDS 6 ON 5 = 1;
+  DEPENDS 7 ON 5 = 1;
+  DEPENDS 34 ON 33 = 1;
+  DEPENDS 36 ON 35 = 1;
+  DEPENDS 37 ON 35 = 1;
+  UNIT 43 cm;
+  UNIT 44 cm;
+  UNIT 45 mm;
+  RANGE 43 1 150.9 192.0;
+  RANGE 44 1 21.5 27.4;
+  RANGE 45 1 30.7 39.1;
+  RANGE 43 2 133.3 169.6;
+  RANGE 44 2 6.4 8.1;
+  RANGE 45 2 19.7 25.1;
+  RANGE 43 3 199.8 254.3;
+  RANGE 44 3 57.7 73.5;
+  RANGE 45 3 40.6 51.7;
+  RANGE 43 4 766.9 976.1;
+  RANGE 45 4 38.9 49.5;
+  RANGE 43 5 586.0 745.8;
+  RANGE 45 5 31.2 39.7;
+  RANGE 43 6 1131.4 1440.0;
+  RANGE 44 6 56.8 72.3;
+  RANGE 45 6 34.5 43.9;
+  RANGE 43 7 1164.3 1481.9;
+  RANGE 44 7 46.0 58.5;
+  RANGE 45 7 43.2 54.9;
+  RANGE 43 8 119.1 151.6;
+  RANGE 44 8 35.4 45.1;
+  RANGE 45 8 22.8 29.1;
+  RANGE 43 9 103.2 131.4;
+  RANGE 44 9 31.2 39.7;
+  RANGE 45 9 21.1 26.9;
+  RANGE 43 10 87.5 111.4;
+  RANGE 44 10 25.9 32.9;
+  RANGE 45 10 24.2 30.8;
+  RANGE 43 11 45.4 57.8;
+  RANGE 44 11 16.3 20.7;
+  RANGE 45 11 29.1 37.0;
+  RANGE 43 12 29.6 37.7;
+  RANGE 44 12 14.4 18.3;
+  RANGE 45 12 36.1 45.9;
+  RANGE 43 13 57.5 73.1;
+  RANGE 44 13 22.4 28.5;
+  RANGE 45 13 38.9 49.5;
+  RANGE 43 14 89.2 113.6;
+  RANGE 44 14 18.5 23.5;
+  RANGE 45 14 33.9 43.2;
+  RANGE 43 15 108.5 138.1;
+  RANGE 44 15 17.5 22.2;
+  RANGE 45 15 41.4 52.6;
+  RANGE 43 16 107.1 136.3;
+  RANGE 44 16 16.0 20.4;
+  RANGE 45 16 32.3 41.1;
+  RANGE 43 17 97.6 124.2;
+  RANGE 44 17 18.3 23.2;
+  RANGE 45 17 35.6 45.3;
+  RANGE 43 18 79.6 101.3;
+  RANGE 44 18 31.6 40.3;
+  RANGE 45 18 38.5 49.1;
+  RANGE 43 19 80.8 102.9;
+  RANGE 44 19 25.1 31.9;
+  RANGE 45 19 36.5 46.4;
+  RANGE 43 20 63.7 81.1;
+  RANGE 44 20 19.3 24.5;
+  RANGE 45 20 31.0 39.5;
+END;

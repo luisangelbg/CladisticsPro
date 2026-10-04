@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario · Capítulo 3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  figure.media .marco { width: 78%; }
+  figure.media figcaption { margin-left: 11%; margin-right: 11%; }
+  figure.chica .marco { width: 60%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 18%; margin-right: 18%; }
+  figure.mini .marco { width: 46%; margin: 0 auto; }
+  figure.mini figcaption { margin-left: 24%; margin-right: 24%; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b3" data-pestana="B3" data-orden="3" style="--acento: var(--b3)">
+  <div class="cap-apertura">
+    <div class="cap-num">3</div>
+    <div class="cap-etiqueta">Bloque 3 · Búsqueda</div>
+    <h1>Búsqueda: los árboles más cortos</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Con la matriz lista, el Bloque 3 busca los árboles que necesitan menos cambios. Dice qué va a leer y cómo trata los inaplicables y los continuos; ofrece la búsqueda exacta, que garantiza el resultado en matrices pequeñas, y tres búsquedas heurísticas para las grandes; admite grupos obligados o prohibidos; reparte el trabajo entre los núcleos de la computadora, y entrega la longitud, los índices, cuántas réplicas llegaron al óptimo, la curva de la búsqueda, los árboles empatados y su consenso estricto, listos para los bloques siguientes.</p>
+    <ul class="cap-contenido">
+      <li><b>3.1</b>Encontrar el árbol más corto</li>
+      <li><b>3.2</b>Qué se va a analizar</li>
+      <li><b>3.3</b>El método y sus parámetros</li>
+      <li><b>3.4</b>Restricciones</li>
+      <li><b>3.5</b>Los resultados de la búsqueda</li>
+      <li><b>3.6</b>La convergencia</li>
+      <li><b>3.7</b>Los árboles más cortos y su consenso</li>
+      <li><b>3.8</b>Los avisos de este bloque</li>
+    </ul>
+  </div>
+
+  <!-- 3.1 -->
+  <h2 id="s3-1"><span class="num">3.1</span>Encontrar el árbol más corto</h2>
+  <p class="lead">El criterio de parsimonia elige el árbol que explica la matriz con <b>el menor número de cambios</b>: el que obliga a suponer menos homoplasia (Farris 1983). Calcular cuántos pasos necesita un árbol es rápido; lo difícil es encontrar el más corto entre todos los posibles.</p>
+  <p>Con <i>n</i> taxones hay (2<i>n</i> − 5)!! árboles sin raíz: el producto 3 × 5 × 7 × … × (2<i>n</i> − 5). Con los 8 taxones de <i>Bursera</i> son 10 395; con los 20 de Dahlia, unos 2 × 10<sup>20</sup> (la app escribe <code>10^20.3</code>); con 120, un número de 229 cifras. Ninguna computadora los revisa todos más allá de una docena de taxones, y por eso hay dos familias de métodos:</p>
+  <ul>
+    <li><b>La búsqueda exacta</b> (rama y cota; Hendy y Penny 1982) construye los árboles agregando un taxón a la vez y abandona cualquier árbol a medio armar que ya sea más largo que el mejor completo, con todos los que saldrían de él. Garantiza que encuentra <b>todos</b> los árboles más cortos, pero su tiempo crece tan rápido que sólo es práctica hasta unos 12 a 14 taxones.</li>
+    <li><b>Las búsquedas heurísticas</b> arman un árbol razonable y lo mejoran reacomodando ramas mientras se acorte. Son rápidas con cientos de taxones, pero <b>no garantizan</b> el óptimo: pueden quedarse en un «valle» del que ningún reacomodo sencillo sale. La defensa es repetir la búsqueda desde muchos puntos de partida y ver si llegan al mismo lugar.</li>
+  </ul>
+  <figure>
+    <svg viewBox="0 0 670 262" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img"
+         aria-label="A la izquierda, un árbol de seis taxones con el subárbol de E y F cortado y dos flechas punteadas a otras ramas donde se prueba unirlo: así trabaja el intercambio TBR después de la adición de Wagner. A la derecha, un paisaje de longitudes con dos valles: tres réplicas bajan desde distintos puntos, una se queda en un óptimo local y el ratchet la saca de ahí hasta el valle más profundo, el árbol más corto.">
+      <defs>
+        <marker id="fn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#c96f22"/></marker>
+        <marker id="fa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2d74b0"/></marker>
+        <marker id="fg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#6a625e"/></marker>
+      </defs>
+      <text x="8" y="16" font-size="11.5" font-weight="600" fill="#1d4a72">A · Una réplica: adición de Wagner y TBR</text>
+      <g stroke="#2b2523" stroke-width="2" fill="none" stroke-linecap="round">
+        <path d="M45 112 H60 M60 82.5 V141.9 M60 82.5 H170 M60 141.9 H135"/>
+        <path d="M170 70 V95 M170 70 H245 M170 95 H245"/>
+        <path d="M135 120 V163.75 M135 120 H245 M135 163.75 H170"/>
+        <path d="M170 145 V182.5 M170 145 H245"/>
+      </g>
+      <g stroke="#c96f22" stroke-width="2.6" fill="none" stroke-linecap="round">
+        <path d="M170 182.5 H205 M205 170 V195 M205 170 H245 M205 195 H245"/>
+      </g>
+      <text x="187" y="179" font-size="13" text-anchor="middle" fill="#c96f22">✂</text>
+      <path d="M226 166 C 236 140 222 112 214 99" fill="none" stroke="#c96f22" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#fn)"/>
+      <path d="M232 166 C 262 150 262 132 240 124" fill="none" stroke="#c96f22" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#fn)"/>
+      <g font-size="11.5" font-style="italic" fill="#2b2523">
+        <text x="252" y="74">A</text><text x="252" y="99">B</text><text x="252" y="124">C</text><text x="252" y="149">D</text>
+        <text x="252" y="174" fill="#c96f22">E</text><text x="252" y="199" fill="#c96f22">F</text>
+      </g>
+      <g font-size="10.5" fill="#2b2523">
+        <text x="8" y="226"><tspan font-weight="600">1 · Wagner:</tspan> los taxones entran de uno en uno, al azar,</text>
+        <text x="8" y="239">cada uno en la rama donde alarga menos el árbol.</text>
+        <text x="8" y="254"><tspan font-weight="600">2 · TBR:</tspan> se corta un subárbol y se prueba en cada rama.</text>
+      </g>
+      <line x1="322" y1="8" x2="322" y2="254" stroke="#e7dfdb"/>
+      <text x="340" y="16" font-size="11.5" font-weight="600" fill="#1d4a72">B · El paisaje de las longitudes</text>
+      <path d="M360 36 V236 H662" fill="none" stroke="#8a817c" stroke-width="1.2"/>
+      <text x="352" y="136" font-size="10" fill="#6a625e" text-anchor="middle" transform="rotate(-90 352 136)">longitud del árbol</text>
+      <text x="511" y="252" font-size="10" fill="#6a625e" text-anchor="middle">los árboles posibles</text>
+      <path d="M364 78 C 392 78 400 156 428 160 C 456 164 466 100 494 96 C 524 92 548 206 584 208 C 616 210 634 110 660 70" fill="none" stroke="#2d74b0" stroke-width="2.2"/>
+      <circle cx="374" cy="84" r="6" fill="#9bc2e3" stroke="#2d74b0"/>
+      <path d="M382 92 C 396 118 406 140 418 150" fill="none" stroke="#6a625e" stroke-width="1.2" marker-end="url(#fg)"/>
+      <circle cx="428" cy="153" r="6" fill="#9bc2e3" stroke="#2d74b0"/>
+      <circle cx="508" cy="102" r="6" fill="#9bc2e3" stroke="#2d74b0"/>
+      <path d="M514 112 C 530 150 550 182 568 196" fill="none" stroke="#6a625e" stroke-width="1.2" marker-end="url(#fg)"/>
+      <circle cx="646" cy="98" r="6" fill="#9bc2e3" stroke="#2d74b0"/>
+      <path d="M640 108 C 628 150 612 184 598 196" fill="none" stroke="#6a625e" stroke-width="1.2" marker-end="url(#fg)"/>
+      <circle cx="584" cy="202" r="6.5" fill="#2d74b0"/>
+      <path d="M432 144 C 450 60 520 40 572 190" fill="none" stroke="#c96f22" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#fn)"/>
+      <text x="486" y="44" font-size="10.5" fill="#c96f22" font-weight="600" text-anchor="middle">ratchet</text>
+      <text x="428" y="182" font-size="10" fill="#6a625e" text-anchor="middle">óptimo local</text>
+      <text x="584" y="226" font-size="10" fill="#1d4a72" text-anchor="middle" font-weight="600">el árbol más corto</text>
+    </svg>
+    <figcaption><b>Figura 3.1.</b> Cómo trabaja una búsqueda heurística. Cada réplica arma un árbol con la adición de Wagner y lo mejora con TBR (A); en el paisaje de longitudes (B), cada réplica baja hasta el fondo del valle donde empezó. Si muchas llegan al mismo fondo, probablemente es el más profundo; el ratchet saca a una réplica de un valle poco profundo.</figcaption>
+  </figure>
+  <p>Una <b>réplica</b> heurística tiene dos pasos. Primero, la <b>adición de Wagner</b> (Farris 1970): los taxones entran en un orden al azar, cada uno en la rama donde alarga menos el árbol. Después, el <b>intercambio TBR</b> (<i>tree bisection and reconnection</i>; Swofford y Olsen 1990): se corta cada rama del árbol, el subárbol que queda suelto se re-enraíza en cada una de sus ramas y se prueba unido a cada rama del resto; si algún reacomodo acorta el árbol, se acepta y se empieza otra vez. La réplica termina cuando ningún TBR acorta el árbol. Como el orden de entrada es al azar, cada réplica empieza en un lugar distinto del paisaje de la figura 3.1.</p>
+  <p>Las búsquedas más fuertes añaden maneras de salir de los valles. El <b>ratchet</b> (Nixon 1999) repite ciclos en los que cambia al azar el peso de una fracción de los caracteres, mejora el árbol con esos pesos falsos —lo que lo empuja fuera del valle—, devuelve los pesos verdaderos y lo mejora otra vez. La <b>búsqueda sectorial</b>, la <b>deriva</b> y la <b>fusión de árboles</b> (Goloboff 1999) resuelven por partes un árbol grande, aceptan de vez en cuando reacomodos que lo alargan un poco, y combinan los mejores grupos de árboles distintos.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · por qué es rápido</div>
+    <p>Un TBR completo sobre un árbol de 120 taxones prueba decenas de miles de reacomodos. El motor no rearma cada uno: al cortar una rama, las dos mitades conservan su longitud, y la del árbol unido depende sólo de qué caracteres tienen conjuntos de estados disjuntos en las dos ramas que se unen (Goloboff 1996). Además, los caracteres no ordenados se guardan de 32 en 32 en cada palabra de la máquina, así que un paso de Fitch evalúa 32 caracteres a la vez, y los ordenados entran como su codificación binaria aditiva (Farris, Kluge y Eckardt 1970). Las matrices de pasos y los caracteres con inaplicables se optimizan uno por uno, sólo para los reacomodos que pasan el primer filtro.</p>
+  </div>
+
+  <!-- 3.2 -->
+  <h2 id="s3-2"><span class="num">3.2</span>Qué se va a analizar</h2>
+  <p>La primera tarjeta del bloque resume lo que la búsqueda va a leer y deja decidir cómo tratar los dos tipos de dato que admiten más de una lectura: los inaplicables y los continuos. Si no hay matriz, el bloque muestra <i>«Primero hace falta una matriz»</i> y un botón para ir al Bloque 2.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b3-datos.png" alt="La tarjeta Qué se va a analizar con Dahlia: 20 taxones todos activos; 45 caracteres, 36 rápidos, 3 continuos y 6 uno por uno; 43 informativos; 10 a la 20.3 árboles posibles; el grupo externo; y los selectores de los inaplicables y de los caracteres continuos"></div>
+    <figcaption><b>Figura 3.2.</b> Lo que la búsqueda va a leer de Dahlia, con las dos lecturas por omisión.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.35in">Recuadro</th><th>Qué dice</th><th style="width:1.55in">En Dahlia</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Taxones</span></td><td>Los taxones activos; los inactivos se quedan fuera de la búsqueda.</td><td>20, todos activos</td></tr>
+      <tr><td><span class="ui">Caracteres</span></td><td>Cuántos se evalúan por la vía rápida (no ordenados y ordenados, de 32 en 32), cuántos como intervalos (continuos) y cuántos uno por uno (matrices de pasos y caracteres con «–» leídos por el algoritmo).</td><td>36 rápidos · 3 continuos · 6 uno por uno</td></tr>
+      <tr><td><span class="ui">Informativos</span></td><td>Los que pueden elegir entre árboles.</td><td>43</td></tr>
+      <tr><td><span class="ui">Árboles posibles</span></td><td>(2<i>n</i> − 5)!! árboles sin raíz; con muchos taxones se escribe como potencia de 10.</td><td>10^20.3</td></tr>
+      <tr><td><span class="ui">Grupo externo</span></td><td>Los taxones donde se enraízan los árboles.</td><td><i>Bidens pilosa</i>, <i>Cosmos bipinnatus</i></td></tr>
+    </tbody>
+  </table>
+  <p>El selector <span class="ui">Los «–» (inaplicables)</span> sólo aparece si la matriz tiene «–». Con <span class="ui">Algoritmo de inaplicables (recomendado)</span>, la app usa el algoritmo de Brazeau, Guillerme y Smith (2019), que no inventa estados donde la estructura no existe (sección 2.1). Con <span class="ui">Leerlos como «?»</span>, cada «–» se trata como un dato faltante: es lo que hacían los programas clásicos, más rápido pero con el riesgo de semejanzas fabricadas; sirve para comparar con un análisis publicado así.</p>
+  <p>El selector <span class="ui">Caracteres continuos</span> sólo aparece si hay caracteres continuos activos. Se optimizan como intervalos aditivos, sin cortarlos en clases (Goloboff, Mattoni y Quinteros 2006), y la pregunta es cuánto pesan: <span class="ui">Escalados: su rango vale un paso</span> divide cada carácter entre su rango, de modo que ir del valor más bajo al más alto de la matriz cuesta un paso, lo mismo que un cambio en un carácter discreto; <span class="ui">En sus unidades</span> cuenta la diferencia tal cual (un carácter en centímetros pesa cien veces más que el mismo en metros), y <span class="ui">Excluirlos</span> los deja fuera de la búsqueda.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · las tres lecturas de los continuos de Dahlia</div>
+    <p>Con los continuos <b>escalados</b>, la opción por omisión, el árbol más corto mide 97.036 pasos y empatan 6 árboles, 2 distintos al colapsar. <b>En sus unidades</b>, las tres medidas —dos en centímetros, una en milímetros— ponen la mayor parte de la longitud: el árbol mide 1346.3 pasos, empatan sólo 3 y la topología cambia; <i>D. linearis</i>, por ejemplo, pasa a ser hermana del grupo de las dalias arborescentes. <b>Excluidos</b>, los 42 caracteres discretos dan árboles de 94 pasos, pero empatan 108 (4 distintos al colapsar) y el consenso pierde resolución: las medidas eran las que desempataban. Por último, leer los «–» como «?», con los continuos escalados, da un solo árbol de 97.032 pasos con otro arreglo de los grupos: es el efecto de las semejanzas que el «?» permite inventar.</p>
+  </div>
+
+  <!-- 3.3 -->
+  <h2 id="s3-3"><span class="num">3.3</span>El método y sus parámetros</h2>
+  <p>La tarjeta <span class="ui">Método y parámetros</span> ofrece cinco métodos. El seleccionado se ve resaltado, y debajo una línea explica qué conviene esperar de él. Con <span class="ui">Automático</span>, la línea dice cuál eligió: con los 20 taxones de Dahlia, <i>«Elegido: Ratchet. Una búsqueda heurística no garantiza el óptimo: lo que da confianza es que muchas réplicas lleguen a la misma longitud»</i>.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.15in">Método</th><th>Qué hace</th><th style="width:1.35in">Cuándo</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Automático</span></td><td>Elige por el número de taxones activos: exacta hasta 12; ratchet de 13 a 60; combinada con más de 60.</td><td>Siempre es un buen punto de partida.</td></tr>
+      <tr><td><span class="ui">Exacta</span></td><td>Rama y cota, con la cota inicial de una réplica heurística. Garantiza todos los árboles más cortos.</td><td>Hasta 12 a 14 taxones. Con más de 14, la app advierte que puede tardar horas.</td></tr>
+      <tr><td><span class="ui">Heurística</span></td><td>Adición de Wagner al azar más TBR, varias réplicas.</td><td>Matrices fáciles o una primera exploración.</td></tr>
+      <tr><td><span class="ui">Ratchet</span></td><td>Cada réplica sigue con ciclos de reponderación (Nixon 1999).</td><td>De 13 a unos 60 taxones.</td></tr>
+      <tr><td><span class="ui">Combinada</span></td><td>Ratchet, búsqueda sectorial, deriva y, al final, fusión de los mejores árboles de todas las réplicas (Goloboff 1999).</td><td>Más de 60 taxones o matrices difíciles.</td></tr>
+    </tbody>
+  </table>
+  <figure class="media">
+    <div class="marco"><img src="../img/b3-metodo.png" alt="La tarjeta Método y parámetros: los cinco métodos (automático, exacta, heurística, ratchet y combinada), la línea que dice que se eligió ratchet, y los parámetros réplicas 20, ciclos de ratchet 30, 25 por ciento de caracteres reponderados, 100 árboles máximos, 600 segundos, semilla 1 y colapsar ramas de longitud cero"></div>
+    <figcaption><b>Figura 3.3.</b> El método y los parámetros, con los valores por omisión.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.75in">Parámetro</th><th>Qué controla</th><th style="width:0.9in">Por omisión</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Réplicas</span></td><td>Cuántas búsquedas independientes, cada una desde su propia adición de Wagner. No aparece con la exacta.</td><td>20</td></tr>
+      <tr><td><span class="ui">Ciclos de ratchet por réplica</span></td><td>Cuántas veces se perturban los pesos en cada réplica (ratchet y combinada).</td><td>30</td></tr>
+      <tr><td><span class="ui">% de caracteres reponderados</span></td><td>La fracción de caracteres cuyo peso cambia en cada ciclo (de 5 a 60 %).</td><td>25 %</td></tr>
+      <tr><td><span class="ui">Árboles máximos a guardar</span></td><td>El tope de árboles empatados que se conservan. Si se alcanza, la app avisa que puede haber más.</td><td>100</td></tr>
+      <tr><td><span class="ui">Tiempo máximo (s)</span></td><td>La búsqueda se detiene al cumplirse y entrega lo mejor que encontró.</td><td>600</td></tr>
+      <tr><td><span class="ui">Semilla</span></td><td>El punto de partida del azar: la misma semilla, con los mismos datos y parámetros, repite el mismo resultado.</td><td>1</td></tr>
+      <tr><td><span class="ui">Ramas de longitud cero</span></td><td><span class="ui">Colapsar (regla 1)</span> junta en una politomía cada rama que puede medir cero (Coddington y Scharff 1994); <span class="ui">No colapsar</span> deja los árboles binarios.</td><td>Colapsar</td></tr>
+    </tbody>
+  </table>
+  <p>La última línea de la tarjeta dice en cuántos <b>hilos</b> se reparten las réplicas: la app usa los núcleos del procesador (hasta 16), cada uno con su parte de las réplicas, y al final junta los árboles de todos. En la computadora de las figuras son 16. Cada hilo recibe una semilla derivada de la principal, así que en la misma computadora la misma semilla da siempre los mismos árboles. En otra con distinto número de núcleos las réplicas se reparten de otro modo y el camino de cada una cambia; una búsqueda que convergió llega, de todos modos, a la misma longitud.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · las ramas que pueden medir cero</div>
+    <p>Dos árboles binarios que sólo difieren en una rama sin cambios no son dos hipótesis distintas: los datos no dicen nada sobre esa rama. La <b>regla 1</b> de Coddington y Scharff (1994) colapsa una rama cuando, para cada carácter, alguna reconstrucción igual de parsimoniosa no pone ningún cambio en ella. Así, varios árboles binarios se reducen a uno con una politomía, y el recuadro <span class="ui">Árboles más cortos</span> dice cuántos quedan distintos. Contar los árboles binarios inflaría la incertidumbre: los seis árboles de Dahlia son sólo dos al colapsar.</p>
+  </div>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · qué método usar</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> hay 12 taxones o menos</td><td><b>entonces</b> la exacta: el resultado está garantizado y tarda segundos.</td></tr>
+      <tr><td><b>Si</b> hay de 13 a 60</td><td><b>entonces</b> el ratchet con 20 réplicas; si menos del 30 % de las réplicas llegan a la mejor longitud, sube las réplicas o pasa a la combinada.</td></tr>
+      <tr><td><b>Si</b> hay más de 60</td><td><b>entonces</b> la combinada; repítela con otra semilla y comprueba que llega a la misma longitud.</td></tr>
+      <tr><td><b>Si</b> se llegó al máximo de árboles guardados</td><td><b>entonces</b> sube el tope y repite: el consenso puede estar incompleto.</td></tr>
+      <tr><td><b>Si</b> la búsqueda se detuvo por tiempo</td><td><b>entonces</b> el resultado no es el definitivo: sube el tiempo máximo o reduce las réplicas.</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 3.4 -->
+  <h2 id="s3-4"><span class="num">3.4</span>Restricciones</h2>
+  <p>Una restricción obliga a que un grupo sea monofilético o prohíbe que lo sea. Sirve para preguntar cuánto cuesta una hipótesis: si el grupo que propone una clasificación no aparece en el árbol más corto, ¿cuántos pasos más hacen falta para que aparezca? La búsqueda con la restricción responde con un número, y el Bloque 9 convierte esa diferencia en una prueba estadística.</p>
+  <ol class="pasos">
+    <li><b>Abrir el formulario.</b> <span class="ui">Añadir un grupo</span> despliega los campos (figura 3.4).</li>
+    <li><b>Nombrar y elegir el tipo.</b> Un <span class="ui">Nombre del grupo</span> que se reconozca en los resultados y el <span class="ui">Tipo</span>: <i>Debe ser monofilético</i> o <i>No debe ser monofilético</i>.</li>
+    <li><b>Marcar los taxones.</b> El campo <span class="ui">Buscar taxón</span> filtra la lista mientras se escribe. Un grupo necesita al menos dos taxones y debe dejar fuera al menos dos.</li>
+    <li><b>Añadir.</b> <span class="ui">Añadir el grupo</span> lo pone en la lista con su etiqueta verde (debe) o ámbar (no debe). La casilla de cada grupo lo activa o lo desactiva sin borrarlo; <span class="ui">Quitar</span> lo borra.</li>
+  </ol>
+  <figure class="media">
+    <div class="marco"><img src="../img/b3-restricciones.png" alt="La tarjeta Restricciones con un grupo añadido, Dalias arborescentes, que debe ser monofilético, y el formulario para añadir otro con nombre, tipo, buscador de taxones y la lista de los veinte taxones con dos marcados"></div>
+    <figcaption><b>Figura 3.4.</b> Las restricciones: un grupo ya añadido y el formulario abierto para añadir otro.</figcaption>
+  </figure>
+  <p>Las restricciones activas valen para todas las búsquedas siguientes del Bloque 3 y también para las del Bloque 4. El apoyo del Bloque 7 se calcula sin ellas.</p>
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Ejemplo · dos preguntas a Dahlia</div>
+    <p>Sin restricciones, el árbol más corto mide <b>97.036</b> pasos. Si se obliga a que <i>D. merckii</i> y <i>D. moorei</i> formen un grupo, la búsqueda encuentra <b>2 árboles de la misma longitud</b>: el grupo ya estaba en dos de los seis árboles más cortos; los datos lo admiten, pero no lo exigen. Si, en cambio, se prohíbe que las cuatro dalias arborescentes (<i>D. imperialis</i>, <i>D. excelsa</i>, <i>D. tenuicaulis</i> y <i>D. campanulata</i>) formen un grupo, el árbol más corto mide <b>99.080</b>: separar a esas cuatro especies cuesta <b>2.04 pasos</b>. Si esa diferencia es mayor de lo que el azar explicaría es lo que contesta el Bloque 9.</p>
+  </div>
+
+  <!-- 3.5 -->
+  <h2 id="s3-5"><span class="num">3.5</span>Los resultados de la búsqueda</h2>
+  <p>El botón <span class="ui">Buscar</span> abre la ventana de espera (figura 3.5): una animación, el avance con el tiempo que falta, la mejor longitud encontrada hasta el momento (<i>«Mejor hasta ahora: …»</i>), un consejo sobre la app que cambia cada pocos segundos y el botón <span class="ui">Cancelar</span>, que detiene la búsqueda sin cambiar nada. Al final, mientras colapsa las ramas y calcula los índices, dice cuántos árboles lleva de cuántos. Al terminar, la tarjeta <span class="ui">Resultados de la búsqueda</span> resume lo encontrado en seis recuadros.</p>
+  <figure class="mini">
+    <div class="marco"><img src="../img/b3-espera.png" alt="La ventana de espera durante la búsqueda de la matriz grande: la animación de un árbol que se dibuja, el título Buscando los árboles más cortos, la mejor longitud hasta ahora, 1051, la barra de avance al 30 por ciento con unos 23 segundos restantes, un consejo y el botón Cancelar"></div>
+    <figcaption><b>Figura 3.5.</b> La ventana de espera, a los 9 segundos de la búsqueda de la matriz grande.</figcaption>
+  </figure>
+  <figure>
+    <div class="marco"><img src="../img/b3-resultados.png" alt="Los resultados de la búsqueda de Dahlia: longitud 97.036, seis árboles más cortos que son dos al colapsar, CI 0.574, RI 0.742, 20 de 20 réplicas llegaron, el tiempo; la curva de convergencia, plana; y la tabla de los seis árboles con su longitud, CI y RI"></div>
+    <figcaption><b>Figura 3.6.</b> Los resultados de Dahlia con los valores por omisión: seis árboles de 97.036 pasos, a los que llegaron las 20 réplicas.</figcaption>
+  </figure>
+  <table class="compacta">
+    <thead><tr><th style="width:1.45in">Recuadro</th><th>Qué dice</th><th style="width:1.45in">En Dahlia</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Longitud</span></td><td>Los pasos del árbol más corto, con los pesos de cada carácter. Con continuos escalados lleva decimales.</td><td>97.036</td></tr>
+      <tr><td><span class="ui">Árboles más cortos</span></td><td>Cuántos árboles binarios empatan y cuántos quedan distintos al colapsar las ramas que pueden medir cero.</td><td>6; 2 distintos</td></tr>
+      <tr><td><span class="ui">CI</span> · <span class="ui">RI</span></td><td>El índice de consistencia y el de retención del primer árbol, calculados sobre los caracteres discretos (Kluge y Farris 1969; Farris 1989). El Bloque 6 los da carácter por carácter.</td><td>0.574 · 0.742</td></tr>
+      <tr><td><span class="ui">Réplicas que llegaron</span></td><td>Cuántas réplicas encontraron la mejor longitud. Con el 30 % o más, la app lo marca como buena señal; con menos, aconseja buscar más.</td><td>20 / 20</td></tr>
+      <tr><td><span class="ui">Tiempo</span></td><td>Lo que tardó, los hilos que usó y la semilla.</td><td>alrededor de 1 s</td></tr>
+    </tbody>
+  </table>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Si la matriz cambia, los resultados se van</div>
+    <p>Editar la matriz descarta la búsqueda (sección 2.2). Los resultados del Bloque 3 también se descartan al terminar una búsqueda nueva, y con ellos el cladograma, el diagnóstico, el apoyo, los consensos y las hipótesis, que dependían de los árboles anteriores. Si por alguna razón quedara a la vista una búsqueda hecha con otra matriz, un aviso ámbar lo dice: <i>«La matriz cambió después de esta búsqueda: conviene repetirla»</i>.</p>
+  </div>
+  <p>Con la búsqueda exacta, el recuadro de las réplicas cambia: dice <span class="ui">Exacta ✓</span> y <i>«rama y cota: no hay árboles más cortos»</i>; si se agotó el tiempo, dice <i>«incompleta»</i> y advierte que el resultado no está garantizado. En <i>Bursera</i>, la búsqueda exacta encuentra en un instante un solo árbol de 17 pasos, con CI 0.706 y RI 0.762 (figura 3.7).</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b3-exacta.png" alt="Los recuadros de la búsqueda exacta de Bursera: longitud 17, un árbol más corto, CI 0.706, RI 0.762, exacta con palomita, y tiempo"></div>
+    <figcaption><b>Figura 3.7.</b> La búsqueda exacta de <i>Bursera</i>: el recuadro <i>Exacta ✓</i> garantiza que no hay árboles más cortos.</figcaption>
+  </figure>
+
+  <!-- 3.6 -->
+  <h2 id="s3-6"><span class="num">3.6</span>La convergencia</h2>
+  <p>La gráfica <span class="ui">Convergencia</span> es la forma de saber si una búsqueda heurística terminó bien. Cada punto es una réplica, en el eje horizontal, con la longitud que encontró en el vertical; la línea es la mejor longitud hasta esa réplica. Los puntos del color principal llegaron a la mejor longitud de ese momento; los del color de acento se quedaron en un árbol más largo.</p>
+  <p>En Dahlia la gráfica es plana: las 20 réplicas llegaron a 97.036 desde la primera (figura 3.8 A). La matriz grande se comporta igual: con los valores por omisión —la búsqueda combinada, porque tiene más de 60 taxones— las 20 réplicas llegan a 1051 pasos en unos 47 segundos, y hasta la heurística simple, sin ratchet, llega en 3 segundos. Son matrices simuladas sobre un árbol conocido, con poca homoplasia; con datos reales, sobre todo con muchos taxones y mucha homoplasia, la gráfica se parece más a la de la figura 3.8 B.</p>
+  <figure>
+    <svg viewBox="0 0 670 236" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="Dos gráficas de convergencia. A la izquierda, la de Dahlia: las veinte réplicas en la misma longitud y la línea plana. A la derecha, un esquema de una búsqueda que no convergió: las réplicas terminan en longitudes distintas, la línea de la mejor longitud sigue bajando en las últimas réplicas y sólo una llega al valor final."><text x="8" y="18" font-size="11.5" font-weight="600" fill="#1d4a72">A · Convergió: Dahlia, 20 de 20 réplicas</text><line x1="46" x2="300" y1="44" y2="44" stroke="#e7dfdb"/><line x1="46" x2="300" y1="77.5" y2="77.5" stroke="#e7dfdb"/><line x1="46" x2="300" y1="111" y2="111" stroke="#e7dfdb"/><line x1="46" x2="300" y1="144.5" y2="144.5" stroke="#e7dfdb"/><line x1="46" x2="300" y1="178" y2="178" stroke="#e7dfdb"/><text x="16" y="111" font-size="10" fill="#6a625e" text-anchor="middle" transform="rotate(-90 16 111)">longitud</text><text x="173" y="196" font-size="10" fill="#6a625e" text-anchor="middle">réplica</text><polyline points="46.0,150 59.4,150 72.7,150 86.1,150 99.5,150 112.8,150 126.2,150 139.6,150 152.9,150 166.3,150 179.7,150 193.1,150 206.4,150 219.8,150 233.2,150 246.5,150 259.9,150 273.3,150 286.6,150 300.0,150" fill="none" stroke="#9a3b26" stroke-width="2"/><circle cx="46.0" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="59.4" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="72.7" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="86.1" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="99.5" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="112.8" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="126.2" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="139.6" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="152.9" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="166.3" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="179.7" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="193.1" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="206.4" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="219.8" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="233.2" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="246.5" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="259.9" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="273.3" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="286.6" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="300.0" cy="150" r="3.6" fill="#9a3b26" opacity=".9"/><text x="8" y="216" font-size="10.5" fill="#2b2523">Todas las réplicas llegan a la misma longitud desde</text><text x="8" y="230" font-size="10.5" fill="#2b2523">la primera: muy probablemente es el óptimo.</text><line x1="330" y1="8" x2="330" y2="228" stroke="#e7dfdb"/><text x="353" y="18" font-size="11.5" font-weight="600" fill="#1d4a72">B · No convergió (esquema, no una corrida)</text><line x1="391" x2="645" y1="44" y2="44" stroke="#e7dfdb"/><line x1="391" x2="645" y1="77.5" y2="77.5" stroke="#e7dfdb"/><line x1="391" x2="645" y1="111" y2="111" stroke="#e7dfdb"/><line x1="391" x2="645" y1="144.5" y2="144.5" stroke="#e7dfdb"/><line x1="391" x2="645" y1="178" y2="178" stroke="#e7dfdb"/><text x="361" y="111" font-size="10" fill="#6a625e" text-anchor="middle" transform="rotate(-90 361 111)">longitud</text><text x="518" y="196" font-size="10" fill="#6a625e" text-anchor="middle">réplica</text><polyline points="391.0,70 404.4,95 417.7,120 431.1,120 444.5,120 457.8,120 471.2,135 484.6,135 497.9,135 511.3,135 524.7,135 538.1,135 551.4,135 564.8,140 578.2,140 591.5,166 604.9,166 618.3,166 631.6,166 645.0,166" fill="none" stroke="#9a3b26" stroke-width="2"/><circle cx="391.0" cy="70" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="404.4" cy="95" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="417.7" cy="120" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="431.1" cy="60" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="444.5" cy="100" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="457.8" cy="85" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="471.2" cy="135" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="484.6" cy="110" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="497.9" cy="90" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="511.3" cy="125" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="524.7" cy="75" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="538.1" cy="115" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="551.4" cy="105" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="564.8" cy="140" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="578.2" cy="95" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="591.5" cy="166" r="3.6" fill="#9a3b26" opacity=".9"/><circle cx="604.9" cy="120" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="618.3" cy="100" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="631.6" cy="130" r="3.6" fill="#1f7a72" opacity=".9"/><circle cx="645.0" cy="110" r="3.6" fill="#1f7a72" opacity=".9"/><text x="353" y="216" font-size="10.5" fill="#2b2523">Cada réplica acaba en un valor distinto, la mejor</text><text x="353" y="230" font-size="10.5" fill="#2b2523">baja tarde y sólo una llega: hay que buscar más.</text><g font-size="10" fill="#6a625e"><circle cx="420" cy="34" r="3.4" fill="#9a3b26"/><text x="427" y="37.5">igual a la mejor hasta ese punto</text><circle cx="572" cy="34" r="3.4" fill="#1f7a72"/><text x="579" y="37.5">más larga</text></g></svg>
+    <figcaption><b>Figura 3.8.</b> Dos gráficas de convergencia. A, la de Dahlia con los valores por omisión. B, un esquema dibujado para este manual de cómo se ve una búsqueda que no convergió.</figcaption>
+  </figure>
+  <p>La matriz grande enseña, además, el otro aviso: con los valores por omisión guarda 100 árboles, el máximo, y el recuadro dice <i>«se llegó al máximo guardado: puede haber más»</i>. En efecto, hay más de 1000 árboles de 1051 pasos. Con tantos árboles empatados no importa guardarlos todos, sino que el consenso no cambie: sube el tope —a 1000, por ejemplo— y compara el consenso estricto con el anterior. Colapsar y medir 1000 árboles de 120 taxones toma alrededor de un minuto, con su avance en la ventana de espera.</p>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · ¿terminó bien la búsqueda?</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> muchas réplicas llegan a la mejor longitud y la línea se aplana pronto</td><td><b>entonces</b> es muy probable que sea el óptimo.</td></tr>
+      <tr><td><b>Si</b> sólo una o dos réplicas llegan, o la línea sigue bajando en las últimas</td><td><b>entonces</b> busca más: más réplicas, más ciclos de ratchet o la combinada.</td></tr>
+      <tr><td><b>Si</b> otra semilla da una longitud menor</td><td><b>entonces</b> la primera búsqueda no había llegado: quédate con la menor y vuelve a repetir hasta que dos semillas coincidan.</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 3.7 -->
+  <h2 id="s3-7"><span class="num">3.7</span>Los árboles más cortos y su consenso</h2>
+  <p>La tabla <span class="ui">Árboles más cortos</span>, a la derecha de la convergencia, lista cada árbol empatado con su longitud, su CI y su RI. Debajo, el selector <span class="ui">Mostrar</span> dibuja el <span class="ui">Consenso estricto</span> —la opción por omisión, con el número de árboles distintos entre paréntesis— o cualquiera de los árboles, enraizado en el grupo externo.</p>
+  <figure>
+    <div class="marco"><img src="../img/b3-arbol.png" alt="El consenso estricto de los árboles más cortos de Dahlia, con el grupo externo abajo, dos politomías y los botones para descargar los árboles"></div>
+    <figcaption><b>Figura 3.9.</b> El consenso estricto de los árboles más cortos de Dahlia y los botones para descargarlos.</figcaption>
+  </figure>
+  <p>El consenso estricto conserva sólo los grupos que están en todos los árboles; lo que los árboles no comparten se vuelve una politomía. Se arma con los árboles ya colapsados, así que también quedan como politomías las ramas que la regla 1 colapsó. En Dahlia, los seis árboles binarios difieren en dos lugares: el orden de <i>D. linearis</i>, <i>D. dissecta</i> y <i>D. rupicola</i>, y la posición de <i>D. merckii</i> y <i>D. moorei</i> respecto al resto del género. Además, dos ramas pueden medir cero en todos ellos —la que une a <i>D. rudis</i> con <i>D. pinnata</i> y la que junta al grupo de las arborescentes con el de <i>D. coccinea</i> y <i>D. pinnata</i>— y también salen como politomías.</p>
+  <p>Lo que sí comparten los seis es el género completo, el grupo de <i>D. linearis</i>, el de las dalias arborescentes con <i>D. macdougallii</i>, el de <i>D. coccinea</i> con <i>D. sherffii</i> y <i>D. atropurpurea</i>, el de <i>D. pinnata</i>, <i>D. rudis</i> y <i>D. australis</i>, y el par <i>D. scapigera</i> y <i>D. cardiophylla</i>. El Bloque 8 compara este consenso con los otros cuatro; el Bloque 5 dibuja cada árbol con sus cambios.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:1.9in">Botón</th><th>Qué descarga</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Árboles (Newick)</span></td><td>Todos los árboles más cortos, binarios, uno por línea (<code>…_arboles.nwk</code>).</td></tr>
+      <tr><td><span class="ui">Colapsados</span></td><td>Los árboles distintos después de colapsar las ramas que pueden medir cero (<code>…_colapsados.nwk</code>).</td></tr>
+      <tr><td><span class="ui">Consenso estricto</span></td><td>El consenso, en Newick (<code>…_estricto.nwk</code>).</td></tr>
+      <tr><td><span class="ui">Matriz y árboles (NEXUS)</span></td><td>La matriz completa con los árboles <code>mpt_1</code>, <code>mpt_2</code>… y <code>consenso_estricto</code> en un bloque <code>TREES</code>: un solo archivo con todo lo de la búsqueda (<code>…_busqueda.nex</code>).</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 3.8 -->
+  <h2 id="s3-8"><span class="num">3.8</span>Los avisos de este bloque</h2>
+  <table class="compacta">
+    <thead><tr><th style="width:2.6in">Mensaje</th><th>Qué significa y qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td><i>Primero hace falta una matriz</i></td><td>No hay matriz cargada. <span class="ui">Ir a la matriz</span> lleva al Bloque 2.</td></tr>
+      <tr><td><i>Con N taxones la búsqueda exacta puede tardar horas o no terminar: conviene la heurística</i></td><td>Se eligió la exacta con más de 14 taxones. Puede intentarse, con el tiempo máximo como red de seguridad.</td></tr>
+      <tr><td><i>Un grupo necesita al menos 2 taxones y dejar fuera al menos 2</i></td><td>Al añadir una restricción con muy pocos o con casi todos los taxones.</td></tr>
+      <tr><td><i>pocas réplicas llegaron: conviene buscar más</i></td><td>Menos del 30 % de las réplicas llegaron a la mejor longitud (sección 3.6).</td></tr>
+      <tr><td><i>se llegó al máximo guardado: puede haber más</i></td><td>Hay más árboles empatados que el tope. Súbelo y repite.</td></tr>
+      <tr><td><i>Exacta · incompleta · se agotó el tiempo: el resultado no está garantizado</i></td><td>La rama y cota no terminó. Sube el tiempo máximo o usa una heurística.</td></tr>
+      <tr><td><i>La matriz cambió después de esta búsqueda: conviene repetirla</i></td><td>Los resultados no corresponden a la matriz actual.</td></tr>
+      <tr><td><i>Una sola corrida: no hay curva que mostrar</i></td><td>En la gráfica de convergencia, con la exacta o con una sola réplica.</td></tr>
+      <tr><td><i>La búsqueda falló: …</i></td><td>Después de los dos puntos va la causa; por ejemplo, <i>hacen falta al menos tres taxones activos</i>.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

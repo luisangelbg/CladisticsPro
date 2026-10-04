@@ -1,0 +1,54 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "CladisticsPro: cladística morfológica en el navegador"
+abstract: >-
+  CladisticsPro (characters, homology and trees) is a self-contained web application for
+  cladistic analysis of morphological characters, from the character matrix to the diagnosed
+  cladogram, entirely in the browser, with no installation and no server-side computation.
+  It edits the matrix with a statement for each character and a name for each state, with
+  polymorphisms, missing data, inapplicable characters and their dependencies, additive
+  characters, step matrices, continuous characters, and a picture for each state and each
+  taxon; it reads and writes NEXUS, xread, CSV and TSV and checks the matrix before the
+  analysis. It finds the most parsimonious trees by exact branch and bound or by Wagner
+  addition with TBR, the parsimony ratchet, sectorial search, tree drifting and tree fusing,
+  with group constraints and in parallel Web Workers, treating inapplicable data with the
+  algorithm of Brazeau, Guillerme and Smith (2019). It weights characters by implied weights,
+  extended implied weights and successive weighting, with the sensitivity of the result to the
+  concavity constant. It draws every change on its branch (unique or homoplastic) under
+  ACCTRAN, DELTRAN or unambiguous optimization, paints the tree by a character and lets the
+  cladogram be edited with the mouse while its length is recomputed; it diagnoses each
+  character (steps, CI, RI, RC) and each clade by its synapomorphies; it measures support by
+  absolute and relative Bremer support, bootstrap, jackknife, symmetric resampling and GC; it
+  summarizes the shortest trees by strict, majority-rule, extended majority-rule, semistrict
+  and Adams consensus, with reduced consensus and wildcard taxa; and it tests hypotheses of
+  monophyly or whole trees by their cost in steps with the Templeton, winning-sites and
+  Kishino–Hasegawa tests. It ends in a publication cladogram with the pictures of the taxa,
+  every figure in SVG, trees in NEXUS, xread and Newick, a methods section written in Spanish
+  or English from what was actually run, and a reproducible package. Bilingual interface
+  (Spanish and English). Every engine was checked against independent implementations in R
+  and against the exhaustive enumeration of all trees.
+type: software
+authors:
+  - given-names: "Luis Ángel"
+    family-names: "Barrera-Guzmán"
+    email: lbarrerag@chapingo.mx
+    orcid: "https://orcid.org/0000-0001-8057-2583"
+version: "1.0.0"
+date-released: "2026-10-04"
+repository-code: "https://github.com/luisangelbg/CladisticsPro"
+url: "https://luisangelbg.github.io/CladisticsPro/"
+license: GPL-3.0-or-later
+keywords:
+  - cladistics
+  - phylogenetic systematics
+  - maximum parsimony
+  - morphological characters
+  - character matrix
+  - homology
+  - implied weighting
+  - parsimony ratchet
+  - inapplicable characters
+  - Bremer support
+  - consensus trees
+  - character optimization
+  - plant systematics

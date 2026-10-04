@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CladisticsPro · Manual de usuario · Apéndices</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<script src="../paginar.js"></script>
+<style>
+  .refs { list-style: none; padding: 0; margin: 0.06in 0 0; }
+  .refs li { margin: 0 0 0.08in 0.24in; text-indent: -0.24in; font-size: 9.6pt; }
+  table.ficheros code { white-space: nowrap; }
+  pre.archivo { font-family: var(--mono); font-size: 8.4pt; line-height: 1.4; background: #fbf6f4; border: 1px solid var(--linea); border-left: 3px solid var(--acento); border-radius: 0 4px 4px 0; padding: 0.07in 0.12in; margin: 0.05in 0 0.16in; white-space: pre-wrap; break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-ap" data-pestana="Ap" data-orden="11" style="--acento: var(--bx)">
+  <div class="cap-apertura">
+    <div class="cap-num">A</div>
+    <div class="cap-etiqueta">Apéndices</div>
+    <h1>Apéndices</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Lo que conviene tener a la mano y no cabía en ningún capítulo: qué archivos lee y escribe la app, las reglas de decisión de los diez bloques reunidas en una sola lista, un glosario de los términos de la cladística que usa el manual, qué hacer cuando algo no sale como se esperaba, las 53 referencias de la app y cómo citar el programa.</p>
+    <ul class="cap-contenido">
+      <li><b>A</b>Los archivos que la app lee y escribe</li>
+      <li><b>B</b>Las reglas de decisión, reunidas</li>
+      <li><b>C</b>Glosario</li>
+      <li><b>D</b>Cuando algo no sale</li>
+      <li><b>E</b>Referencias</li>
+      <li><b>F</b>La herramienta: licencia y cómo citarla</li>
+    </ul>
+  </div>
+
+  <!-- A -->
+  <h2 id="ap-a"><span class="num">A</span>Los archivos que la app lee y escribe</h2>
+  <p class="lead">CladisticsPro corre en el navegador y no envía nada a ningún servidor: todos los archivos entran desde la computadora y salen a la carpeta de descargas. La sesión —la matriz, sus árboles y las imágenes— se guarda sola en la base de datos del propio navegador, un instante después de cada cambio.</p>
+  <h3>A.1 · Lo que la app lee</h3>
+  <table class="compacta ficheros">
+    <thead><tr><th style="width:1.15in">Formato</th><th style="width:1.15in">Extensión</th><th>Qué toma</th></tr></thead>
+    <tbody>
+      <tr><td><b>NEXUS</b></td><td><code>.nex</code>, <code>.nexus</code>, <code>.nxs</code></td><td>Los bloques <code>TAXA</code>, <code>CHARACTERS</code> o <code>DATA</code> (estándar, continuos o secuencias, intercalados o no), los nombres de caracteres y estados, los supuestos (<code>TYPESET</code>, <code>WTSET</code>, <code>EXSET</code>, <code>USERTYPE</code>, <code>CHARSET</code>), los árboles (<code>TREES</code> con <code>TRANSLATE</code>) y el bloque propio <code>CLADISTICSPRO</code> (sección 2.2).</td></tr>
+      <tr><td><b>xread</b></td><td><code>.ss</code>, <code>.xread</code></td><td>La matriz con sus particiones <code>&amp;[num]</code> y <code>&amp;[cont]</code>, <code>ccode</code>, <code>cnames</code>, <code>smatrix</code>, <code>outgroup</code> y los árboles de <code>tread</code>.</td></tr>
+      <tr><td><b>Tabla</b></td><td><code>.csv</code>, <code>.tsv</code>, <code>.txt</code></td><td>Separada por comas, punto y coma o tabuladores, o pegada de una hoja de cálculo: encabezado con los caracteres, taxones en la primera columna y filas opcionales <code># estados</code>, <code># tipo</code>, <code># peso</code>, <code># depende</code> y <code># activo</code>.</td></tr>
+      <tr><td><b>Proyecto</b></td><td><code>.cladisticspro.json</code></td><td>Todo lo de una sesión: la matriz, los árboles que traía el archivo y las imágenes de taxones y estados.</td></tr>
+      <tr><td><b>Árbol</b></td><td>texto Newick</td><td>Pegado en los Bloques 5 y 9, con los nombres de la matriz.</td></tr>
+      <tr><td><b>Imagen</b></td><td><code>.jpg</code>, <code>.png</code>, <code>.webp</code>…</td><td>Las imágenes de los taxones (sección 2.6) y de los estados (botón ▣ del inspector); las muy grandes se reducen.</td></tr>
+    </tbody>
+  </table>
+  <h3>A.2 · Lo que la app escribe</h3>
+  <p>Cada archivo empieza con el título de la matriz (en Dahlia, <code>Dahlia_didactico</code>) seguido de lo que contiene:</p>
+  <table class="compacta ficheros">
+    <thead><tr><th style="width:0.5in">Bloque</th><th style="width:2.35in">Archivo</th><th>Qué contiene</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k2">2</span></td><td><code>.nex</code> · <code>.ss</code> · <code>.csv</code> · <code>.tsv</code> · <code>.cladisticspro.json</code></td><td>La matriz en cada formato; el proyecto, además, las imágenes (sección 2.8).</td></tr>
+      <tr><td><span class="chip k2">2</span></td><td><code>_caracteres.txt</code> · <code>_caracteres.html</code></td><td>La lista de caracteres; la página, con las imágenes de los estados.</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td><code>_arboles.nwk</code> · <code>_colapsados.nwk</code> · <code>_estricto.nwk</code> · <code>_busqueda.nex</code></td><td>Los árboles más cortos, los colapsados, el consenso estricto, y la matriz con todos ellos.</td></tr>
+      <tr><td><span class="chip k4">4</span></td><td><code>_pesos_iw.nwk</code> (o <code>_eiw</code>, <code>_sw</code>) · <code>_sensibilidad_k.nwk</code></td><td>Los árboles con pesos; el consenso de cada k.</td></tr>
+      <tr><td><span class="chip k5">5</span></td><td><code>_arbol.nwk</code> · <code>_cambios.csv</code></td><td>El árbol a la vista (con sus ediciones) y la lista de cambios por rama.</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><code>_caracteres.csv</code> · <code>_diagnosis.txt</code></td><td>La tabla de cada carácter y la diagnosis de cada clado.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td><code>_apoyo.nwk</code> · <code>_apoyo.csv</code></td><td>El árbol de referencia con los valores y la tabla del apoyo.</td></tr>
+      <tr><td><span class="chip k8">8</span></td><td><code>_consenso_strict.nwk</code> (o el tipo elegido)</td><td>El consenso a la vista.</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td><code>_hipotesis_N.csv</code> · Newick</td><td>Carácter por carácter de una hipótesis, y su árbol.</td></tr>
+      <tr><td><span class="chip k10">10</span></td><td><code>.nex</code> · <code>.ss</code> · <code>.tre</code> · <code>_metodos.txt</code> · <code>_metodos.html</code> · <code>_paquete_AAAA-MM-DD.zip</code></td><td>La matriz con los árboles elegidos, los árboles solos, los métodos (<code>_methods</code> en inglés) y el paquete (sección 10.6).</td></tr>
+      <tr><td>todas</td><td><code>.svg</code> · <code>.png</code> · <code>.pdf</code> · <code>.tif</code></td><td>Cualquier figura, desde el estudio de figuras (sección 10.3).</td></tr>
+    </tbody>
+  </table>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Lo que el navegador recuerda</div>
+    <p>La matriz de la sesión se recupera con <span class="ui">Recuperar la última sesión</span> en el mismo navegador de la misma computadora. En una ventana privada, o si se borran los datos del sitio, no queda nada guardado: el proyecto <code>.json</code> es el respaldo que viaja. Las preferencias —el idioma, el tema, las ediciones de las figuras, los ajustes del estudio— también se guardan en el navegador.</p>
+  </div>
+
+  <!-- B -->
+  <h2 id="ap-b"><span class="num">B</span>Las reglas de decisión, reunidas</h2>
+  <p>Las reglas de decisión de los capítulos, en una sola lista y con el capítulo donde se explican. Son guías de lectura, no leyes: lo que se sabe del grupo y de los caracteres siempre manda.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:0.5in">Bloque</th><th style="width:2.45in">Si…</th><th>Entonces…</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k2">2</span></td><td>Los estados no tienen un orden que puedas defender</td><td>No ordenado, el tipo por omisión: cualquier cambio cuesta un paso.</td></tr>
+      <tr><td><span class="chip k2">2</span></td><td>Los estados forman una serie con intermedios argumentados</td><td>Ordenado, y en la nota del carácter, por qué.</td></tr>
+      <tr><td><span class="chip k2">2</span></td><td>Unos cambios son más fáciles que otros, o la ida no cuesta lo que la vuelta</td><td>Matriz de pasos, con un costo para cada par de estados.</td></tr>
+      <tr><td><span class="chip k2">2</span></td><td>Es una medida y cortarla en clases sería arbitrario</td><td>Continuo, con el valor o el intervalo de cada taxón.</td></tr>
+      <tr><td><span class="chip k2">2</span></td><td>La estructura falta en algunos taxones</td><td>Un carácter de presencia y otros que dependen de él, con «–» donde no aplica.</td></tr>
+      <tr><td><span class="chip k2">2</span></td><td>Un taxón presenta dos estados</td><td>Un polimorfismo <code>(01)</code>; si no se sabe cuál de los dos, <code>{01}</code>; si no se sabe nada, «?».</td></tr>
+      <tr><td><span class="chip k2">2</span></td><td>El control de calidad da errores / avisos / sólo notas</td><td>No buscar todavía y corregirlos con <span class="ui">Ir</span> / leer cada uno y anotar los intencionales / la matriz está lista.</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td>Hay 12 taxones o menos</td><td>La exacta: el resultado está garantizado.</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td>Hay de 13 a 60 / más de 60</td><td>El ratchet con 20 réplicas / la combinada, repetida con otra semilla.</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td>Se llegó al máximo de árboles, o la búsqueda se detuvo por tiempo</td><td>Subir el tope o el tiempo y repetir: el resultado no es el definitivo.</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td>Sólo una o dos réplicas llegan, o la línea sigue bajando al final</td><td>Buscar más: más réplicas, más ciclos de ratchet o la combinada.</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td>Otra semilla da una longitud menor</td><td>Quedarse con la menor y repetir hasta que dos semillas coincidan.</td></tr>
+      <tr><td><span class="chip k4">4</span></td><td>Un clado aparece con pesos iguales y con todos los k</td><td>No depende de cómo se pesen los caracteres: decirlo así.</td></tr>
+      <tr><td><span class="chip k4">4</span></td><td>Un clado aparece sólo con algunos k</td><td>Reportarlo con esa salvedad y con los k donde aparece.</td></tr>
+      <tr><td><span class="chip k4">4</span></td><td>Se va a dar un solo árbol con pesos implícitos</td><td>El k que recomienda el criterio de Mirande, mencionando la sensibilidad.</td></tr>
+      <tr><td><span class="chip k4">4</span></td><td>Los pesos sucesivos y los implícitos dan árboles distintos</td><td>Son hipótesis distintas: compararlas con el apoyo y las pruebas de topología.</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td>Una sinapomorfía es única, no ambigua y fija en todos los árboles</td><td>Citarla sin reservas.</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td>Es ambigua / se mueve entre árboles / es homoplásica</td><td>Decir con qué optimización / decirla sólo para el árbol presentado / presentarla como apoyo, no como diagnóstica exclusiva.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td>Se va a publicar</td><td>El Bremer y un remuestreo con 1000 pseudorréplicas y búsqueda cuidadosa, diciendo el método, p y la búsqueda.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td>Bremer menor que 1 y frecuencia menor que 50 %</td><td>No discutir el grupo como resultado.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td>El GC es negativo</td><td>Algún grupo incompatible aparece más: revisar qué caracteres lo contradicen.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td>El Bremer y la frecuencia no coinciden</td><td>Mirar cuántos caracteres hay a favor y en contra.</td></tr>
+      <tr><td><span class="chip k8">8</span></td><td>Un comodín devuelve muchos clados y tiene muchos «?»</td><td>El consenso reducido junto al completo, diciendo dónde puede ir; no borrarlo de la matriz sin decirlo.</td></tr>
+      <tr><td><span class="chip k8">8</span></td><td>Tiene pocos «?» y aun así se mueve</td><td>Revisar su codificación con <span class="ui">Por qué se mueve</span> y la diagnosis.</td></tr>
+      <tr><td><span class="chip k8">8</span></td><td>Se quiere ver el árbol sin él</td><td>Desactivarlo en el Bloque 2 y repetir la búsqueda.</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td>Las tres pruebas dan p &lt; 0.05</td><td>Los datos rechazan la hipótesis: decirlo con el costo en pasos y los caracteres que se oponen.</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td>Ninguna la rechaza</td><td>Decir que no la rechazan, no que la apoyan, y cuánto cuesta.</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td>Las pruebas no coinciden</td><td>Mirar cuántos caracteres cambian: con muy pocos, la binomial casi nunca rechaza.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- C -->
+  <h2 id="ap-c"><span class="num">C</span>Glosario</h2>
+  <table class="compacta">
+    <thead><tr><th style="width:1.9in">Término</th><th>Qué es</th></tr></thead>
+    <tbody>
+      <tr><td><b>ACCTRAN, DELTRAN</b></td><td>Dos maneras de elegir entre reconstrucciones igual de cortas: adelantar los cambios hacia la raíz (y preferir reversiones) o retrasarlos hacia las puntas (y preferir paralelismos).</td></tr>
+      <tr><td><b>Adición de Wagner</b></td><td>Armar un árbol agregando los taxones de uno en uno, cada uno en la rama donde alarga menos el árbol.</td></tr>
+      <tr><td><b>Apoyo de Bremer</b></td><td>Cuántos pasos más largo es el mejor árbol sin un grupo; el <b>relativo</b> compara lo que está a favor y en contra del grupo, de 0 a 1.</td></tr>
+      <tr><td><b>Autapomorfía</b></td><td>Un estado derivado exclusivo de un solo taxón. No informa sobre las relaciones entre taxones.</td></tr>
+      <tr><td><b>Carácter dependiente</b></td><td>Un carácter que sólo existe cuando otro está en ciertos estados (el tipo de tricoma sólo si hay tricomas); donde no existe lleva «–».</td></tr>
+      <tr><td><b>Carácter informativo</b></td><td>Uno cuya longitud cambia de un árbol a otro: al menos dos de sus estados aparecen cada uno en dos taxones o más.</td></tr>
+      <tr><td><b>CI, RI, RC</b></td><td>Índices de consistencia (<i>m</i>/<i>s</i>), de retención ((<i>g</i> − <i>s</i>)/(<i>g</i> − <i>m</i>)) y de consistencia reescalada (CI × RI) (sección 6.1).</td></tr>
+      <tr><td><b>Clado</b></td><td>Un grupo formado por un antepasado y todos sus descendientes; en un árbol, todo lo que cuelga de un nodo.</td></tr>
+      <tr><td><b>Comodín</b></td><td>Un taxón que cambia de lugar entre árboles igual de cortos y deshace el consenso; casi siempre por falta de datos.</td></tr>
+      <tr><td><b>Consenso</b></td><td>Un árbol que resume varios: el <b>estricto</b> guarda los grupos de todos; el de <b>mayoría</b>, los de más de la mitad; el <b>reducido</b>, los de todos tras podar los comodines.</td></tr>
+      <tr><td><b>Continuo (carácter)</b></td><td>Una medida analizada como tal, con un valor o un intervalo por taxón; el costo de un cambio es la diferencia.</td></tr>
+      <tr><td><b>Convergencia</b></td><td>Un estado al que se llega independientemente en linajes distintos: una forma de homoplasia.</td></tr>
+      <tr><td><b>GC</b></td><td>La frecuencia de un grupo en el remuestreo menos la del grupo contradictorio más frecuente.</td></tr>
+      <tr><td><b>Grupo externo</b></td><td>Los taxones fuera del grupo de estudio que enraízan el árbol y dan la polaridad de los cambios.</td></tr>
+      <tr><td><b>Homología primaria, secundaria</b></td><td>La conjetura de que dos estructuras son la misma (al codificar) y su confirmación como sinapomorfía en el árbol más corto.</td></tr>
+      <tr><td><b>Homoplasia</b></td><td>La similitud que no se debe a un antepasado común: convergencias, paralelismos y reversiones; los pasos extra (<i>h</i>) de un carácter.</td></tr>
+      <tr><td><b>Inaplicable («–»)</b></td><td>Una celda donde el carácter no existe; distinto de «?», que es «existe, pero no se sabe cómo es».</td></tr>
+      <tr><td><b>Jackknife, bootstrap, remuestreo simétrico</b></td><td>Formas de perturbar la matriz al azar para ver con qué frecuencia reaparece cada grupo (sección 7.4).</td></tr>
+      <tr><td><b>k (constante de concavidad)</b></td><td>El parámetro de los pesos implícitos: cuanto más pequeño, más se castiga cada paso extra.</td></tr>
+      <tr><td><b>Longitud</b></td><td>El número de pasos (cambios de estado, con sus pesos) que un árbol necesita para explicar la matriz.</td></tr>
+      <tr><td><b>Matriz de pasos</b></td><td>Un carácter con un costo propio para cada cambio entre dos estados; puede ser asimétrica.</td></tr>
+      <tr><td><b>MPR</b></td><td>Los estados posibles de un nodo en alguna reconstrucción igual de corta (<i>most parsimonious reconstructions</i>).</td></tr>
+      <tr><td><b>Optimización</b></td><td>Asignar estados a los nodos internos de un árbol con el menor número de cambios.</td></tr>
+      <tr><td><b>Ordenado (aditivo)</b></td><td>Un carácter cuyos estados forman una serie: pasar de 0 a 2 cuesta dos pasos.</td></tr>
+      <tr><td><b>Parsimonia</b></td><td>El criterio de preferir el árbol que explica los datos con menos cambios.</td></tr>
+      <tr><td><b>Pesos implícitos, sucesivos</b></td><td>Dar menos peso a los caracteres más homoplásicos, cambiando el criterio de la búsqueda o repitiéndola con pesos por ajuste.</td></tr>
+      <tr><td><b>Polimorfismo</b></td><td>Un taxón con dos o más estados de un carácter, <code>(01)</code>; una <b>incertidumbre</b>, <code>{01}</code>, es no saber cuál de ellos tiene.</td></tr>
+      <tr><td><b>Politomía</b></td><td>Un nodo con más de dos ramas: en un consenso, un «los datos no deciden».</td></tr>
+      <tr><td><b>Ratchet</b></td><td>Una búsqueda que perturba los pesos para salir de óptimos locales y vuelve a los pesos verdaderos.</td></tr>
+      <tr><td><b>Regla 1</b></td><td>Colapsar las ramas que pueden medir cero en alguna reconstrucción igual de corta.</td></tr>
+      <tr><td><b>Réplica</b></td><td>Una búsqueda heurística independiente, desde su propia adición de Wagner.</td></tr>
+      <tr><td><b>Reversión, paralelismo</b></td><td>Volver a un estado anterior; llegar al mismo estado desde el mismo punto de partida en dos linajes.</td></tr>
+      <tr><td><b>Sinapomorfía</b></td><td>Un estado derivado compartido que define a un clado: en la app, un cambio único.</td></tr>
+      <tr><td><b>TBR</b></td><td>Intercambio de ramas por bisección y reconexión: cortar un subárbol, re-enraizarlo y probarlo en cada rama.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- D -->
+  <h2 id="ap-d"><span class="num">D</span>Cuando algo no sale</h2>
+  <table class="compacta">
+    <thead><tr><th style="width:2.5in">Lo que pasa</th><th>Qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td>Un bloque dice «Primero hace falta una matriz» (o un árbol, o una búsqueda)</td><td>Cada bloque usa lo de los anteriores: carga la matriz en el Bloque 2 o recupera la última sesión, y busca en el Bloque 3.</td></tr>
+      <tr><td>El archivo no se lee</td><td>Lee el motivo después de los dos puntos. Un libro de hoja de cálculo no se lee directamente: guárdalo como CSV o copia y pega las celdas. Los nombres con espacios van entre comillas simples en NEXUS.</td></tr>
+      <tr><td>Los resultados desaparecieron</td><td>Se cambió la matriz o se hizo otra búsqueda, que descartan lo que dependía de ellas (secciones 2.2 y 3.5). Vuelve a calcular.</td></tr>
+      <tr><td>La búsqueda tarda mucho</td><td>Mira la tabla de tamaños del Bloque 1 (sección 1.8). Baja las réplicas o el máximo de árboles, o pon un tiempo máximo; con más de 14 taxones no uses la exacta.</td></tr>
+      <tr><td>Cada búsqueda da otra longitud</td><td>No convergió: más réplicas, más ciclos de ratchet o la combinada, hasta que dos semillas coincidan (sección 3.6).</td></tr>
+      <tr><td>«se llegó al máximo guardado»</td><td>Hay más árboles empatados que el tope: súbelo y compara el consenso (sección 3.6).</td></tr>
+      <tr><td>El consenso estricto casi no tiene grupos</td><td>Busca comodines en el Bloque 8 y revisa los taxones con muchos «?» (sección 8.5).</td></tr>
+      <tr><td>Un Bremer sale negativo o una hipótesis sale más corta</td><td>La búsqueda del Bloque 3 no llegó al óptimo: repítela con más esfuerzo.</td></tr>
+      <tr><td>Un carácter con «–» se reconstruye raro en un consenso</td><td>Con politomías, los «–» se leen como «?»: dibújalo sobre un árbol dicotómico (sección 5.7).</td></tr>
+      <tr><td>Las imágenes no aparecen en el cladograma</td><td>Sólo se dibujan las confirmadas (sección 2.6). Después, activa la casilla <span class="ui">Imágenes de los taxones</span> en el Bloque 5, o elige dónde van en el desplegable del mismo nombre del Bloque 10.</td></tr>
+      <tr><td>La figura exportada se ve distinta de la pantalla en oscuro</td><td>Es a propósito: los SVG y las exportaciones usan los colores del tema claro, los que se imprimen.</td></tr>
+      <tr><td>No se recupera la sesión de ayer</td><td>Sólo en el mismo navegador, fuera de la ventana privada. Guarda el proyecto <code>.json</code> al terminar cada día.</td></tr>
+      <tr><td>La app abre sin estilos o no responde</td><td>Abre <span class="ruta">index.html</span> dentro de la carpeta completa, con <span class="ruta">js</span> y <span class="ruta">css</span> a su lado, en un navegador reciente (sección I.5). <span class="ruta">tests/index.html</span> dice si el motor calcula bien en ese navegador.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- E -->
+  <h2 id="ap-e"><span class="num">E</span>Referencias</h2>
+  <p>Las 53 referencias de la portada de la app (sección 1.9), por tema. Son las publicaciones originales de cada método: el código cita la misma referencia en el lugar donde lo implementa, y el Bloque 10 toma de aquí sólo las de los métodos que el estudio usó (sección 10.5).</p>
+  <h3>Teoría</h3>
+  <ol class="refs">
+    <li>de Pinna MCC. 1991. Concepts and tests of homology in the cladistic paradigm. <i>Cladistics</i> 7: 367–394.</li>
+    <li>Farris JS. 1983. The logical basis of phylogenetic analysis. En: Platnick NI, Funk VA (eds.), <i>Advances in Cladistics</i> 2: 7–36. Columbia University Press.</li>
+    <li>Hennig W. 1966. <i>Phylogenetic Systematics</i>. University of Illinois Press, Urbana.</li>
+    <li>Kitching IJ, Forey PL, Humphries CJ, Williams DM. 1998. <i>Cladistics: The Theory and Practice of Parsimony Analysis</i>, 2.ª ed. Oxford University Press.</li>
+    <li>Patterson C. 1982. Morphological characters and homology. En: Joysey KA, Friday AE (eds.), <i>Problems of Phylogenetic Reconstruction</i>: 21–74. Academic Press.</li>
+    <li>Schuh RT, Brower AVZ. 2009. <i>Biological Systematics: Principles and Applications</i>, 2.ª ed. Cornell University Press.</li>
+    <li>Wiley EO, Lieberman BS. 2011. <i>Phylogenetics: Theory and Practice of Phylogenetic Systematics</i>, 2.ª ed. Wiley-Blackwell.</li>
+  </ol>
+  <h3>Matriz y codificación</h3>
+  <ol class="refs">
+    <li>Brazeau MD, Guillerme T, Smith MR. 2019. An algorithm for morphological phylogenetic analysis with inapplicable data. <i>Systematic Biology</i> 68: 619–631.</li>
+    <li>Farris JS, Kluge AG, Eckardt MJ. 1970. A numerical approach to phylogenetic systematics. <i>Systematic Zoology</i> 19: 172–189.</li>
+    <li>Goloboff PA, Mattoni CI, Quinteros AS. 2006. Continuous characters analyzed as such. <i>Cladistics</i> 22: 589–601.</li>
+    <li>Maddison WP. 1993. Missing data versus missing characters in phylogenetic analysis. <i>Systematic Biology</i> 42: 576–581.</li>
+    <li>Nixon KC, Davis JI. 1991. Polymorphic taxa, missing values and cladistic analysis. <i>Cladistics</i> 7: 233–241.</li>
+    <li>Sereno PC. 2007. Logical basis for morphological characters in phylogenetics. <i>Cladistics</i> 23: 565–587.</li>
+    <li>Strong EE, Lipscomb D. 1999. Character coding and inapplicable data. <i>Cladistics</i> 15: 363–371.</li>
+  </ol>
+  <h3>Búsqueda</h3>
+  <ol class="refs">
+    <li>Coddington J, Scharff N. 1994. Problems with zero-length branches. <i>Cladistics</i> 10: 415–423.</li>
+    <li>Farris JS. 1970. Methods for computing Wagner trees. <i>Systematic Zoology</i> 19: 83–92.</li>
+    <li>Goloboff PA. 1996. Methods for faster parsimony analysis. <i>Cladistics</i> 12: 199–220.</li>
+    <li>Goloboff PA. 1999. Analyzing large data sets in reasonable times: solutions for composite optima. <i>Cladistics</i> 15: 415–428.</li>
+    <li>Hendy MD, Penny D. 1982. Branch and bound algorithms to determine minimal evolutionary trees. <i>Mathematical Biosciences</i> 59: 277–290.</li>
+    <li>Nixon KC. 1999. The parsimony ratchet, a new method for rapid parsimony analysis. <i>Cladistics</i> 15: 407–414.</li>
+    <li>Swofford DL, Olsen GJ. 1990. Phylogeny reconstruction. En: Hillis DM, Moritz C (eds.), <i>Molecular Systematics</i>: 411–501. Sinauer.</li>
+  </ol>
+  <h3>Pesos</h3>
+  <ol class="refs">
+    <li>Farris JS. 1969. A successive approximations approach to character weighting. <i>Systematic Zoology</i> 18: 374–385.</li>
+    <li>Goloboff PA. 1993. Estimating character weights during tree search. <i>Cladistics</i> 9: 83–91.</li>
+    <li>Goloboff PA. 2014. Extended implied weighting. <i>Cladistics</i> 30: 260–272.</li>
+    <li>Mirande JM. 2009. Weighted parsimony phylogeny of the family Characidae (Teleostei: Characiformes). <i>Cladistics</i> 25: 574–613.</li>
+  </ol>
+  <h3>Optimización</h3>
+  <ol class="refs">
+    <li>Agnarsson I, Miller JA. 2008. Is ACCTRAN better than DELTRAN? <i>Cladistics</i> 24: 1032–1038.</li>
+    <li>Fitch WM. 1971. Toward defining the course of evolution: minimum change for a specific tree topology. <i>Systematic Zoology</i> 20: 406–416.</li>
+    <li>Maddison WP, Donoghue MJ, Maddison DR. 1984. Outgroup analysis and parsimony. <i>Systematic Zoology</i> 33: 83–103.</li>
+    <li>Nixon KC, Carpenter JM. 1993. On outgroups. <i>Cladistics</i> 9: 413–426.</li>
+    <li>Sankoff D. 1975. Minimal mutation trees of sequences. <i>SIAM Journal on Applied Mathematics</i> 28: 35–42.</li>
+    <li>Swofford DL, Maddison WP. 1987. Reconstructing ancestral character states under Wagner parsimony. <i>Mathematical Biosciences</i> 87: 199–229.</li>
+  </ol>
+  <h3>Índices</h3>
+  <ol class="refs">
+    <li>Dreyfus SE, Wagner RA. 1971. The Steiner problem in graphs. <i>Networks</i> 1: 195–207.</li>
+    <li>Farris JS. 1989. The retention index and the rescaled consistency index. <i>Cladistics</i> 5: 417–419.</li>
+    <li>Kluge AG, Farris JS. 1969. Quantitative phyletics and the evolution of anurans. <i>Systematic Zoology</i> 18: 1–32.</li>
+  </ol>
+  <h3>Apoyo</h3>
+  <ol class="refs">
+    <li>Bremer K. 1988. The limits of amino acid sequence data in angiosperm phylogenetic reconstruction. <i>Evolution</i> 42: 795–803.</li>
+    <li>Bremer K. 1994. Branch support and tree stability. <i>Cladistics</i> 10: 295–304.</li>
+    <li>Farris JS, Albert VA, Källersjö M, Lipscomb D, Kluge AG. 1996. Parsimony jackknifing outperforms neighbor-joining. <i>Cladistics</i> 12: 99–124.</li>
+    <li>Felsenstein J. 1985. Confidence limits on phylogenies: an approach using the bootstrap. <i>Evolution</i> 39: 783–791.</li>
+    <li>Goloboff PA, Farris JS. 2001. Methods for quick consensus estimation. <i>Cladistics</i> 17: S26–S34.</li>
+    <li>Goloboff PA, Farris JS, Källersjö M, Oxelman B, Ramírez MJ, Szumik CA. 2003. Improvements to resampling measures of group support. <i>Cladistics</i> 19: 324–332.</li>
+  </ol>
+  <h3>Consenso</h3>
+  <ol class="refs">
+    <li>Adams EN. 1972. Consensus techniques and the comparison of taxonomic trees. <i>Systematic Zoology</i> 21: 390–397.</li>
+    <li>Bremer K. 1990. Combinable component consensus. <i>Cladistics</i> 6: 369–372.</li>
+    <li>Kearney M. 2002. Fragmentary taxa, missing data, and ambiguity: mistaken assumptions and conclusions. <i>Systematic Biology</i> 51: 369–381.</li>
+    <li>Margush T, McMorris FR. 1981. Consensus n-trees. <i>Bulletin of Mathematical Biology</i> 43: 239–244.</li>
+    <li>Nelson G. 1979. Cladistic analysis and synthesis: principles and definitions, with a historical note on Adanson's <i>Familles des Plantes</i> (1763–1764). <i>Systematic Zoology</i> 28: 1–21.</li>
+    <li>Pol D, Escapa IH. 2009. Unstable taxa in cladistic analysis: identification and the assessment of relevant characters. <i>Cladistics</i> 25: 515–527.</li>
+    <li>Sokal RR, Rohlf FJ. 1981. Taxonomic congruence in the Leptopodomorpha re-examined. <i>Systematic Zoology</i> 30: 309–325.</li>
+    <li>Wilkinson M. 1994. Common cladistic information and its consensus representation: reduced Adams and reduced cladistic consensus trees and profiles. <i>Systematic Biology</i> 43: 343–368.</li>
+  </ol>
+  <h3>Hipótesis</h3>
+  <ol class="refs">
+    <li>Goldman N, Anderson JP, Rodrigo AG. 2000. Likelihood-based tests of topologies in phylogenetics. <i>Systematic Biology</i> 49: 652–670.</li>
+    <li>Kishino H, Hasegawa M. 1989. Evaluation of the maximum likelihood estimate of the evolutionary tree topologies from DNA sequence data, and the branching order in Hominoidea. <i>Journal of Molecular Evolution</i> 29: 170–179.</li>
+    <li>Prager EM, Wilson AC. 1988. Ancient origin of lactalbumin from lysozyme: analysis of DNA and amino acid sequences. <i>Journal of Molecular Evolution</i> 27: 326–335.</li>
+    <li>Templeton AR. 1983. Phylogenetic inference from restriction endonuclease cleavage site maps with particular reference to the evolution of humans and the apes. <i>Evolution</i> 37: 221–244.</li>
+  </ol>
+  <h3>Figuras e informe</h3>
+  <ol class="refs">
+    <li>Okabe M, Ito K. 2008. Color universal design (CUD): how to make figures and presentations that are friendly to colorblind people. Documento en línea.</li>
+  </ol>
+
+  <!-- F -->
+  <h2 id="ap-f"><span class="num">F</span>La herramienta: licencia y cómo citarla</h2>
+  <h3>F.1 · Qué lleva la app por dentro</h3>
+  <p>CladisticsPro está escrita en HTML, CSS y JavaScript sin ninguna biblioteca de terceros: el motor de parsimonia, la optimización de caracteres, los formatos de archivo, las figuras, las pruebas estadísticas y el archivo <code>.zip</code> del paquete están escritos para este programa, y no carga nada de internet.</p>
+  <p>Cada método sigue su publicación original (apéndice E), citada en el código donde se implementa. Las tres matrices de práctica son simuladas (sección I.7). El archivo <span class="ruta">PROCEDENCIA.md</span> de la carpeta del programa detalla el origen de cada cosa, y <span class="ruta">tests/index.html</span> comprueba el motor en tu navegador: las búsquedas contra la enumeración de todos los árboles, las optimizaciones, los índices, los consensos, las pruebas estadísticas y los formatos.</p>
+  <h3>F.2 · Licencia</h3>
+  <p>El programa se distribuye bajo la <b>Licencia Pública General de GNU, versión 3 o posterior</b> (GPL-3.0-or-later): se puede usar, copiar, estudiar y modificar libremente, con la condición de que las versiones modificadas se distribuyan bajo la misma licencia y conserven la atribución. El texto completo está en el archivo <span class="ruta">LICENSE</span>. Este manual es © 2026 Luis Ángel Barrera-Guzmán, todos los derechos reservados.</p>
+  <h3>F.3 · Cómo citarla</h3>
+  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>CladisticsPro: cladística morfológica en el navegador</i> (versión 1.0.0) [Programa de cómputo].</div>
+  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>CladisticsPro. Manual de usuario</i> (1.ª ed.). Distribuido con CladisticsPro, versión 1.0.</div>
+  <p>La sección <span class="ui">Cómo citar</span> de la portada (sección 1.9) da la cita del programa con la versión que tengas abierta, un botón para copiarla y la misma cita en BibTeX:</p>
+  <pre class="archivo">@software{barreraguzman2026cladisticspro,
+  author  = {Barrera-Guzmán, Luis Ángel},
+  title   = {CladisticsPro: cladística morfológica en el navegador},
+  version = {1.0.0},
+  year    = {2026}
+}</pre>
+  <p class="small">Si usaste un método en particular —el remuestreo simétrico, los pesos implícitos extendidos, el algoritmo de inaplicables—, cita también su artículo original; el texto de métodos del Bloque 10 ya lo hace (sección 10.5).</p>
+</section>
+
+</body>
+</html>

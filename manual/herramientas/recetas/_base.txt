@@ -1,0 +1,13 @@
+Cada receta es una expresión JS que captura.ps1 evalúa dentro de la app abierta por file://. Puede devolver una
+promesa; si deja en window.__recorte una cadena "x,y,ancho,alto" (píxeles de pantalla), captura.ps1 recorta la
+imagen con ella. Las ayudas que comparten casi todas:
+
+  const W = ms => new Promise(r => setTimeout(r, ms));
+  const top = n => n.getBoundingClientRect().top + window.scrollY;
+  const irA = (n, m = 96) => window.scrollTo({ top: top(n) - m, behavior: "instant" });
+  const caja = (nodos, p = 8) => { ... deja en window.__recorte el rectángulo que cubre los nodos, con margen p ... };
+  const titulo = (panel, texto) => el h2 de una tarjeta o el título de sección cuyo texto empieza así;
+  const dahlia = async () => { carga la matriz de práctica «Dahlia» en el Bloque 2 };
+  const busca = async () => { busca en el Bloque 3 con los valores por omisión y espera el resultado };
+
+Todas las capturas: español, tema claro, 1400 × 900 (o el alto que diga -Alto), al doble de resolución.

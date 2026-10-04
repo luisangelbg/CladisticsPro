@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!-- CladisticsPro — Copyright (C) 2026 Luis Ángel Barrera-Guzmán. Free software under the GNU GPL v3 or later; see LICENSE. -->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CladisticsPro — pruebas</title>
+<link rel="stylesheet" href="../css/labg-base.css">
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
+<style>
+  body { padding: 20px; }
+  .t { font-family: var(--mono); font-size: .8rem; padding: 2px 0; }
+  .ok { color: var(--success-text); } .bad { color: var(--danger-text); font-weight: 700; }
+  h2 { margin: 18px 0 4px; font-size: 1rem; }
+</style>
+</head>
+<body>
+<h1>CladisticsPro · <span id="sum">…</span></h1>
+<div id="out"></div>
+<script src="../js/core.js"></script>
+<script src="../js/tree.js"></script>
+<script src="../js/optimize.js"></script>
+<script src="../js/cladogram.js"></script>
+<script src="../js/matrix.js"></script>
+<script src="../js/matio.js"></script>
+<script src="../js/mapping.js"></script>
+<script src="../js/support.js"></script>
+<script src="../js/hypo.js"></script>
+<script src="../js/report.js"></script>
+<script src="../js/examples.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/stateimg.js"></script>
+<script src="../js/taxonimg.js"></script>
+<script src="../js/grid.js"></script>
+<script src="../js/engine.js"></script>
+<script src="../js/pool.js"></script>
+<script src="../js/art.js"></script>
+<script src="../js/home.js"></script>
+<script src="../js/labs.js"></script>
+<script src="../js/block3.js"></script>
+<script src="../js/block4.js"></script>
+<script src="../js/block5.js"></script>
+<script src="../js/block6.js"></script>
+<script src="../js/block7.js"></script>
+<script src="../js/block8.js"></script>
+<script src="../js/block9.js"></script>
+<script src="../js/block10.js"></script>
+<script>
+/* The harness: every line must be green. Open with a double click or through
+   the server. */
+let pass = 0, fail = 0;
+const out = document.getElementById('out');
+function sec(title) { out.appendChild(mk('h2', null, title)); }
+function t(name, cond, info) {
+  const okv = !!cond;
+  okv ? pass++ : fail++;
+  out.appendChild(mk('div', { class: 't ' + (okv ? 'ok' : 'bad') },
+    (okv ? '✔ ' : '✘ ') + esc(name) + (info != null && !okv ? '  →  ' + esc(info) : '')));
+}
+/* tests that finish later (threads): the summary waits for them */
+const pending = [];
+function later(p) { pending.push(p.catch(e => t('una prueba asíncrona no lanzó errores', false, e.message || String(e)))); }
+function near(name, a, b, tol) {
+  tol = tol == null ? 1e-9 : tol;
+  const d = Math.abs(a - b);
+  t(name + '  (' + a + ' vs ' + b + ')', d <= tol, 'diff ' + d);
+}
+</script>
+<script src="block1.js"></script>
+<script src="block2.js"></script>
+<script src="block3.js"></script>
+<script src="block5.js"></script>
+<script src="block7.js"></script>
+<script src="block9.js"></script>
+<script src="block10.js"></script>
+<script>
+function summary() {
+  document.getElementById("sum").innerHTML = fail === 0
+    ? `<span class="ok">${pass} pruebas, todas pasan</span>`
+    : `<span class="bad">${fail} fallan</span> de ${pass + fail}`;
+}
+summary();
+window.testsDone = Promise.all(pending).then(summary);
+</script>
+</body>
+</html>

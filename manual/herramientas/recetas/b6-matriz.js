@@ -1,0 +1,14 @@
+/* Bloque 6: la matriz ordenada por el árbol, con el clado de las dalias arborescentes resaltado */
+(async () => {
+  const W = ms => new Promise(r => setTimeout(r, ms));
+  const top = n => n.getBoundingClientRect().top + window.scrollY;
+  const irA = (n, m = 175) => window.scrollTo({ top: top(n) - m, behavior: "instant" });
+  const caja = (nodos, p = 8, maxH) => { const rs = nodos.filter(Boolean).map(n => n.getBoundingClientRect()); const x = Math.max(0, Math.min(...rs.map(r => r.left)) - p), y = Math.max(0, Math.min(...rs.map(r => r.top)) - p); let h = Math.max(...rs.map(r => r.bottom)) + p - y; if (maxH) h = Math.min(h, maxH); window.__recorte = [x, y, Math.max(...rs.map(r => r.right)) + p - x, h].map(Math.round).join(","); return window.__recorte; };
+  const q = s => document.querySelector(s);
+  { const st = document.createElement("style"); st.textContent = ".lnav-fbtn{visibility:hidden!important}"; document.head.appendChild(st); }
+  const diag = async () => { goStep(2); Block2.loadExample("dahlia"); await W(1100); goStep(3); await W(500); state.search = null; q("#b3Run").click(); let t0 = Date.now(); while (!state.search && Date.now() - t0 < 300000) await W(300); await W(700); goStep(5); await W(1000); goStep(6); t0 = Date.now(); while (!state.diag && Date.now() - t0 < 60000) await W(300); await W(1500); };
+  await W(900); await diag();
+  const o = [...q("#b6Focus").options].find(o => o.text.startsWith("Clado 11 ")); q("#b6Focus").value = o.value; q("#b6Focus").dispatchEvent(new Event("change")); await W(600);
+  const c = q("#b6Ordered"); irA(c, 150); await W(500);
+  return caja([c], 6, 1000);
+})()
