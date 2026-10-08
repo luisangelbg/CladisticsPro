@@ -361,7 +361,7 @@
     <tbody>
       <tr><td><span class="ui">NEXUS (.nex)</span></td><td>Todo lo de la matriz: tipos, pesos, matrices de pasos, caracteres inactivos y, en su propio bloque de caracteres, los continuos. El grupo externo, las dependencias, las unidades, las notas y los taxones inactivos van en el bloque <code>CLADISTICSPRO</code>. Con la casilla <span class="ui">Incluir en NEXUS los árboles que traía el archivo</span>, añade el bloque <code>TREES</code> que venía en el archivo de origen (Dahlia trae uno, <code>arbol_verdadero</code>).</td></tr>
       <tr><td><span class="ui">xread (.ss)</span></td><td>La matriz para los programas clásicos de parsimonia, con los continuos primero, como exige el formato, y los tipos, pesos y caracteres inactivos en <code>ccode</code>.</td></tr>
-      <tr><td><span class="ui">CSV</span> · <span class="ui">TSV</span></td><td>La tabla para una hoja de cálculo o para R, con las filas <code># estados</code> y <code># tipo</code> y, cuando hacen falta, <code># peso</code>, <code># depende</code> y <code># activo</code>. No guarda las matrices de pasos.</td></tr>
+      <tr><td><span class="ui">CSV</span> · <span class="ui">TSV</span></td><td>Para hoja de cálculo o R: filas <code># estados</code>, <code># tipo</code> y, si hacen falta, <code># peso</code>, <code># depende</code> y <code># activo</code>; polimorfismos <code>[01]</code> e intervalos <code>2.1–3.4</code>, que la hoja de cálculo no altera. Sin matrices de pasos.</td></tr>
       <tr><td><span class="ui">Proyecto (.json)</span></td><td>Todo lo anterior y además las imágenes de los taxones y de los estados. Es el respaldo completo: el archivo para guardar el trabajo, pasarlo a otra computadora o entregarlo a un coautor.</td></tr>
     </tbody>
   </table>

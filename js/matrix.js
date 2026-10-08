@@ -109,6 +109,13 @@ Mx.cellText = function (cell, ch) {
   const inner = st.map(s => Mx.SYMBOLS[s]).join('');
   return (cell & Mx.UNC) ? '{' + inner + '}' : '(' + inner + ')';
 };
+/* The same text for a spreadsheet, which reads «(01)» as −1 (accounting format) and «1-3» as a date: polymorphisms
+   go in brackets, [01], and ranges with an en dash, 1–3. The app reads both back. */
+Mx.sheetText = function (cell, ch) {
+  if (Array.isArray(cell) && cell[0] !== cell[1]) return Mx.fmtNum(cell[0]) + '–' + Mx.fmtNum(cell[1]);
+  const t = Mx.cellText(cell, ch);
+  return t.charAt(0) === '(' ? '[' + t.slice(1, -1) + ']' : t;
+};
 /* Reads what someone types into a cell. Accepts 0–9 and A–T, «?», «-» or «–»,
    polymorphisms written (01), [01], 0/1, 0&1 or 0,1, uncertainties {01}, and
    for continuous characters a value or a range 2.1-3.4 (also 2.1–3.4).

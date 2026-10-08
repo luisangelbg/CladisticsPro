@@ -5,7 +5,7 @@ propia y de dónde salen las ideas que no lo son. Se escribió para acompañar e
 registro de la obra ante el INDAUTOR y para que cualquiera pueda comprobar lo
 que aquí se afirma.
 
-Última revisión: 3 de octubre de 2026 (versión 1.0.0, los diez bloques; revisión final para el registro).
+Última revisión: 8 de octubre de 2026 (versión 1.0.1; la 1.0.0, del 3 de octubre, fue la revisión final para el registro).
 
 ---
 

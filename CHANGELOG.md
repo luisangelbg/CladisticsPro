@@ -1,5 +1,12 @@
 # Cambios de CladisticsPro
 
+## Versión 1.0.1 · Tablas a prueba de hoja de cálculo — 8 de octubre de 2026
+
+- **Tablas a prueba de hoja de cálculo** (8 oct): Excel leía el polimorfismo `(01)` de un CSV como el número −1 (formato
+  contable) y, al guardar, la matriz quedaba con `-1`, `-12`…; un intervalo `1-3` podía volverse fecha. La exportación
+  CSV/TSV y la copia de celdas con Ctrl+C escriben ahora `[01]` y `1–3` (nueva función `Mx.sheetText`); la app lee
+  ambas notaciones y la de antes. NEXUS y xread no cambian. Manual: secciones 2.8 y D. Pruebas: 373, todas pasan (3 nuevas).
+
 ## Versión 1.0.0 · Bloques 9 y 10, y adecuaciones para el registro — 3 de octubre de 2026
 
 - **Bloque 9 · Hipótesis**: una hipótesis es uno o varios **grupos** que deben (o no deben) ser monofiléticos —se

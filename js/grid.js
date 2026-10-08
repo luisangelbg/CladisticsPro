@@ -281,7 +281,7 @@
       const m = M(), lines = [];
       for (let i = r.ra; i <= r.rb; i++) {
         const row = [];
-        for (let j = r.ca; j <= r.cb; j++) row.push(Mx.cellText(m.cells[i][j], m.chars[j]));
+        for (let j = r.ca; j <= r.cb; j++) row.push(Mx.sheetText(m.cells[i][j], m.chars[j]));
         lines.push(row.join('\t'));
       }
       return lines.join('\n');

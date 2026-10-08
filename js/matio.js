@@ -1051,7 +1051,7 @@ IO.writeTable = function (m, delim) {
   if (m.chars.some(c => (c.weight == null ? 1 : c.weight) !== 1)) L.push(['# peso', ...m.chars.map(c => (c.weight == null ? 1 : c.weight))].map(esc).join(delim));
   if (m.chars.some(c => c.active === false)) L.push(['# activo', ...m.chars.map(c => (c.active === false ? 'no' : 'sí'))].map(esc).join(delim));
   if (m.chars.some(c => c.depends)) L.push(['# depende', ...m.chars.map(c => (c.depends ? (c.depends.on + 1) + '=' + c.depends.states.map(s => Mx.SYMBOLS[s]).join('') : ''))].map(esc).join(delim));
-  m.taxa.forEach((t, i) => L.push([t.name, ...m.chars.map((c, j) => Mx.cellText(m.cells[i][j], c))].map(esc).join(delim)));
+  m.taxa.forEach((t, i) => L.push([t.name, ...m.chars.map((c, j) => Mx.sheetText(m.cells[i][j], c))].map(esc).join(delim)));
   return '﻿' + L.join('\r\n') + '\r\n';
 };
 

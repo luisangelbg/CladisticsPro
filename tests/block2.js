@@ -21,6 +21,10 @@ sec('7 · Celdas (matrix.js)');
   t('continuo: un intervalo al revés es un error', !!err2);
   t('texto de celdas', ['0', '?', '-', '(01)', '{01}', 'B'].every(s => Mx.cellText(Mx.parseCell(s, unord)) === s));
   t('texto de continuos', Mx.cellText([2.1, 3.4]) === '2.1-3.4' && Mx.cellText([5, 5]) === '5');
+  /* a spreadsheet reads «(01)» as −1 and «1-3» as a date */
+  t('texto para hoja de cálculo: polimorfismo entre corchetes, intervalo con raya, y se lee igual de vuelta',
+    Mx.sheetText(Mx.parseCell('(01)', unord)) === '[01]' && Mx.sheetText(Mx.parseCell('{01}', unord)) === '{01}' && Mx.sheetText([1, 3]) === '1–3' && Mx.sheetText([5, 5]) === '5' &&
+    ['0', '?', '-', 'B'].every(s => Mx.sheetText(Mx.parseCell(s, unord)) === s) && Mx.parseCell('[01]', unord) === Mx.parseCell('(01)', unord) && JSON.stringify(Mx.parseCell('1–3', cont)) === '[1,3]');
   t('máscara de análisis: «?» y «–» valen cualquier estado', Mx.analysisMask(Mx.MISSING, 3) === 7 && Mx.analysisMask(Mx.GAP, 2) === 3);
   t('máscara de análisis: la incertidumbre pierde su marca', Mx.analysisMask(Mx.parseCell('{12}', unord), 3) === 6);
 }
@@ -245,6 +249,12 @@ sec('11 · Los ejemplos, de ida y vuelta');
     t(`${id}: el proyecto .json es idéntico`, nm(pj) === nm(m));
   });
   const d = MatIO.read(EXAMPLES.dahlia.nexus).matrix;
+  {
+    const cellsOf = txt => txt.split('\r\n').filter(l => l && !/^.?#|^.?Tax/.test(l)).flatMap(l => l.split(',').slice(1));
+    const cs = cellsOf(MatIO.writeTable(d));
+    t('tabla de Dahlia: sin «(01)» ni «a-b» que una hoja de cálculo convierta en número o fecha (15 polimorfismos entre corchetes)',
+      !cs.some(c => /^\(.+\)$/.test(c) || /\d-\d/.test(c)) && cs.filter(c => /^\[.+\]$/.test(c)).length === 15, cs.filter(c => /[(\[]/.test(c)).length);
+  }
   const s = Mx.stats(d);
   t('Dahlia: 20 × 45, 3 continuos, 3 ordenados, 1 matriz de pasos, 5 dependencias', s.taxa === 20 && s.chars === 45 && s.byType.cont === 3 && s.byType.ord === 3 && s.byType.step === 1 && s.dependent === 5);
   t('Dahlia: dos taxones de grupo externo', d.taxa.filter(x => x.outgroup).length === 2);
@@ -274,6 +284,7 @@ sec('12 · La cuadrícula (grid.js)');
   t('flecha a la derecha y «?»', m.cells[0][1] === Mx.MISSING);
   key('0', { ctrlKey: true }); key('1', { ctrlKey: true });
   t('Ctrl+0 y Ctrl+1 hacen un polimorfismo', Mx.cellText(m.cells[0][1]) === '(01)');
+  t('Ctrl+C lo copia entre corchetes, para que una hoja de cálculo no lo vuelva −1', G.copy() === '[01]', G.copy());
   key('ArrowDown', { shiftKey: true }); key('ArrowDown', { shiftKey: true }); key('-');
   t('Mayús+flechas selecciona un rango y «-» lo llena', [0, 1, 2].every(i => m.cells[i][1] === Mx.GAP));
   G.select(3, 2);

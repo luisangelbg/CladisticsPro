@@ -167,6 +167,7 @@
       <tr><td>Un Bremer sale negativo o una hipótesis sale más corta</td><td>La búsqueda del Bloque 3 no llegó al óptimo: repítela con más esfuerzo.</td></tr>
       <tr><td>Un carácter con «–» se reconstruye raro en un consenso</td><td>Con politomías, los «–» se leen como «?»: dibújalo sobre un árbol dicotómico (sección 5.7).</td></tr>
       <tr><td>Las imágenes no aparecen en el cladograma</td><td>Sólo se dibujan las confirmadas (sección 2.6). Después, activa la casilla <span class="ui">Imágenes de los taxones</span> en el Bloque 5, o elige dónde van en el desplegable del mismo nombre del Bloque 10.</td></tr>
+      <tr><td>En un CSV, los polimorfismos se volvieron números negativos (<code>-1</code>, <code>-12</code>)</td><td>Se guardó en una hoja de cálculo, que lee <code>(01)</code> como −1. La app ya escribe <code>[01]</code>; vuelve a exportar desde el proyecto <code>.json</code>.</td></tr>
       <tr><td>La figura exportada se ve distinta de la pantalla en oscuro</td><td>Es a propósito: los SVG y las exportaciones usan los colores del tema claro, los que se imprimen.</td></tr>
       <tr><td>No se recupera la sesión de ayer</td><td>Sólo en el mismo navegador, fuera de la ventana privada. Guarda el proyecto <code>.json</code> al terminar cada día.</td></tr>
       <tr><td>La app abre sin estilos o no responde</td><td>Abre <span class="ruta">index.html</span> dentro de la carpeta completa, con <span class="ruta">js</span> y <span class="ruta">css</span> a su lado, en un navegador reciente (sección I.5). <span class="ruta">tests/index.html</span> dice si el motor calcula bien en ese navegador.</td></tr>
@@ -268,19 +269,19 @@
   <h3>F.2 · Licencia</h3>
   <p>El programa se distribuye bajo la <b>Licencia Pública General de GNU, versión 3 o posterior</b> (GPL-3.0-or-later): se puede usar, copiar, estudiar y modificar libremente, con la condición de que las versiones modificadas se distribuyan bajo la misma licencia y conserven la atribución. El texto completo está en el archivo <span class="ruta">LICENSE</span>. Este manual es © 2026 Luis Ángel Barrera-Guzmán, todos los derechos reservados.</p>
   <h3>F.3 · Cómo citarla</h3>
-  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>CladisticsPro: cladística morfológica en el navegador</i> (versión 1.0.0) [Programa de cómputo]. https://doi.org/10.5281/zenodo.23147012</div>
+  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>CladisticsPro: cladística morfológica en el navegador</i> (versión 1.0.1) [Programa de cómputo]. https://doi.org/10.5281/zenodo.23147012</div>
   <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>CladisticsPro. Manual de usuario</i> (1.ª ed.). Distribuido con CladisticsPro, versión 1.0. https://doi.org/10.5281/zenodo.23147012</div>
   <p>La sección <span class="ui">Cómo citar</span> de la portada (sección 1.9) da la cita del programa con la versión que tengas abierta, un botón para copiarla y la misma cita en BibTeX:</p>
   <pre class="archivo">@software{barreraguzman2026cladisticspro,
   author  = {Barrera-Guzmán, Luis Ángel},
   title   = {CladisticsPro: cladística morfológica en el navegador},
-  version = {1.0.0},
+  version = {1.0.1},
   year    = {2026},
   doi     = {10.5281/zenodo.23147012},
   url     = {https://doi.org/10.5281/zenodo.23147012}
 }</pre>
   <p class="small">Si usaste un método en particular —el remuestreo simétrico, los pesos implícitos extendidos, el algoritmo de inaplicables—, cita también su artículo original; el texto de métodos del Bloque 10 ya lo hace (sección 10.5).</p>
-  <p class="small">El DOI de concepto 10.5281/zenodo.23147012 resuelve siempre a la versión más reciente archivada en Zenodo; cada versión tiene el suyo (la 1.0.0: 10.5281/zenodo.23147013). El código fuente está en https://github.com/luisangelbg/CladisticsPro y la app en línea en https://luisangelbg.github.io/CladisticsPro/. La cita del programa está también en el archivo <span class="ruta">CITATION.cff</span> de la carpeta.</p>
+  <p class="small">DOI de concepto, que siempre lleva a la versión más reciente: 10.5281/zenodo.23147012; cada versión tiene además el suyo en Zenodo. Código: https://github.com/luisangelbg/CladisticsPro · app en línea: https://luisangelbg.github.io/CladisticsPro/.</p>
 </section>
 
 </body>

@@ -31,7 +31,7 @@ window.state = state;
 
 /* the ten blocks of the app, in navigation order */
 /* the version of the program, written in the report and the package */
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '1.0.1';
 /* the concept DOI in Zenodo: it always resolves to the latest archived version */
 const APP_DOI = '10.5281/zenodo.23147012';
 
