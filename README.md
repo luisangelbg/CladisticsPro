@@ -76,7 +76,7 @@ navegador* (versión 1.0.1) [Programa de cómputo].
 https://doi.org/10.5281/zenodo.23147012
 
 El DOI de concepto 10.5281/zenodo.23147012 resuelve siempre a la versión más
-reciente archivada en Zenodo; cada versión tiene además el suyo (la 1.0.0, 10.5281/zenodo.23147013).
+reciente archivada en Zenodo; cada versión tiene además el suyo (la 1.0.1, 10.5281/zenodo.23231485; la 1.0.0, 10.5281/zenodo.23147013).
 
 ## Licencia
 

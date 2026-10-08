@@ -6,6 +6,7 @@
   contable) y, al guardar, la matriz quedaba con `-1`, `-12`…; un intervalo `1-3` podía volverse fecha. La exportación
   CSV/TSV y la copia de celdas con Ctrl+C escriben ahora `[01]` y `1–3` (nueva función `Mx.sheetText`); la app lee
   ambas notaciones y la de antes. NEXUS y xread no cambian. Manual: secciones 2.8 y D. Pruebas: 373, todas pasan (3 nuevas).
+  Archivada en Zenodo: DOI de la versión 10.5281/zenodo.23231485.
 
 ## Versión 1.0.0 · Bloques 9 y 10, y adecuaciones para el registro — 3 de octubre de 2026
 
