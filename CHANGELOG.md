@@ -1,5 +1,14 @@
 # Cambios de CladisticsPro
 
+## Sin versión nueva · La etiqueta en el nombre en los laboratorios de Inicio — 9 de octubre de 2026
+
+- **Nombres que contienen lo que se ve** (WCAG 2.5.3, la etiqueta en el nombre; 9 oct): en el laboratorio «Cuenta los
+  pasos», el nombre de cada celda de la matriz no traía el estado que muestra («Grupo externo · 1 Hoja: simple» sobre
+  un «0») y el de cada árbol, «Árbol de 7 pasos», no traía sus puntas. Ahora la celda se llama «Grupo externo · 1
+  Hoja: 0 (simple)» y el árbol, «Árbol (GE,((A,B),(C,D))): 7 pasos», con lo que además se distinguen los árboles de
+  igual longitud. En «ACCTRAN contra DELTRAN» cada punta se llama «GE: 0» o «A: ? (desconocido)». Sólo cambia
+  `js/labs.js`; se ve y calcula igual. Pruebas: 373, todas pasan.
+
 ## Versión 1.0.1 · Tablas a prueba de hoja de cálculo — 8 de octubre de 2026
 
 - **Tablas a prueba de hoja de cálculo** (8 oct): Excel leía el polimorfismo `(01)` de un CSV como el número −1 (formato

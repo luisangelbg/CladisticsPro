@@ -65,15 +65,19 @@
       return `<th scope="col" class="c" title="${esc(T(c.es, c.en))}">${j + 1}<small class="lab-ci${ci === 1 ? ' ok' : ci != null ? ' hp' : ''}">${ci == null ? '—' : 'CI ' + ci.toFixed(2)}</small></th>`;
     }).join('') + '<th scope="col" class="c" title="' + esc(T('pasos en este árbol', 'steps on this tree')) + '">Σ</th></tr>';
     const body = lab1.M.map((row, i) => '<tr><th scope="row">' + esc(taxaNames()[i]) + '</th>' + [...row].map((ch, j) =>
-      `<td class="c"><button type="button" class="lab-cell s${ch === '?' ? 'q' : ch}" data-i="${i}" data-j="${j}" aria-label="${esc(taxaNames()[i] + ' · ' + (j + 1) + ' ' + T(LAB1_CHARS[j].es, LAB1_CHARS[j].en) + ': ' + (ch === '?' ? T('desconocido', 'unknown') : T(LAB1_CHARS[j].s[+ch][0], LAB1_CHARS[j].s[+ch][1])))}">${ch}</button></td>`).join('') + '<td></td></tr>').join('');
+      `<td class="c"><button type="button" class="lab-cell s${ch === '?' ? 'q' : ch}" data-i="${i}" data-j="${j}" aria-label="${esc(taxaNames()[i] + ' · ' + (j + 1) + ' ' + T(LAB1_CHARS[j].es, LAB1_CHARS[j].en) + ': ' + ch + ' (' + (ch === '?' ? T('desconocido', 'unknown') : T(LAB1_CHARS[j].s[+ch][0], LAB1_CHARS[j].s[+ch][1])) + ')')}">${ch}</button></td>`).join('') + '<td></td></tr>').join('');
     const stepsRow = '<tr class="lab-steps"><th scope="row">' + L2('en este árbol', 'on this tree') + '</th>' + A.per.map(r => `<td class="c"><b>${r.steps}</b></td>`).join('') + `<td class="c"><b>${A.length}</b></td></tr>`;
     el('lab1Matrix').innerHTML = `<table class="lab-matrix"><thead>${head}</thead><tbody>${body}${stepsRow}</tbody></table>`;
     el('lab1Legend').innerHTML = LAB1_CHARS.map((c, j) => `<li><b>${j + 1}</b> ${T(c.es, c.en)}: 0 = ${T(c.s[0][0], c.s[0][1])}, 1 = ${T(c.s[1][0], c.s[1][1])}</li>`).join('');
     /* the fifteen trees */
+    /* the name of each button carries what the button shows, in the same order: its tips (as the tree in
+       parentheses, which also tells apart trees of the same length) and its length */
+    const tipName = v => v.tip === 0 ? T('GE', 'OG') : v.name;
+    const nested = v => v.children.length ? '(' + v.children.map(nested).join(',') + ')' : tipName(v);
     el('lab1Trees').innerHTML = ranked.map(r => {
-      const svg = Clado.render(r.t, { rowH: 15, treeWidth: 64, fontSize: 11, legend: false, stem: true, names: v => v.tip === 0 ? T('GE', 'OG') : v.name });
+      const svg = Clado.render(r.t, { rowH: 15, treeWidth: 64, fontSize: 11, legend: false, stem: true, names: tipName });
       const cls = 'lab-tree' + (r.L === best ? ' best' : '') + (r.i === lab1.sel ? ' on' : '');
-      return `<button type="button" class="${cls}" data-t="${r.i}" aria-pressed="${r.i === lab1.sel}" aria-label="${esc(T('Árbol de ', 'Tree of ') + r.L + T(' pasos', ' steps'))}">${svg}<span class="lab-len">${r.L}</span></button>`;
+      return `<button type="button" class="${cls}" data-t="${r.i}" aria-pressed="${r.i === lab1.sel}" aria-label="${esc(T('Árbol ', 'Tree ') + nested(r.t) + ': ' + r.L + T(' pasos', ' steps'))}">${svg} <span class="lab-len">${r.L}</span></button>`;
     }).join('');
     /* the chosen tree, with its marks */
     const big = Clado.render(chosen.t, {
@@ -174,7 +178,7 @@
     });
     /* the tip toggles */
     el('lab2Tips').innerHTML = names.map((n, k) =>
-      `<button type="button" class="lab-cell s${lab2.tips[k] === '?' ? 'q' : lab2.tips[k]}" data-k="${k}" aria-label="${esc(shown(k) + ': ' + (lab2.tips[k] === '?' ? T('desconocido', 'unknown') : lab2.tips[k]))}"><small>${esc(shown(k))}</small>${lab2.tips[k]}</button>`).join('');
+      `<button type="button" class="lab-cell s${lab2.tips[k] === '?' ? 'q' : lab2.tips[k]}" data-k="${k}" aria-label="${esc(shown(k) + ': ' + lab2.tips[k] + (lab2.tips[k] === '?' ? ' (' + T('desconocido', 'unknown') + ')' : ''))}"><small>${esc(shown(k))}</small> ${lab2.tips[k]}</button>`).join('');
     const unamb = r.acctran.changes.filter(c => c.unambiguous).length;
     const same = r.acctran.changes.length === r.deltran.changes.length && unamb === r.acctran.changes.length;
     statTiles('lab2Tiles', [
